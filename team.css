@@ -1,0 +1,174 @@
+* {
+   box-sizing: border-box;
+}
+
+.hero {
+   width: 100%;
+   height: 480px;
+   max-width: 1280px;
+   margin-left: auto;
+   margin-right: auto;
+}
+
+.hero--left,
+.hero--right {
+   width: 50%;
+   height: 100%;
+   display:flex;
+   justify-content:center;
+   align-items:center;
+}
+
+.hero--left {
+   float: left;
+}
+
+.hero--right {
+   float: right;
+}
+
+.hero__title {
+   font-weight: 700;
+   font-size: 90px;
+   text-transform: uppercase;
+   margin-bottom: 24px;
+}
+
+.slider {
+   width: 420px;
+   height: 420px;
+   position: relative;
+}
+
+
+
+.slider__background--front {
+   transform-origin: right;
+   transform: scaleX(1);
+	animation: slideInAndOut 6s;
+}
+
+.slider-front__animation {
+	animation: slideInAndOut 6s infinite;
+}
+
+@keyframes slideInAndOut {
+   0% {
+      transform: scaleX(0);
+   } 10%, 80% {
+      transform: scaleX(1);
+   } 90%, 100% {
+      transform: scaleX(0);
+   }
+}
+
+.slider__details {
+	color: black;
+	position: absolute;
+	z-index: 0;
+	right: 13px;
+	top: 62px;
+	animation: fadeIn 1s, fadeOut .5s 4.6s;
+	animation-fill-mode: forwards;
+}
+
+@keyframes fadeIn {
+   0% {
+      opacity: 0;
+   } 100% {
+      opacity: 1;
+   }
+}
+
+.fade-out {
+	animation: fadeOut .5s 4.6s;
+	animation-fill-mode: forwards;
+}
+
+@keyframes fadeOut {
+   0% {
+      opacity: 1;
+   } 100% {
+      opacity: 0;
+   }
+}
+
+.slider__details--name {
+	font-size: 32px;
+	margin-bottom: 4px;
+	fong-weight: 600;
+}
+
+.slider__details--price {
+	font-weight: 600;
+}
+
+
+
+
+
+
+
+.slider__image {
+	position: absolute;
+	bottom: 0;
+	left: -45px;
+	z-index: -1;
+	user-select: none;
+	transition: .5s;
+	transform: translateX(-10px);
+	animation: slideInAndOutMove 6s;
+}
+
+.slider-image__animation {
+	animation: slideInAndOutMove 6s infinite;
+}
+
+@keyframes slideInAndOutMove {
+	0% {
+		transform: translateX(-20px);
+
+	} 5% {
+		transform: translateX(10px);
+	} 100%{
+		transform: translateX(30px);
+	}
+}
+
+.svg-icon {
+	width: 1em;
+	height: 1em;
+	position: absolute;
+	bottom: 4px;
+	right: -20px;
+	transition: .5s;
+}
+
+
+
+.svg-icon path {
+  fill: red;
+}
+
+
+.hero__cta a {
+	position: relative;
+	text-decoration: none;
+	color: #3f69aaff;
+	font-size: 17px;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+.hero__cta a:hover .svg-icon {
+	transform: translateX(4px)
+}
+
+@media only screen and (max-width: 721px) {
+	.hero--left {
+		display: none;
+	}
+	.hero--right {
+		width: 100%;
+	}
+}
