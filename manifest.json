@@ -1,7 +1,7 @@
 {
   "background_color": "transparent",
   "description": "EMIIA.AI",
-  "display": "fullscreen",
+  "display": "standalone",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
