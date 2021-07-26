@@ -109,6 +109,84 @@
 <link rel='stylesheet' href='/map-gl.css'>
 <meta name="msapplication-TileColor" content="#2d89ef">
 <meta name="theme-color" content="#383838">
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- Add to homescreen: http://cubiq.org/add-to-home-screen -->
+  <link rel="stylesheet" type="text/css" href="components/add-to-homescreen/addtohomescreen.css">
+  <script src="components/add-to-homescreen/addtohomescreen.min.js"></script>
+  <script>
+    addToHomescreen({
+      skipFirstVisit: true,
+      maxDisplayCount: 5,
+      startDelay: 10,
+      lifespan: 180,
+    });
+  </script>
+
+  <!-- Make the page behave more like an application. -->
+  <script>
+    document.addEventListener('selectstart', function (e) {
+      // enable selection on details panel
+      const panel = document.getElementsByClassName("trimble-workspace-details");
+      const onDetailsPanel = panel && panel[0] && panel[0].contains(e.target);
+
+      if (!onDetailsPanel) {
+        e.preventDefault();
+        return false;
+      }
+    }, false);
+
+    document.addEventListener('contextmenu', function (e) {
+      // enable context menu on details panel
+      const panel = document.getElementsByClassName("trimble-workspace-details");
+      const onDetailsPanel = panel && panel[0] && panel[0].contains(e.target);
+
+      // enable context menu for text and textarea
+      const isTextOrTextarea = e.target.type === "textarea" || e.target.type === "text";
+
+      if (!isTextOrTextarea && !onDetailsPanel) {
+        e.preventDefault();
+        return false;
+      }
+    }, false);
+  </script>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
   
   
   
