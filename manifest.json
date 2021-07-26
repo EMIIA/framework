@@ -1,7 +1,7 @@
 {
   "name": "EMIIA.AI",
   "short_name": "EMIIA.AI",
-  "start_url": ".",
+  "start_url": "/gis.html",
   "display": "standalone",
   "theme_color": "F8F9FA",
   "background_color": "transparent",
