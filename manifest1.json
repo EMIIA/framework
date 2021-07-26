@@ -2,7 +2,7 @@
   "name": "EMIIA.AI",
   "short_name": "EMIIA.AI",
   "start_url": ".",
-  "display": "fullscreen",
+  "display": "standalone",
   "theme_color": "F8F9FA",
   "background_color": "transparent",
   "icons": [
