@@ -1,0 +1,2016 @@
+<!-- 1.1.2 | 2021-07-02T15:33:33.952Z -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Embedded Trimble Connect 3D Viewer Application</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="icon" href="icons/favicon.ico">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.2/css/bootstrap-slider.min.css">
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.2/bootstrap-slider.min.js"></script>
+  <script src="https://cdn.rawgit.com/caldwell/renderjson/master/renderjson.js"></script>
+  <style>
+    .blinking {
+      color: white;
+      background: #2a5b84;
+      -webkit-transition: background 1.0s ease-in-out;
+      -moz-transition: background 1.0s ease-in-out;
+      -ms-transition: background 1.0s ease-in-out;
+      transition: background 1.0s ease-in-out;
+    }
+
+    .close {
+      color: red;
+    }
+
+    .list-group {
+      max-height: 400px;
+      margin-bottom: 10px;
+      overflow: scroll;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .well {
+      min-height: 20px;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #e3e3e3;
+      border-radius: 4px;
+      -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
+      box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
+    }
+
+    .tooltip.in {
+      filter: alpha(opacity=90);
+      opacity: .9;
+    }
+
+    .popover {
+      max-width: 100%;
+      word-break: break-all;
+      word-wrap: break-word;
+      min-width: 400px;
+    }
+
+    .popover-title-row {
+      display: flex;
+      flex-direction: row;
+    }
+
+    .popover-title-container {
+      width: 90%;
+    }
+
+    .close-popover-button {
+      cursor: pointer;
+    }
+
+    .renderjson {
+      font-size: 13px;
+    }
+
+    .dropdown-item {
+      cursor: pointer;
+    }
+
+    .viewer-setting-row {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .viewer-setting-row div {
+      margin-right: 10px;
+    }
+
+    .viewer-setting-row .key {
+      margin-right: 10px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container plugin-example-container">
+    <h1 class="display-5">Trimble Connect 3D Viewer - Workspace API Example</h1>
+    <p class="lead" id="instruction">Select a Trimble Connect project to get started!</p>
+    <div id="main">
+      <hr class="my-1" />
+      <div class="row ml-0 mr-0">
+        <div class="col-sm">
+          <div class="row">
+            <h5>Project</h5>
+          </div>
+          <div class="row">
+            <span class="mr-2">Name:</span>
+            <div id="projectData" class="flex-grow"></div>
+          </div>
+          <div class="row">
+            <span class="mr-2">ID:</span>
+            <input type="text" class="form-control col" id="txtProjectId" size="40" placeholder="Project ID"
+              onkeypress="setProject(event)">
+            <button class="btn btn-info btn-sm" onclick="setProject()">Set</button>
+          </div>
+        </div>
+        <div class="col-sm">
+          <h5>User</h5>
+          <p id="userData" />
+        </div>
+        <div class="col-sm">
+          <h5>
+            Selection
+            <span id="selectionState" class="small"></span>
+          </h5>
+          <div>
+            <form role="form">
+              <div class="form-group">
+                <select multiple class="form-control" id="selectionList" onchange="highlightSelected(this)">
+                </select>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="col-sm">
+          <button id="btnSetCamera" class="btn btn-primary btn-sm" data-target="#setCameraModal"
+            onclick="(function(e){ $('#btnSetCamera').popover('show') })(event)">
+            Cameras
+            </span>
+          </button>
+          <div id="tmpCameraModalContent" class="d-none">
+            <div id="setCameraModal">
+              <div class="ml-3">
+                <div class="form-group row m-2">Camera Setting</div>
+                <hr class="my-1">
+                <div class="row mr-3">
+                  <button class="btn btn-info btn-sm m-1" onclick="getCamera()">Get</button>
+                  <button class="btn btn-info btn-sm m-1" onclick="setCamera('reset')">Reset</button>
+                  <button class="btn btn-info btn-sm m-1" onclick="setCamera('top')">Top</button>
+                  <button class="btn btn-info btn-sm m-1" onclick="setCamera('bottom')">Bottom</button>
+                  <button class="btn btn-info btn-sm m-1" onclick="setCamera('front')">Front</button>
+                  <button class="btn btn-info btn-sm m-1" onclick="setCamera('back')">Back</button>
+                  <button class="btn btn-info btn-sm m-1" onclick="setCamera('left')">Left</button>
+                  <button class="btn btn-info btn-sm m-1" onclick="setCamera('right')">Right</button>
+                  <button class="btn btn-info btn-sm m-1" onClick="moveCameraBackAndForth(false)">Back and Forth
+                    (lookAt)</button>
+                  <button class="btn btn-info btn-sm m-1" onClick="moveCameraBackAndForth(true)">Back and Forth
+                    (quaternion)</button>
+                </div>
+                <hr class="my-1">
+                <div class="row m-1">
+                  <div id="cameraLoading" class="d-flex justify-content-center">
+                    <div class="spinner-border" role="status">
+                      <span class="sr-only">Loading...</span>
+                    </div>
+                  </div>
+                  <div id="cameraResult"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p id="cameraState">
+          </p>
+        </div>
+      </div>
+      <div id="controller" class="well">
+        <button id="btnModelOps" class="btn btn-primary btn-sm" data-target="#setModelModal"
+          onclick="(function(e){ $('#btnModelOps').popover('show') })(event)">
+          Models
+          </span>
+        </button>
+        <div id="tmpModelModalContent" class="d-none">
+          <div id="setModelModal">
+            <div class="ml-3">
+              <div class="form-group row m-2">Model Operations</div>
+              <hr class="my-1">
+              <label class="form-check-label m-1"><input type="checkbox" class="form-check-input" checked id="fitToView"
+                  selected-state="visible" deselected-state="hidden">Fit To View after loading</label>
+              <div class="row mr-2">
+                <input type="text" class="form-control col" id="txtModelId" size="8" placeholder="Model ID"
+                  onkeypress="modelAction('toggle', event)">
+                <input type="text" class="form-control col" id="txtModelVersionId" size="8" placeholder="Version ID"
+                  onkeypress="modelAction('toggle', event)">
+                <button class="btn btn-info btn-sm m-1" onclick="modelAction('toggle')">Toggle</button>
+                <button class="btn btn-info btn-sm m-1" onclick="modelAction('load')">Load</button>
+                <button class="btn btn-info btn-sm m-1" onclick="modelAction('unload')">Unload</button>
+              </div>
+              <hr class="my-1">
+              <div class="row mr-2">
+                <button class="btn btn-info btn-sm m-1" onClick="getAllModels()"
+                  title="Get all models from the model tree">Get</button>
+                <button class="btn btn-info btn-sm m-1" onClick="showAllModels()"
+                  title="Load and show all models in the Connect project">Show all models</button>
+                <button class="btn btn-info btn-sm m-1" onClick="hideAllModels()" title="Unload all models">Hide all
+                  models</button>
+                <button class="btn btn-info btn-sm m-1" onClick="moveAllModels()"
+                  title="Load and move all models randomly">Move all models</button>
+              </div>
+              <hr class="my-1">
+              <div class="row m-1">
+                <div id="modelsLoading" class="d-flex justify-content-center">
+                  <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                  </div>
+                </div>
+                <div id="modelsResult"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button id="btnShowFilteredObjects" class="btn btn-primary btn-sm" data-target="#getFilteredObjectModal"
+          onclick="getFilteredObjects()">
+          Objects
+        </button>
+        <div id="tmpObjFilterModalContent" class="d-none">
+          <div id="showFilteredObjectsModal">
+            <div class="form-group row m-2">Object operations</div>
+            <hr class="my-1">
+            <div class="row w-100 m-1 ml-2">
+              <button class="btn btn-info btn-sm m-1" onclick="getAllObjects()">Get all objects</button>
+              <button class="btn btn-info btn-sm m-1" onclick="getAllExternalIds()">Get all external IDs</button>
+              <button class="btn btn-info btn-sm m-1" onclick="selectHalf(true)">Select half</button>
+              <button class="btn btn-info btn-sm m-1" onclick="selectHalf(false)">Unselect half</button>
+              <button class="btn btn-info btn-sm m-1" onclick="setHalfVisible(false)">Hide half</button>
+              <button class="btn btn-info btn-sm m-1" onclick="setHalfVisible(true)">Unhide half</button>
+              <button class="btn btn-info btn-sm m-1" onclick="getVisibleObjects()">Get visible objects</button>
+              <button class="btn btn-info btn-sm m-1" onclick="getColoredObjects()">Get colored objects</button>
+            </div>
+            <div class="form-group row m-2">
+              Enter the filter value and hit ENTER (or click on the button) to exclusively apply the filter!
+            </div>
+            <div class="row w-100">
+              <label class="col-md-auto col-form-label">Selected objects</label>
+              <div>
+                <button class="btn btn-info btn-sm col-md-auto" onclick="getObjectsBySelection()">Get</button>
+                <button class="btn btn-info btn-sm col-md-auto mr-2" onclick="setCameraBySelection()">Set
+                  camera</button>
+                <button class="btn btn-info btn-sm col-md-auto" onclick="getSelection()">Get
+                  selection</button>
+              </div>
+            </div>
+            <div class="row w-100">
+              <label for="inputClass" class="col-md-auto col-form-label">Class: </label>
+              <div class="col">
+                <input type="text" class="form-control" id="classFilter" placeholder="Enter object class"
+                  value="IFCCOLUMN" onkeypress="getObjectsByClass(event)">
+              </div>
+              <div>
+                <button class="btn btn-info btn-sm col-md-auto" onclick="getObjectsByClass()">Get</button>
+                <button class="btn btn-info btn-sm col-md-auto" onclick="setObjectsByClass()">Set selection</button>
+                <button class="btn btn-info btn-sm col-md-auto" onclick="setCameraByClass()">Set camera</button>
+              </div>
+            </div>
+            <div class="row w-100 mt-2">
+              <label for="propName" class="col-md-auto col-form-label">Property Name: </label>
+              <div class="col">
+                <input type="text" class="form-control" id="propNameFilter" placeholder="Enter property name"
+                  value="CustomProfile.ProfileName" onkeypress="getObjectsByProp(event)">
+              </div>
+              <div>
+                <button class="btn btn-info btn-sm col-md-auto" onclick="getObjectsByProp()">Get</button>
+                <button class="btn btn-info btn-sm col-md-auto" onclick="setObjectsByProp()">Set selection</button>
+                <button class="btn btn-info btn-sm col-md-auto" onclick="setCameraByProp()">Set
+                  camera</button>
+              </div>
+            </div>
+            <div class="row mt-1">
+              <label for="propValue" class="col-md-auto col-form-label">Property Value: </label>
+              <div class="col">
+                <input type="text" class="form-control" id="propValueFilter" placeholder="Enter property value"
+                  value="AISC/W12x40" onkeypress="getObjectsByProp(event)">
+              </div>
+            </div>
+            <hr class="my-1">
+            <div class="row m-1">
+              <div id="objectsLoading" class="d-flex justify-content-center">
+                <div class="spinner-border" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
+              </div>
+              <div id="objectsResult"></div>
+            </div>
+          </div>
+        </div>
+
+        <button id="btnLayerOps" class="btn btn-primary btn-sm" data-target="#setLayerModal"
+          onclick="(function(e){ $('#btnLayerOps').popover('show') })(event)">
+          Layers
+          </span>
+        </button>
+        <div id="tmpLayerModalContent" class="d-none">
+          <div id="setLayerModal">
+            <div class="ml-3">
+              <div class="form-group row m-2">Layer Operations</div>
+
+              <hr class="my-1">
+              <div class="row mr-2">
+                <input type="text" class="form-control col" id="txtLayerModelId" size="12" placeholder="Model Id">
+                <button id="btnGetLayers" class="btn btn-info btn-sm m-1" onclick="layerAction('get')">Get
+                  layers</button>
+                <button id="btnSetLayers" class="btn btn-info btn-sm m-1" onclick="layerAction('set')">Set layers
+                  visibility</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button id="btnSessionOps" class="btn btn-primary btn-sm" data-target="#setSessionModal"
+          onclick="(function(e){ $('#btnSessionOps').popover('show') })(event)">
+          Session
+          </span>
+        </button>
+        <div id="tmpSessionModalContent" class="d-none">
+          <div id="setSessionModal">
+            <div class="row w-100">
+              <label for="inputClass" class="col-md-auto col-form-label">Access token: </label>
+              <div class="col">
+                <input type="text" class="form-control" id="txtAccessToken" size="40"
+                  placeholder="3D Viewer access token">
+              </div>
+              <div>
+                <button class="btn btn-info btn-sm col-md-auto" onclick="getAccessToken()">Get</button>
+              </div>
+              <div>
+                <button class="btn btn-info btn-sm col-md-auto" onclick="setAccessToken()">Set</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button id="btnSetUI" class="btn btn-primary btn-sm" data-target="#setUIModal" onclick="setUIModal()">
+          UI
+        </button>
+
+        <div id="tmpUiModalContent" class="d-none">
+          <div id="setUIModal">
+            <div class="ml-3">
+              <div class="form-group row m-2">
+                UI Customization
+              </div>
+              <hr class="my-1">
+              <div class="row form-check">
+                <label class="form-check-label mr-1"><input type="checkbox" class="form-check-input" checked
+                    element-name="MainToolbar" selected-state="visible" deselected-state="hidden"
+                    onchange="setUI(event)">Main toolbar -|</label>
+                <span class="col">
+                  <label class="form-check-label"><input type="checkbox" class="form-check-input" checked
+                      element-name="MainToolbar" selected-state="expanded" deselected-state="collapsed"
+                      onchange="setUI(event)">Expanded</label>
+                </span>
+                <span class="col ml-1" element-name="MainToolbar" name="state"></span>
+              </div>
+              <div class="row form-check">
+                <label class="form-check-label mr-1"><input type="checkbox" class="form-check-input" checked
+                    element-name="MenuToolbar" selected-state="visible" deselected-state="hidden"
+                    onchange="setUI(event)">Menu toolbar -|</label>
+                <span class="col">
+                  <label class="form-check-label"><input type="checkbox" class="form-check-input"
+                      element-name="MenuToolbar" selected-state="expanded" deselected-state="collapsed"
+                      onchange="setUI(event)">Expanded</label>
+                </span>
+                <span class="col ml-1" element-name="MenuToolbar" name="state"></span>
+              </div>
+              <div class="row form-check">
+                <label class="form-check-label mr-1"><input type="checkbox" class="form-check-input" checked
+                    element-name="SidePanel" selected-state="visible" deselected-state="hidden"
+                    onchange="setUI(event)">Side panel -|</label>
+                <span class="col">
+                  <label class="form-check-label"><input type="checkbox" class="form-check-input"
+                      element-name="SidePanel" selected-state="expanded" deselected-state="collapsed"
+                      onchange="setUI(event)">Expanded</label>
+                </span>
+                <span class="col ml-1" element-name="SidePanel" name="state"></span>
+              </div>
+              <div class="row form-check">
+                <label class="form-check-label mr-1"><input type="checkbox" class="form-check-input" checked
+                    element-name="DetailsPanel.ToDos" selected-state="visible" deselected-state="hidden"
+                    onchange="setUI(event)">DetailsPanel.ToDos</label>
+                <span class="col ml-1" element-name="DetailsPanel.ToDos" name="state"></span>
+              </div>
+              <div class="row form-check">
+                <label class="form-check-label mr-1"><input type="checkbox" class="form-check-input" checked
+                    element-name="DetailsPanel.Views" selected-state="visible" deselected-state="hidden"
+                    onchange="setUI(event)">DetailsPanel.Views</label>
+                <span class="col ml-1" element-name="DetailsPanel.Views" name="state"></span>
+              </div>
+              <div class="row form-check">
+                <label class="form-check-label mr-1"><input type="checkbox" class="form-check-input" checked
+                    element-name="DetailsPanel.Clashes" selected-state="visible" deselected-state="hidden"
+                    onchange="setUI(event)">DetailsPanel.Clashes</label>
+                <span class="col ml-1" element-name="DetailsPanel.Clashes" name="state"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button id="btnViewOps" class="btn btn-primary btn-sm" data-target="#setViewModal"
+          onclick="(function(e){ $('#btnViewOps').popover('show') })(event)">
+          Views
+          </span>
+        </button>
+        <div id="tmpViewModalContent" class="d-none">
+          <div id="setViewModal">
+            <div class="ml-3">
+              <div class="form-group row m-2">View Operations</div>
+              <hr class="my-1">
+              <div class="row">
+                <button id="btnViewToggle" class="btn btn-info btn-sm m-1" onClick="getViews()" title="Views">
+                  Get all views
+                  <span id="viewLoading" class="spinner-border spinner-border-sm" role="status"></span>
+                  </span>
+                </button>
+                <button id="btnCreateView" class="btn btn-info btn-sm m-1" onClick="createView()" title="Create view">
+                  Create view
+                  <span id="createViewLoading" class="spinner-border spinner-border-sm" role="status"></span>
+                  </span>
+                </button>
+                <button class="btn btn-info btn-sm m-1 mr-3" onClick="setView()" title="Set view">
+                  Set view
+                  <span id="viewsLoading" class="spinner-border spinner-border-sm" role="status"></span>
+                  </span>
+                </button>
+              </div>
+              <div class="row">
+                <label for="inputClass" class="col-md-auto col-form-label">View ID: </label>
+                <div class="col">
+                  <input type="text" class="form-control" id="txtViewId" size="25" placeholder="View ID"
+                    onkeypress="getView(event)">
+                </div>
+                <div class="col-md-auto">
+                  <button id="btnGetView" class="btn btn-info btn-sm col-md-auto" onclick="getView()">Get</button>
+                </div>
+              </div>
+              <hr class="my-1">
+              <div class="row m-1">
+                <div id="viewLoading" class="d-flex justify-content-center">
+                  <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                  </div>
+                </div>
+                <div id="viewsResult"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button id="btnViewerOps" class="btn btn-primary btn-sm" data-target="#setViewerModal"
+          onclick="(() => { $('#btnViewerOps').popover('show'); refreshViewerApiSettings(); })()">
+          Viewer
+        </button>
+        <div id="tmpViewerModalContent" class="d-none">
+          <div id="setViewerModal">
+            <div class="form-group row m-2">
+              3D Viewer application operations
+            </div>
+            <hr class="my-1">
+            <div class="row m-2">
+              <button class="btn btn-info btn-sm m-1" onClick="addIcons()" title="Add icons to the viewer">
+                Add icons
+              </button>
+              <button id="btnGetIcons" class="btn btn-info btn-sm m-1" onClick="getIcons()"
+                title="Get icons from the viewer">
+                Get icons
+              </button>
+              <button class="btn btn-info btn-sm m-1" onClick="removeIcons()" title="Remove icons from the viewer">
+                Remove icons
+              </button>
+              <div class="btn-group">
+                <button class="btn btn-info btn-sm m-1 dropdown-toggle" type="button" title="Reset the color of objects"
+                  id="resetColorDropdown" data-toggle="dropdown">
+                  Reset colors
+                </button>
+                <div class="dropdown-menu" aria-labelledby="resetColorDropdown">
+                  <div class="dropdown-item" onclick="resetColors('true')">Reset selection</div>
+                  <div class="dropdown-item" onclick="resetColors()">Reset all</div>
+                </div>
+              </div>
+              <div class="btn-group">
+                <button class="btn btn-info btn-sm m-1 dropdown-toggle" type="button"
+                  title="Reset the visibility of objects" id="resetVisibilityDropdown" data-toggle="dropdown">
+                  Reset visibility
+                </button>
+                <div class="dropdown-menu" aria-labelledby="resetVisibilityDropdown">
+                  <div class="dropdown-item" onclick="resetVisibility('true')">Reset selection</div>
+                  <div class="dropdown-item" onclick="resetVisibility()">Reset all</div>
+                </div>
+              </div>
+              <button id="btnGetViewSnapshot" class="btn btn-info btn-sm m-1" onClick="getViewSnapshot()"
+                title="View snapshot">
+                Get view snapshot
+                <span id="getViewSnapshotLoading" class="spinner-border spinner-border-sm" role="status"></span>
+                </span>
+              </button>
+              <button id="btnAddClipPlanes" class="btn btn-info btn-sm m-1" onClick="showAddSectionPlanesForm()"
+                title="Add section planes">
+                Add section planes
+              </button>
+              <button id="btnGetClipPlanes" class="btn btn-info btn-sm m-1" onClick="getSectionPlanes()"
+                title="Get section planes">
+                Get section planes
+              </button>
+              <button id="btnClearClipPlanes" class="btn btn-info btn-sm m-1" onClick="clearSectionPlanes()"
+                title="Clear all section planes">
+                Clear section planes
+              </button>
+            </div>
+            <div class="row m-2">
+              <button id="btnAddCustomMeasurements" class="btn btn-info btn-sm m-1" onClick="showAddMeasurementsForm()">
+                Add measurements
+              </button>
+              <button id="btnShowCustomMeasurements" class="btn btn-info btn-sm m-1" onClick="showGetMeasurementsForm()">
+                Get measurements
+              </button>
+              <button id="btnRemoveCustomMeasurements" class="btn btn-info btn-sm m-1" onClick="removeMeasurementMarkups()">
+                Remove measurements
+              </button>
+              <button id="btnShowRemoveCustomMeasurement" class="btn btn-info btn-sm m-1" onClick="showRemoveMeasurementsForm()">
+                Remove measurement by id
+              </button>
+            </div>
+            <div class="row">
+              <label for="inputClass" class="col-md-auto col-form-label">Load trimbim: </label>
+              <div class="col">
+                <input type="file" class="form-control" id="txtFileId" multiple="multiple" placeholder="Select model"
+                  onchange="loadTrimbim(this)">
+              </div>
+              <div class="col-md-auto">
+                <button id="btnLoadTrimbim" class="btn btn-info btn-sm col-md-auto" onclick="loadTrimbim()">Load
+                  model</button>
+              </div>
+              <div class="col-md-auto">
+                <button id="btnGetTrimbims" class="btn btn-info btn-sm col-md-auto" onclick="getLoadedTrimbims()">Get
+                  loaded trimbims</button>
+              </div>
+            </div>
+            <div class="row">
+              <label for="inputClass" class="col-md-auto col-form-label">Change visibility: </label>
+              <div class="col">
+                <input type="text" class="form-control" id="txtTrbId" placeholder="Select model">
+              </div>
+              <div class="col-md-auto">
+                <button id="btnUnloadTrimbim" class="btn btn-info btn-sm col-md-auto"
+                  onclick="UnloadTrimbim()">Unload</button>
+              </div>
+              <div class="col-md-auto">
+                <button id="btnHideTrimbim" class="btn btn-info btn-sm col-md-auto"
+                  onclick="hideTrimbim()">Hide</button>
+              </div>
+              <div class="col-md-auto">
+                <button id="btnShowTrimbim" class="btn btn-info btn-sm col-md-auto"
+                  onclick="unhideTrimbim()">UnHide</button>
+              </div>
+              <div class="col-md-auto">
+                <button id="btnMoveTrimbim" class="btn btn-info btn-sm col-md-auto"
+                  onclick="moveTrimbim()">Move</button>
+              </div>
+            </div>
+            <div class="row" style="margin-top: 20px">
+              <label for="inputClass" class="col-md-auto col-form-label">Viewer API settings:</label>
+              <div class="col">
+                <div id="viewer-settings-table"></div>
+              </div>
+            </div>
+            <hr class="my-1">
+            <div class="row m-1">
+              <div id="viewerLoading" class="d-flex justify-content-center">
+                <div class="spinner-border" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
+              </div>
+              <div id="viewerResult"></div>
+            </div>
+          </div>
+        </div>
+
+        <button id="btnProjectOps" class="btn btn-primary btn-sm" data-target="#setProjectModal"
+          onclick="(function(e){ $('#btnProjectOps').popover('show') })(event)">
+          Project
+        </button>
+        <div id="tmpProjectModalContent" class="d-none">
+          <div id="setProjectModal">
+            <div class="form-group row m-2">
+              Project operations
+            </div>
+            <hr class="my-1">
+            <div class="row m-2">
+              <button id="btnGetProjectSettings" class="btn btn-info btn-sm m-1" onClick="getProjectSettings()"
+                title="Get project settings">
+                Get project settings
+              </button>
+            </div>
+            <hr class="my-1">
+            <div class="row m-1">
+              <div id="projectLoading" class="d-flex justify-content-center">
+                <div class="spinner-border" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
+              </div>
+              <div id="projectResult"></div>
+            </div>
+          </div>
+        </div>
+
+        <button id="btnUserOps" class="btn btn-primary btn-sm" data-target="#setUserModal"
+          onclick="(function(e){ $('#btnUserOps').popover('show') })(event)">
+          User
+        </button>
+        <div id="tmpUserModalContent" class="d-none">
+          <div id="setUserModal">
+            <div class="form-group row m-2">
+              User operations
+            </div>
+            <hr class="my-1">
+            <div class="row m-2">
+              <button id="btnGetUserSettings" class="btn btn-info btn-sm m-1" onClick="getUserSettings()"
+                title="Get User settings">
+                Get user settings
+              </button>
+            </div>
+            <hr class="my-1">
+            <div class="row m-1">
+              <div id="userLoading" class="d-flex justify-content-center">
+                <div class="spinner-border" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
+              </div>
+              <div id="userResult"></div>
+            </div>
+          </div>
+        </div>
+
+        <button id="btnGetAPI" class="btn btn-primary btn-sm" title="Show available APIs">
+          API
+        </button>
+        <a hidden id="toggle" target="_blank">Run as plugin</a>
+
+        <button id="permissionsButtonOps" class="btn btn-primary btn-sm" data-target="#permissionsModal"
+          onclick="(function(e){ $('#permissionsButtonOps').popover('show') })(event)">
+          Permissions
+        </button>
+        <div id="tmpPermissionsModalContent" class="d-none">
+          <div id="permissionsModal">
+            <div class="form-group row m-2">
+              <strong>Extension permissions</strong>
+            </div>
+            <hr class="my-1">
+            <div style="margin-top: 20px;">
+              <span class="mr-2">Open tab (allow-popups allow-popups-to-escape-sandbox)</span>
+              <input style="margin-top: 8px;" type="text" class="form-control col" id="externalUrlInput" size="40"
+                placeholder="https://www.tekla.com/" onchange="setExternalUrl(event)">
+            </div>
+            <div style="margin-top: 8px;">
+              <a href="https://www.tekla.com/" id="externalUrlAnchor" target="_blank" rel="noopener noreferrer">Open URL in new tab</a>
+            </div>
+            <hr class="my-1">
+          </div>
+        </div>
+      </div>
+      <div class="row mt-2 mb-3">
+        <div class="col">
+          <label class="form-check-label">Global opacity:&nbsp;&nbsp;&nbsp;</label>
+          <input id="opacitySlider" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1"
+            data-slider-value="100" />
+        </div>
+
+        <div class="col">
+          <input type="checkbox" class="form-check-input" id="colorOnSelection">
+          <label class="form-check-label" for="colorOnSelection">Change color on selection</label>
+        </div>
+
+        <div class="col">
+          <input type="checkbox" class="form-check-input" id="opacityOnSelection">
+          <label class="form-check-label" for="opacityOnSelection">Change opacity on selection</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <iframe hidden id="viewerFrame" sandbox="allow-scripts allow-modals allow-forms allow-same-origin allow-popups"
+    width="100%" height="700px" title="3D Viewer Application">
+  </iframe>
+
+  <script src="trimbleconnect.workspace.api.js"></script>
+
+  <script>
+    ["button", "label", "input", "div", "span", "ul", "li", "table", "textarea", "thead", "tbody", "tr", "td"].forEach(e => $.fn.popover.Constructor.Default.whiteList[e] = [/^.*$/i]);
+    $("#main, .spinner-border").hide();
+
+    var API;
+    const viewer = $("#viewerFrame")[0];
+    let id = 0;
+    if (inIframe()) {
+      viewer.remove();
+      connect(window.parent);
+    }
+    else {
+      let env = getQueryVariable("env");
+      let projectId = getQueryVariable("projectId");
+      let modelId = getQueryVariable("modelId");
+      let accessToken = getQueryVariable("accessToken");
+      if (!accessToken) {  
+        let appUrl = `${window.location.origin}?pluginRedirect=true`;
+        if (env) appUrl += `&env=${env}`;
+        if (projectId) appUrl += `&projectId=${projectId}`;
+        if (modelId) appUrl += `&modelId=${modelId}`;
+        window.location.replace(appUrl);
+      }
+
+      let viewerUrl = `./?env=${env}&projectId=${projectId}&modelId=${modelId}&accessToken=${accessToken}`;
+      if (viewerUrl) {
+        viewer.src = viewerUrl;
+        viewer.hidden = false;
+        toggle.href = viewerUrl + "?plugin=" + location.href.replace(location.search, "");
+        toggle.hidden = false;
+      } else {
+        document.title = "Trimble Connect 3D Viewer Application PlugIn";
+      }
+      viewer.onload = () => connect(viewer);
+    }
+
+    let cameraChanged = () => { };
+    async function connect(target) {
+      console.log("Start listener...");
+      API = await Workspace.connect(target, (event, args) => {
+        console.log("Event: ", event, args);
+        switch (event) {
+          case "viewer.onSelectionChanged":
+            onSelection(args.data);
+            break;
+
+          case "viewer.onCameraChanged":
+            onCameraChanged(args.data);
+            break;
+
+          case "project.onChanged":
+            onProjectChanged(args.data.new);
+            break;
+
+          case "project.onSettingsChanged":
+            onProjectSettingsChanged(args.data);
+            break;
+
+          case "user.onSettingsChanged":
+            onUserSettingsChanged(args.data);
+            break;
+
+          case "extension.accessToken":
+            onAccessToken(args.data);
+            break;
+
+          case "extension.closing":
+            console.log("Do clean up");
+            break;
+          case "extension.sessionInvalid":
+            console.log("Session is invalid, tokens need refresh.");
+            break;
+          case "extension.sessionLogOut":
+            console.log("Session is logged out, tokens need refresh.");
+            break;
+          case "viewer.onSettingsChanged": {
+            refreshViewerApiSettings();
+            break;
+          }
+        }
+      }, 30000);
+
+      $("#btnGetAPI").popover({
+        title: "Available APIs",
+        content: renderjson.set_show_to_level(2)(API),
+        html: true,
+      });
+      console.log("Listener started!");
+      $("#main").show();
+      onProjectChanged(await API.project.getProject());
+      onUserChanged(await API.user.getUser());
+      var introEle = $("#instruction");
+      introEle.html("Click on a button below to try out the example API client!");
+      introEle.addClass("blinking");
+      var count = 0
+      setTimeout(function () {
+        var interval = setInterval(function () {
+          introEle.toggleClass(function () {
+            count++
+            return "blinking"
+          });
+
+          if (count == 2)
+            clearInterval(interval);
+
+        }, 600)
+      }, 1000);
+    };
+
+
+    $('#opacitySlider').slider({
+      formatter: function (value) {
+        return 'Current opacity: ' + value;
+      }
+    });
+    $('#opacitySlider').on("slide", setOpacity);
+    $('#btnShowFilteredObjects').popover({
+      html: true,
+      content: $('#showFilteredObjectsModal').html(),
+      trigger: 'manual'
+    });
+    $('#tmpObjFilterModalContent').remove();
+
+    $('#btnSetCamera').popover({
+      html: true,
+      content: $('#setCameraModal').html(),
+      trigger: 'manual'
+    });
+    $('#tmpCameraModalContent').remove();
+
+    $('#btnModelOps').popover({
+      html: true,
+      content: $('#setModelModal').html(),
+      trigger: 'manual'
+    });
+    $('#tmpModelModalContent').remove();
+
+    $('#btnSessionOps').popover({
+      html: true,
+      content: $('#setSessionModal').html(),
+      trigger: 'manual'
+    });
+    $('#tmpSessionModalContent').remove();
+
+    $('#btnLayerOps').popover({
+      html: true,
+      content: $('#setLayerModal').html(),
+      trigger: 'manual'
+    });
+    $('#tmpLayerModalContent').remove();
+
+    $('#btnViewOps').popover({
+      html: true,
+      content: $('#setViewModal').html(),
+      trigger: 'manual'
+    });
+    $('#tmpViewModalContent').remove();
+
+    $('#btnViewerOps').popover({
+      html: true,
+      content: $('#setViewerModal').html(),
+      trigger: 'manual'
+    });
+    $('#tmpViewerModalContent').remove();
+
+    $('#btnProjectOps').popover({
+      html: true,
+      content: $('#setProjectModal').html(),
+      trigger: 'manual'
+    });
+    $('#tmpProjectModalContent').remove();
+
+    $('#btnUserOps').popover({
+      html: true,
+      content: $('#setUserModal').html(),
+      trigger: 'manual'
+    });
+    $('#tmpUserModalContent').remove();
+
+    $('#permissionsButtonOps').popover({
+      html: true,
+      content: $('#permissionsModal').html(),
+      trigger: 'manual'
+    });
+    $('#tmpPermissionsModalContent').remove();
+
+    $("html").on("mouseup", function (e) {
+      var l = $(e.target);
+      if (l.closest(".popover").length < 1) {
+        $(".popover").each(function () {
+          $(this).popover("hide");
+        });
+      }
+    });
+
+    const dismissBtn = `<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>`;
+    const str = (msg) => document.createTextNode(msg).data;
+    const ok = (msg) => `<div class="alert alert-success alert-dismissible fade show" role="alert">${str(msg ? msg + ": " : "")} Successful${dismissBtn}</div>`;
+    const warn = (msg) => `<div class="alert alert-warning alert-dismissible fade show" role="alert">${str(msg)}${dismissBtn}</div>`;
+    const err = (err) => `<div class="alert alert-danger alert-dismissible fade show" role="alert">${str(err)}${dismissBtn}</div>`;
+
+    function onSelection(selection) {
+      if (selection && selection.length) {
+        const state = { color: {} };
+        const changeColorOnSelection = $("#colorOnSelection").is(":checked");
+        const opacityOnSelection = $("#opacityOnSelection").is(":checked");
+        if (changeColorOnSelection) Object.assign(state.color, { r: 255, g: 155, b: 15 });
+        if (opacityOnSelection) Object.assign(state.color, { a: 125 });
+        if (changeColorOnSelection || opacityOnSelection) {
+          API.viewer.setObjectState({ selected: true }, state);
+        }
+      }
+
+      var selectionState = document.getElementById("selectionState");
+      let html = "";
+      let oCount = 0, mCount = 0;
+      for (const s of selection) {
+        ++mCount;
+        html += s.objectRuntimeIds.map(id => `<option value='${s.modelId} | ${id}'>${s.modelId} | ${id}</option>`).join();
+        oCount += s.objectRuntimeIds.length;
+      }
+
+      selectionState.innerHTML = selection.length > 0 ?
+        `${oCount} selected from ${mCount} models <button onClick="flyTo()" class="btn btn-info btn-sm">Fly to</button>` : "No selection";
+      $("#selectionList").html(html);
+    }
+
+    async function onCameraChanged(camera) {
+      var l = camera.lookAt;
+      var p = camera.position;
+
+      cameraState.innerHTML =
+        "Position: " + p.x.toFixed(2) + ", " + p.y.toFixed(2) + ", " + p.z.toFixed(2) +
+        "<br/>Look at: " + l.x.toFixed(2) + ", " + l.y.toFixed(2) + ", " + l.z.toFixed(2);
+      cameraChanged(camera);
+    }
+
+    function onProjectChanged(project) {
+      $("#projectData").text(project.name);
+      $("#txtProjectId").val(project.id);
+    }
+
+    function onProjectSettingsChanged(projectSettings) {
+      console.log(`The following project settings changed: ${projectSettings.changes}.`)
+      $.each(projectSettings.changes, function (i, change) {
+        console.log(`Old value for '${change}': ${JSON.stringify(projectSettings.old[change])}`);
+        console.log(`New value for '${change}': ${JSON.stringify(projectSettings.new[change])}`);
+      });
+    }
+
+    function onUserSettingsChanged(userSettings) {
+      console.log(`The following user settings changed: ${userSettings.changes}.`)
+      $.each(userSettings.changes, function (i, change) {
+        console.log(`Old value for '${change}': ${JSON.stringify(userSettings.old[change])}`);
+        console.log(`New value for '${change}': ${JSON.stringify(userSettings.new[change])}`);
+      });
+    }
+
+    function onAccessToken(accessToken) {
+      $("#txtAccessToken").val(accessToken)
+    }
+
+    function onUserChanged(user) {
+      $("#userData").text(user.email);
+    }
+
+    function setProject(e) {
+      if (e && e.keyCode != 13) return;
+      API.project.setProject($("#txtProjectId").val());
+    }
+
+    function setExternalUrl(e) {
+      let val = $("#externalUrlInput").val();
+      if (val && val.length) {
+        if (!["http", "https"].some(l => val.startsWith(l))) {
+          val = `https://${val}`;
+        }
+        $("#externalUrlAnchor").attr("href", val);
+      } else {
+        $("#externalUrlAnchor").attr("href", "https://www.tekla.com");
+      }
+    }
+
+    var seed = 1;
+    function random() {
+      var x = Math.sin(seed++) * 10000;
+      return x - Math.floor(x);
+    }
+
+    var iconId = -1;
+    async function addIcons() {
+      const mult = 25;
+      const pos = { x: 0, y: 0, z: 0 };
+      const icons = [];
+
+      for (let i = iconId; i > iconId - 6; i--) {
+        let icon = {
+          id: i.toString(),
+          iconPath: "icons/icon_72x72.png",
+          position: { x: random() * mult + pos.x, y: random() * mult + pos.y, z: random() * mult + pos.z },
+          size: 44
+        };
+
+        icons.push(icon);
+      }
+
+      // intentionally decrease id with 5 instead of 6, so when next adding icons, one will be updated.
+      iconId = iconId - 5;
+
+      await API.viewer.addIcon(icons);
+    }
+
+    async function refreshViewerApiSettings() {
+
+      const getValueChangeButton = (settingName) => {
+        switch (settingName) {
+          case "assemblySelection": {
+            return `<button class="btn btn-info btn-sm" onclick="setViewerApiSettings({assemblySelection: true})">Toggle</button>`
+            break;
+          }
+        }
+      }
+
+
+      const settings = await API.viewer.getSettings();
+      let settingsTable = "";
+      Object.keys(settings).forEach(key => {
+        settingsTable += ('<div class="viewer-setting-row">'
+          + `<div class="key">${key}</div>`
+          + `<div class="value">${settings[key]}</div>`
+          + `<div class="value-change">${getValueChangeButton(key)}</div>`
+          + '</div>');
+      });
+      $('#viewer-settings-table').html(settingsTable);
+    }
+
+    async function setViewerApiSettings(update) {
+      const settings = await API.viewer.getSettings();
+      const settingsToupdate = {};
+      if (update.assemblySelection) {
+        settingsToupdate.assemblySelection = !settings.assemblySelection;
+      }
+
+      await API.viewer.setSettings(settingsToupdate);
+      refreshViewerApiSettings();
+    }
+
+    function getIcons() {
+      return doWorkPopover("#btnGetIcons", "Icons", "", async () => {
+        const icons = await API.viewer.getIcon();
+        var html = `<div class="panel panel-primary"><div class="panel-body"><ul class="list-group">`;
+        $.each(icons, function (i, icon) {
+          html += `<li class="list-group-item"><div class="d-flex">
+            <div class="flex-grow-1">
+              <span class="badge badge-secondary p-1 mr-1">id: ${icon.id}</span>
+              <span class="p-2 mr-1">json: ${JSON.stringify(icon)}</span>
+            </div>
+            </div></li>`;
+        });
+        html += "</ul></div></div>";
+        return html;
+      });
+    }
+
+    async function removeIcons() {
+      await API.viewer.removeIcon({ id: -1 });
+      await API.viewer.removeIcon([{ id: -2 }, { id: -3 }]);
+      await API.viewer.removeIcon();
+    }
+
+    async function resetColors(resetSelection) {
+      if (resetSelection) {
+        const selection = await API.viewer.getSelection();
+        const selector = {
+          modelObjectIds: selection
+        }
+        await API.viewer.setObjectState(selector, { color: "reset" });
+      } else {
+        await API.viewer.setObjectState(undefined, { color: "reset" });
+      }
+    }
+
+    async function resetVisibility(resetSelection) {
+      if (resetSelection) {
+        const selection = await API.viewer.getSelection();
+        const selector = {
+          modelObjectIds: selection
+        }
+        await API.viewer.setObjectState(selector, { visible: "reset" });
+      } else {
+        await API.viewer.setObjectState(undefined, { visible: "reset" });
+      }
+    }
+
+    async function doCamera(action) {
+      return doWorkRes("#cameraResult", "#cameraLoading", action);
+    }
+
+    async function getCamera() {
+      return doCamera(async () => renderjson.set_show_to_level("all")(await API.viewer.getCamera()));
+    }
+
+    function setCamera(preset) {
+      return doCamera(async () => API.viewer.setCamera(preset));
+    }
+
+    async function getNewCamera(byQuaternion) {
+      const curCamera = await API.viewer.getCamera();
+      const camera = { ...curCamera };
+      const offset = [...Array(3).keys()].map(_ => (rand(-1, 1) * rand(1, 10)) || 1);
+      if (byQuaternion) {
+        camera.quaternion[Object.keys(camera.quaternion)[rand(0, 3)]] = Math.random() * (Math.random > 0.5 ? 1 : -1) / 10000000;
+      } else {
+        camera.lookAt.x += offset[0];
+        camera.lookAt.y += offset[1];
+        camera.lookAt.z += offset[2];
+      }
+      camera.position.y += offset[0];
+      camera.position.x += offset[1];
+      camera.position.z += offset[2];
+      console.log("Camera: from: ", curCamera, "to: ", camera);
+      return camera;
+    }
+
+    async function moveCameraBackAndForth(byQuaternion) {
+      return doCamera(async () => {
+        const prevCamera = await API.viewer.getCamera();
+        await assertNewCamera(await getNewCamera(byQuaternion));
+        await assertNewCamera(prevCamera);
+      });
+    }
+
+    function flyTo() {
+      API.viewer.setCamera({ selected: true });
+    }
+
+    async function highlightSelected(e) {
+      const v = $(e).val();
+      const selected = v.filter(s => !!s);
+      for (const s of selected) {
+        const [modelId, objectRuntimeId] = s.split(" | ");
+        await API.viewer.setObjectState({
+          modelObjectIds: [{ modelId, objectRuntimeIds: [parseInt(objectRuntimeId, 10)] }]
+        }, {
+          color: { r: 0, g: 0, b: 0 }
+        });
+      }
+    }
+
+    async function doModel(action) {
+      return doWorkRes("#modelsResult", "#modelsLoading", action);
+    }
+
+    async function modelAction(action, e) {
+      const fitToView = $("#fitToView").is(":checked");
+      if (e && e.keyCode != 13) return;
+      let func;
+      const modelId = $("#txtModelId").val()
+      const modelVersionId = $("#txtModelVersionId").val()
+      if (!modelId) {
+        func = async () => { throw new Error("Empty model ID"); };
+      } else {
+        switch (action) {
+          case "load":
+            func = async () => API.viewer.toggleModelVersion({ id: modelId, versionId: modelVersionId }, true, fitToView);
+            break;
+          case "unload":
+            func = async () => API.viewer.toggleModelVersion({ id: modelId, versionId: modelVersionId }, false, fitToView);
+            break;
+          default:
+            func = async () => API.viewer.toggleModelVersion({ id: modelId, versionId: modelVersionId }, undefined, fitToView);
+            break;
+        }
+      }
+
+      return doModel(func);
+    }
+
+    async function getAllModels() {
+      return doModel(async () => renderjson.set_show_to_level("all")(await API.viewer.getModels()));
+    }
+
+    async function showAllModels() {
+      return toggleAllModels(true);
+    }
+
+    async function hideAllModels() {
+      return toggleAllModels(false);
+    }
+
+    async function toggleAllModels(visible) {
+      const fitToView = $("#fitToView").is(":checked");
+      return doModel(async () => {
+        var models = await API.viewer.getModels();
+        await API.viewer.toggleModel(models.map(model => model.id), visible, fitToView);
+      });
+    }
+
+    async function moveAllModels() {
+      var models = await API.viewer.getModels();
+      for (var m of models) {
+        const placement = m.placement || {
+          locationX: 0,
+          locationY: 0,
+          locationZ: 0
+        };
+        if (placement) {
+          if (m.state !== "loaded") {
+            continue;
+          };
+          const x = placement.locationX += rand(-1, 1) * rand(1000, 5000);
+          const y = placement.locationY += rand(-1, 1) * rand(1000, 5000);
+          const z = placement.locationZ += rand(-1, 1) * rand(1000, 5000);
+
+          const axisX = 0;
+          const axisY = 1;
+          const axisZ = 0;
+
+          const refDirectionX = 0.333333;
+          const refDirectionY = 0.333333;
+          const refDirectionZ = 0;
+
+          await API.viewer.placeModel(m.id, {
+            position: {
+              x: x,
+              y: y,
+              z: z
+            },
+            axis: {
+              x: axisX,
+              y: axisY,
+              z: axisZ
+            },
+            refDirection: {
+              x: refDirectionX,
+              y: refDirectionY,
+              z: refDirectionZ
+            }
+          });
+        }
+      }
+    }
+
+    async function layerAction(action, e) {
+      if (e && e.keyCode != 13) return;
+
+      const modelId = $("#txtLayerModelId").val()
+      if (modelId) {
+        switch (action) {
+          case "get":
+            return getLayers(modelId);
+          case "set":
+            return showSetLayersVisibility(modelId);
+        }
+      }
+
+      console.log("Model id was not provided.");
+    }
+
+    function getLayers(modelId) {
+      return doWorkPopover("#btnGetLayers", "Layers", "", async () => {
+        const layers = await API.viewer.getLayers(modelId);
+        var html = `<div class="panel panel-primary"><div class="panel-body"><ul class="list-group">`;
+        $.each(layers, function (i, layer) {
+          html += `<li class="list-group-item"><div class="d-flex">
+            <div class="flex-grow-1">
+              <span class="badge badge-secondary p-1 mr-1">${layer.name}</span>
+              <span class="p-2 mr-1">${JSON.stringify(layer)}</span>
+            </div>
+            </div></li>`;
+        });
+        html += "</ul></div></div>";
+        return html;
+      });
+    }
+
+    function showSetLayersVisibility(modelId) {
+      return doWorkPopover("#btnSetLayers", "Set layers visibility", "", async () => {
+        var html = `<div class="panel panel-primary">
+          <div class="panel-body">
+            <div><textarea id="txtSetLayersVisibility" placeholder="Layers JSON" rows="10" cols="50"></textarea></div>
+            <div>
+              <button id="btnExecuteSetLayersVisibility" class="btn btn-info btn-sm m-1" onClick="setLayersVisibility('${modelId}')">
+                Set
+              </button></div></div>
+            </div>`;
+        return html;
+      });
+    }
+
+    function setLayersVisibility(modelId) {
+      let layers;
+      try {
+        layers = JSON.parse($("#txtSetLayersVisibility").val());
+      } catch (e) {
+        console.log("JSON is not in correct format.");
+      }
+
+      if (layers) {
+        API.viewer.setLayersVisibility(modelId, layers);
+      }
+    }
+
+    async function getViews() {
+      return doWorkPopover("#btnViewToggle", "Views", "#viewLoading", async () => {
+        const views = await API.view.getViews();
+        var html = `<div class="panel panel-primary"><div class="panel-body"><ul class="list-group">`;
+        $.each(views, function (i, v) {
+          html += `<li class="list-group-item"><div class="d-flex">
+<div class="flex-grow-1">
+  <span class="badge badge-secondary p-1 mr-1">${v.id}</span>
+  <button class="btn" onclick="selectView('${v.id}')" name="name" view-id="${v.id}" title="${v.description}">${v.name}</button>
+</div>
+<div>
+  <button class="badge btn btn-outline-info btn-sm ml-2 mr-2" onclick="updateView('${v.id}', event)" title="Edit view name for view with ID ${v.id}">Update Name</button>
+  <button type="button" class="close" aria-label="Close" onclick="deleteView('${v.id}', event)"><span aria-hidden="true">&times;</span></button>
+</div>
+</div></li>`;
+        });
+        html += "</ul></div></div>";
+        return html;
+      });
+    }
+
+    async function createView() {
+      return doWorkPopover("#btnCreateView", "Created View", "#createViewLoading", async () => {
+        let html;
+        const dateTime = getDateStr();
+        const createdView = await API.view.createView({
+          name: name(),
+          description: `A new view was created on ${dateTime} using Workspace API`
+        });
+        html = createdView &&
+          `<div class="container">
+  <div class="row"><img src="${createdView.imageData}" title="Created view thumbnail" class="img-thumbnail" /></div>
+  <div class="row">
+    <table class="table">
+      <tbody>
+        <tr>
+          <td>ID</td>
+          <td>${createdView.id}</td>
+        </tr>
+        <tr>
+          <td>Name</td>
+          <td>${createdView.name}</td>
+        </tr>
+        <tr>
+          <td>Description</td>
+          <td>${createdView.description}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>`;
+        return html;
+      });
+    }
+
+    async function doView(action) {
+      return doWorkRes("#viewsResult", "#viewsLoading", action);
+    }
+
+    async function setView() {
+      return doView(async () => {
+        const curCamera = await API.viewer.getCamera();
+        const camera = await getNewCamera();
+        const sectionPlanes = [{
+          directionX: 1,
+          directionY: 0,
+          directionZ: 0,
+          positionX: curCamera.position.x * 1000 / 2,
+          positionY: curCamera.position.y * 1000 / 2,
+          positionZ: curCamera.position.z * 1000 / 2,
+        }];
+        return API.view.setView({ camera, sectionPlanes });
+      });
+    }
+
+    async function getView(e) {
+      if (e && e.keyCode != 13) return;
+      return doView(async () => {
+        const id = $("#txtViewId").val();
+        return renderjson.set_show_to_level("all")(await API.view.getView(id));
+      });
+    }
+
+    async function selectView(id) {
+      await API.view.selectView(id);
+    }
+
+    async function updateView(id, e) {
+      const view = await API.view.getView(id);
+      view.name = name();
+      if (await API.view.updateView(view)) {
+        $(`button[view-id='${id}'][name='name']`).text(view.name);
+      }
+    }
+
+    async function deleteView(id, e) {
+      if (await API.view.deleteView(id)) {
+        $(e.target).closest("li").remove();
+      }
+    }
+
+    async function getFilteredObjects() {
+      $("#objectsLoading").hide();
+      $("#objectsResult").html("");
+      $('#btnShowFilteredObjects').popover('show');
+    }
+
+    async function getObjectsBy(action, e) {
+      if (e && e.keyCode != 13) return;
+      return doObjectsFilter(async () => {
+        let result = await action();
+        result = result && result.length
+          ? renderjson.set_show_to_level(2)(result)
+          : warn("Could not find any object. Make sure that the models are loaded and double-check the query!");
+        return result;
+      });
+    }
+
+    async function doObjectsFilter(action) {
+      return doWorkRes("#objectsResult", "#objectsLoading", action);
+    }
+
+    function getSelectionSelector() {
+      return { selected: true };
+    }
+
+    async function getAllObjects(e) {
+      return getObjectsBy(async () => API.viewer.getObjects(), e);
+    }
+
+    async function getVisibleObjects(e) {
+      return getObjectsBy(async () => API.viewer.getObjects(undefined, { visible: true }), e);
+    }
+
+    async function getColoredObjects(e) {
+      return getObjectsBy(async () => API.viewer.getColoredObjects());
+    }
+
+    async function getAllExternalIds(e) {
+      return getObjectsBy(async () => {
+        const objs = await API.viewer.getObjects();
+        for (const mid of objs) {
+          const runtimeIds = mid.objects.map(o => o.id);
+          mid.externalIds = await API.viewer.convertToObjectIds(mid.modelId, runtimeIds);
+          if (runtimeIds.length !== mid.externalIds.length) {
+            mid["FAILED"] = "FAILED: Cannot resolve all external IDs";
+          }
+        }
+
+        return objs;
+      }, e);
+    }
+
+    function toSelector(modelObjects) {
+      return { modelObjectIds: modelObjects.map(m => ({ modelId: m.modelId, objectRuntimeIds: m.objects.map(o => o.id).sort() })).sort((a, b) => a < b ? -1 : a > b ? 1 : 0) };
+    }
+
+    function half(target) {
+      return target.splice(0, Math.ceil(target.length / 2));
+    }
+
+    async function getHalfObjects() {
+      return (await API.viewer.getObjects()).map(m => ({ modelId: m.modelId, objects: half(m.objects) }));
+    }
+
+    async function selectHalf(selected, e) {
+      return getObjectsBy(async () => {
+        const mids = [];
+        const selector = toSelector(await getHalfObjects());
+        await API.viewer.setSelection(selector, selected ? "set" : "remove");
+        const actualSelection = toSelector(await API.viewer.getObjects({ selected: true }));
+        let err;
+        if (selected) {
+          err = JSON.stringify(selector) != JSON.stringify(actualSelection) && "FAILED: The selected objects are not the same as specified in the selector";
+        } else {
+          for (const sel of actualSelection.modelObjectIds) {
+            const match = selector.modelObjectIds.find(m => m.modelId === sel.modelId);
+            if (!match) { continue; }
+            for (const o of match.objects) {
+              if (sel.objects.find(i => i.id === o.id)) {
+                err = "FAILED: The objects are not unselected as specified in the selector";
+                break;
+              }
+            }
+
+            if (err) {
+              break;
+            }
+          }
+        }
+
+        return [{ selector, status: err || "PASSED", actualSelection }];
+      }, e);
+    }
+
+    async function setHalfVisible(visible, e) {
+      return doObjectsFilter(async () => {
+        const mids = [];
+        const selector = toSelector(await getHalfObjects());
+        await API.viewer.setObjectState(selector, { visible });
+      }, e);
+    }
+
+    async function getObjectsBySelection(e) {
+      return getObjectsBy(async () => API.viewer.getObjects(getSelectionSelector()), e);
+    }
+
+    async function setCameraBySelection(e) {
+      return doObjectsFilter(async () => API.viewer.setCamera(getSelectionSelector()));
+    }
+
+    async function getSelection(e) {
+      return getObjectsBy(async () => API.viewer.getSelection(), e);
+    }
+
+    function getClassSelector() {
+      return {
+        parameter: {
+          class: $("#classFilter").val()
+        }
+      };
+    }
+
+    async function getObjectsByClass(e) {
+      return getObjectsBy(async () => API.viewer.getObjects(getClassSelector()), e);
+    }
+
+    async function setObjectsByClass(e) {
+      return doObjectsFilter(async () => API.viewer.setSelection(getClassSelector(), "set"));
+    }
+
+    async function setCameraByClass() {
+      return doObjectsFilter(async () => API.viewer.setCamera(getClassSelector()));
+    }
+
+    function getPropSelector() {
+      return {
+        parameter: {
+          properties: {
+            [$("#propNameFilter").val()]: $("#propValueFilter").val()
+          }
+        }
+      };
+    }
+
+    async function getObjectsByProp(e) {
+      return getObjectsBy(async () => API.viewer.getObjects(getPropSelector()), e);
+    }
+
+    async function setObjectsByProp(e) {
+      return doObjectsFilter(async () => API.viewer.setSelection(getPropSelector(), "set"));
+    }
+
+    async function setCameraByProp() {
+      return doObjectsFilter(async () => API.viewer.setCamera(getPropSelector()));
+    }
+
+    async function updateUIStates() {
+      const ui = await API.ui.getUI();
+      $("input[element-name]").each(function (i, e) {
+        const ele = $(e).attr("element-name");
+        const state = ui.find(u => u.name === ele);
+        $(`*[element-name="${ele}"][name$="state"]`).text(`(Current state: ${state ? state.state : "FAILED"})`);
+      });
+    }
+
+    async function setUIModal() {
+      return doWorkPopover("#btnSetUI", "UI Control", "", async () => {
+        await updateUIStates();
+        return $('#setUIModal').html();
+      });
+    }
+
+    async function toViewerWith(action) {
+      return doWorkRes("#viewerResult", "#viewerLoading", action);
+    }
+
+    function getAccessToken() {
+      toViewerWith(async () => {
+        const token = await API.extension.requestPermission("accesstoken");
+        $("#txtAccessToken").val(token)
+        return token;
+      });
+    }
+
+    function setAccessToken() {
+      toViewerWith(async () => {
+        await API.viewer.setAccessTokens($("#txtAccessToken").val());
+      });
+    }
+
+    async function loadTrimbim(e) {
+      toViewerWith(async () => {
+        let file;
+        if (e) {
+          files = e.files;
+        } else {
+          var f = document.getElementById("txtFileId");
+          files = f.files;
+        }
+        let trbModels = [];
+        for (const file of files) {
+          const blob = await getBlob(file);
+          const name = file.name.substring(0, file.name.lastIndexOf('.'));
+          const placement = {
+            locationX: 0,
+            locationY: 0,
+            locationZ: 0
+          };
+          const locX = placement.locationX += rand(-1, 1) * rand(1000, 5000);
+          const locY = placement.locationY += rand(-1, 1) * rand(1000, 5000);
+          const locZ = placement.locationZ += rand(-1, 1) * rand(1000, 5000);
+          trbModels.push({
+            id: name, trbBlob: blob, fitToView: true, placement: {
+              position: {
+                x: locX,
+                y: locY,
+                z: locZ
+              }
+            }
+          });
+        }
+        return API.viewer.addTrimbimModel(trbModels);
+      });
+    }
+
+    async function getLoadedTrimbims() {
+      return doWorkPopover("#btnGetTrimbims", "TrbModels", "", async () => {
+        const trbs = await API.viewer.getTrimbimModels();
+        var html = `<div class="panel panel-primary"><div class="panel-body"><ul class="list-group">`;
+        $.each(trbs, function (i, trb) {
+          html += `<li class="list-group-item"><div class="d-flex">
+            <div class="flex-grow-1">
+              <span class="badge badge-secondary p-1 mr-1">id: ${trb.id}</span>
+              <span class="p-2 mr-1">json: ${JSON.stringify(trb)}</span>
+            </div>
+            </div></li>`;
+        });
+        html += "</ul></div></div>";
+        return html;
+      });
+    }
+
+    async function UnloadTrimbim() {
+      toViewerWith(async () => {
+        const trbId = $("#txtTrbId").val();
+        await API.viewer.removeTrimbimModel(trbId);
+      });
+    }
+
+    async function hideTrimbim() {
+      toViewerWith(async () => {
+        const trbId = $("#txtTrbId").val();
+        await API.viewer.addTrimbimModel({ id: trbId, visible: false });
+      });
+    }
+
+    async function unhideTrimbim() {
+      toViewerWith(async () => {
+        const trbId = $("#txtTrbId").val();
+        await API.viewer.addTrimbimModel({ id: trbId, visible: true });
+      });
+    }
+
+    async function moveTrimbim() {
+      toViewerWith(async () => {
+        const placement = {
+          locationX: 0,
+          locationY: 0,
+          locationZ: 0
+        };
+        const locX = placement.locationX += rand(-1, 1) * rand(1000, 5000);
+        const locY = placement.locationY += rand(-1, 1) * rand(1000, 5000);
+        const locZ = placement.locationZ += rand(-1, 1) * rand(1000, 5000);
+
+        const axisX = 0;
+        const axisY = 1;
+        const axisZ = 0;
+
+        const refDirectionX = 0.333333;
+        const refDirectionY = 0.333333;
+        const refDirectionZ = 0;
+
+        const trbId = $("#txtTrbId").val();
+        await API.viewer.addTrimbimModel({
+          id: trbId, placement: {
+            position: {
+              x: locX,
+              y: locY,
+              z: locZ
+            },
+            axis: {
+              x: axisX,
+              y: axisY,
+              z: axisZ
+            },
+            refDirection: {
+              x: refDirectionX,
+              y: refDirectionY,
+              z: refDirectionZ
+            }
+          }
+        });
+      });
+    }
+
+    function getBlob(file) {
+      return new Promise((resolve, reject) => {
+        var reader = new FileReader();
+        reader.onload = (e) => {
+          const blob = new Blob([new Uint8Array(e.target.result)], { type: file.type });
+          resolve(blob);
+        }
+        reader.onerror = () => reject("Error loading " + filePath);
+        reader.readAsArrayBuffer(file);
+      });
+    }
+
+    async function getViewSnapshot() {
+      return doWorkPopover("#btnGetViewSnapshot", "View Snapshot", "#getViewSnapshotLoading", async () =>
+        `<div class="container"><img src="${await API.viewer.getSnapshot()}" title="View snapshot" class="img-thumbnail" /></div>`);
+    }
+
+    function showAddSectionPlanesForm() {
+      return doWorkPopover("#btnAddClipPlanes", "Add section planes", "", async () => {
+        var html = `<div class="panel panel-primary">
+          <div class="panel-body">
+            <div><textarea id="txtAddSectionPlanes" placeholder="Section planes JSON" rows="10" cols="50"></textarea></div>
+            <div>
+              <button id="btnExecuteAddClipPlanes" class="btn btn-info btn-sm m-1" onClick="addSectionPlanes()">
+                Add
+              </button></div></div>
+            </div>`;
+        return html;
+      });
+    }
+
+    function addSectionPlanes() {
+      let sectionPlanes;
+      try {
+        sectionPlanes = JSON.parse($("#txtAddSectionPlanes").val());
+      } catch (e) {
+        console.log("JSON is not in correct format.");
+      }
+
+      if (sectionPlanes) {
+        API.viewer.addSectionPlane(sectionPlanes);
+      }
+    }
+
+    function getSectionPlanes() {
+      return doWorkPopover("#btnGetClipPlanes", "Section planes", "", async () => {
+        const sectionPlanes = await API.viewer.getSectionPlanes();
+        var html = `<div class="panel panel-primary"><div class="panel-body"><ul class="list-group">`;
+        $.each(sectionPlanes, function (i, s) {
+          html += `<li class="list-group-item"><div class="d-flex">
+            <div class="flex-grow-1">
+              <span class="badge badge-secondary p-1 mr-1">id: ${s.id}</span>
+              <span class="p-2 mr-1">json: ${JSON.stringify(s)}</span>
+            </div>
+            </div></li>`;
+        });
+        html += "</ul></div></div>";
+        return html;
+      });
+    }
+
+    function clearSectionPlanes() {
+      API.viewer.removeSectionPlanes();
+    }
+
+    async function setUI(e) {
+      if (!e) return;
+      const ele = $(e.target);
+      const target = ele.attr("element-name");
+      if (!target) return;
+      const state = ele.is(":checked") ? ele.attr("selected-state") : ele.attr("deselected-state")
+      console.log("Set UI Element: ", target, " - state: ", state);
+      await API.ui.setUI({
+        name: target,
+        state: state
+      });
+      await updateUIStates();
+    }
+
+    async function setOpacity(e) {
+      await API.viewer.setOpacity(e.value);
+    }
+
+    function getProjectSettings() {
+      return doWorkPopover("#btnGetProjectSettings", "Project settings", "", async () => {
+        const projectSettings = await API.project.getSettings();
+        var html = `<div class="panel panel-primary"><div class="panel-body"><ul class="list-group">`;
+        for (const key in projectSettings) {
+          html += `<li class="list-group-item"><div class="d-flex">
+            <div class="flex-grow-1">
+              <span class="badge badge-secondary p-1 mr-1">${key}</span>
+              <span class="p-2 mr-1">${JSON.stringify(projectSettings[key])}</span>
+            </div>
+            </div></li>`;
+        }
+        html += "</ul></div></div>";
+        return html;
+      });
+    }
+
+    function getUserSettings() {
+      return doWorkPopover("#btnGetUserSettings", "User settings", "", async () => {
+        const userSettings = await API.user.getSettings();
+        var html = `<div class="panel panel-primary"><div class="panel-body"><ul class="list-group">`;
+        for (const key in userSettings) {
+          html += `<li class="list-group-item"><div class="d-flex">
+            <div class="flex-grow-1">
+              <span class="badge badge-secondary p-1 mr-1">${key}</span>
+              <span class="p-2 mr-1">${JSON.stringify(userSettings[key])}</span>
+            </div>
+            </div></li>`;
+        }
+        html += "</ul></div></div>";
+        return html;
+      });
+    }
+
+    function showAddMeasurementsForm() {
+      return doWorkPopover("#btnAddCustomMeasurements", "Add custom measurements", "", async () => {
+        var html = `<div class="panel panel-primary">
+          <div class="panel-body">
+            <div><textarea id="txtCustomMeasurements" placeholder="Custom measurements JSON array" rows="10" cols="50"></textarea></div>
+            <div>
+              <button id="executeAddCustomMeasurements" class="btn btn-info btn-sm m-1" onClick="addMeasurementMarkups()">
+                Add
+              </button></div></div>
+            </div>`;
+        return html;
+      }, true);
+    }
+
+    function showGetMeasurementsForm() {
+      return doWorkPopover("#btnShowCustomMeasurements", "Get custom measurements", "", async () => {
+        var html = `<div class="panel panel-primary">
+          <div class="panel-body">
+            <div><textarea readonly id="txtShowCustomMeasurements" placeholder="Custom measurements JSON" rows="10" cols="50"></textarea></div>
+            <div>
+              <button id="executeGetCustomMeasurements" class="btn btn-info btn-sm m-1" onClick="getMeasurementMarkups()">
+                Get measurements
+              </button></div></div>
+            </div>`;
+        return html;
+      }, true);
+    }
+
+    function showRemoveMeasurementsForm() {
+      return doWorkPopover("#btnShowRemoveCustomMeasurement", "Remove measurement by id", "", async () => {
+        var html = `<div class="panel panel-primary">
+          <div class="panel-body">
+            <div><input style="width:100%" id="txtRemoveCustomMeasurement" placeholder="Measurement Ids (Comma-separated e.g 1337,1338)"></input></div>
+            <div>
+              <button id="executeRemoveCustomMeasurement" class="btn btn-info btn-sm m-1" onClick="removeMeasurementMarkup()">
+                Remove
+              </button></div></div>
+            </div>`;
+        return html;
+      }, true);
+    }
+
+    async function getMeasurementMarkups() {
+      const measurements = await API.viewer.getMeasurementMarkups();
+      console.log("measurements", measurements.length);
+      const jsonMeasurements = JSON.stringify(measurements, null, 4);
+      $("#txtShowCustomMeasurements").val(jsonMeasurements);
+    }
+
+    async function addMeasurementMarkups() {
+      const measurements = JSON.parse($("#txtCustomMeasurements").val());
+       API.viewer.addMeasurementMarkups(measurements).then(res => {
+        console.log(res);
+       });
+    }
+
+    async function removeMeasurementMarkups() {
+      await API.viewer.removeMeasurementMarkups();
+    }
+
+    async function removeMeasurementMarkup() {
+      const value = $("#txtRemoveCustomMeasurement").val();
+      const values = value.split(",");
+      const ids = values.map(v => parseInt(v, 10));
+      await API.viewer.removeMeasurementMarkups(ids);
+      $("#txtRemoveCustomMeasurement").val("");
+    }
+
+    async function doWorkSafe(preAction, action, postAction) {
+      preAction();
+      let result;
+      try {
+        const actionRes = await action();
+        if (actionRes === false) {
+          throw new Error("Operation failed: Unknown error");
+        } else if (actionRes === true || actionRes === "" || actionRes == null) {
+          result = ok();
+        } else {
+          result = actionRes;
+        }
+      }
+      catch (e) {
+        result = err(e);
+      }
+      postAction(result)
+    }
+
+    async function doWorkPopover(selPopover, title, selLoading, action, showCloseButton) {
+      if(showCloseButton) {
+        setTimeout(() => {
+          $(`${selPopover}-close-popover`).one('click', () => $(selPopover).popover("hide"));
+        });
+      }
+
+      return doWorkSafe(() => {
+        $(selLoading).show();
+        $(selPopover).popover("dispose");
+      }, action, r => {
+        $(selPopover).popover({
+          title: !showCloseButton ? title : `<div class="popover-title-row">
+                                              <div class="popover-title-container">${title}</div>
+                                              <div class="close-popover-button" id="${selPopover.replace("#", "")}-close-popover">X</div>
+                                            </div>` ,
+          content: r,
+          html: true,
+          trigger: "manual",
+          placement: "bottom"
+        });
+        $(selPopover).popover("show");
+        $(selLoading).hide();
+      });
+    }
+
+    async function doWorkRes(selResult, selLoading, action) {
+      return doWorkSafe(() => {
+        $(selResult).html("");
+        $(selLoading).show();
+      }, action, r => {
+        $(selLoading).hide();
+        $(selResult).html(r);
+      });
+    }
+
+    // from https://css-tricks.com/snippets/javascript/get-url-variables/
+    function getQueryVariable(variable) {
+      var query = window.location.search.substring(1);
+      var vars = query.split("&");
+      for (var i = 0; i < vars.length; i++) {
+        var pair = vars[i].split("=");
+        if (pair[0] == variable) {
+          return decodeURIComponent(pair[1]);
+        }
+      }
+    }
+
+    function rand(min, max) {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive
+    }
+
+    function inIframe() {
+      try {
+        return window.self !== window.top;
+      } catch (e) {
+        return true;
+      }
+    }
+
+    const nouns = ["bird", "clock", "plastic", "duck", "developer"];
+    const verbs = ["coded", "sunk", "broke", "flew", "jumped"];
+    const adjectives = ["beautiful", "professional", "lovely", "dumb", "rough"];
+    const adverbs = ["slowly", "elegantly", "precisely", "quickly", "sadly"];
+    const preposition = ["down", "into", "up", "on", "upon"];
+    function randGen() { return Math.floor(Math.random() * 5); }
+    function name() {
+      var rand1 = randGen();
+      var rand2 = randGen();
+      var rand3 = randGen();
+      var rand4 = randGen();
+      var rand5 = randGen();
+      var rand6 = randGen();
+      return `The ${adjectives[rand1]} ${nouns[rand2]} ${adverbs[rand3]} ${verbs[rand4]} on ${getDateStr()}`;
+    }
+
+    function getDateStr() {
+      var today = new Date();
+      var date = "" + today.getFullYear() + (today.getMonth() + 1) + today.getDate();
+      var time = "" + today.getHours() + today.getMinutes() + today.getSeconds();
+      return date + ' ' + time;
+    }
+
+    async function withTimeOut(timeOutInMilliseconds, action, rejectOnTimeOut) {
+      const timeOutPromise = new Promise((resolve, reject) => {
+        const wait = setTimeout(() => {
+          clearTimeout(wait);
+          (rejectOnTimeOut === false ? resolve : reject)("Timed Out");
+        }, timeOutInMilliseconds);
+      });
+      return Promise.race([timeOutPromise, action]);
+    }
+
+    async function assertNewCamera(camera) {
+      return withTimeOut(
+        5 * 60 * 1000,
+        new Promise(r => { cameraChanged = r; API.viewer.setCamera(camera); })
+          .then(r => console.log("setCamera: ", r)));
+    }
+  </script>
+</body>
+
+</html>
