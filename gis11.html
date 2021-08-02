@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>EMIIA.AI</title>
+  
+  
+  
+
+	
+	
+	
+	
+	
+	
+	
+
+
+  	<style>
+	
+	body { margin: 0; padding: 0; }
+#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+
+    
+
+</style>
+  
+  
+  
+  
+  
+  
+  
+   <style>
+body {
+
+margin: 0; 
+padding: 0;
+  background: #f8f9fa;
+  height: 100vh;
+  overflow: hidden;
+  width: 100vw;
+  $filter: brightness(1) contrast(1) hue-rotate(0deg) invert(0%); 
+  -webkit-filter: $filter;
+  filter: $filter;
+}
+
+
+
+
+
+#map {
+
+position: absolute; top: 0; bottom: 0; width: 100%;
+  // Filters for satellite view
+  // Grayscale version
+  //$filter: grayscale(100%) brightness(0.9) contrast(1.3);
+  // Rich colors version (fake colors)
+  //$filter: brightness(0.9) contrast(1.3) hue-rotate(67.5deg) invert(12.5%); 
+  //-webkit-filter: $filter;
+  //filter: $filter;
+  height: 120vh;
+  left: -20vw;
+  position: absolute;
+  top: 0vh;
+  width: 120vw;
+  z-index: 1;
+}
+
+
+
+
+
+
+.map-overlay {
+  color: white;
+  font: 12px/20px "Open Sans Bold", 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  position: absolute;
+  width: 20vw;
+  bottom: 2.5vh;
+  right: 2.5vw;
+  text-transform: uppercase;
+  padding: 0;
+  z-index: 1;
+}
+
+.map-overlay .map-overlay-inner {
+  padding: 0;
+}
+
+.map-overlay .legend .bar {
+    height: 10px;
+  display: inline-block;
+}
+
+.map-overlay input {
+    background-color: #f8f9fa;
+    display: inline-block;
+    width: 100%;
+    position: relative;
+    margin: 0 0 1.5em 0;
+    cursor: ew-resize;
+}
+
+progress {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  border: none;
+  height: 0.5vh;
+  left: 0;
+  position: absolute;
+  bottom: 0;
+  width: 100vw;
+  z-index: 2;
+}
+
+progress::-webkit-progress-bar {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+progress::-webkit-progress-value {
+  background: rgba(255, 255, 255, 0.5);
+}
+  </style>
+  
+  
+  	
+  
+  
+  
+  
+
+  
+  
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8' />
+    <title>My Map</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    
+    
+
+            
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
+    
+    
+    
+   
+     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet' />
+
+    
+ 
+ 
+ 
+ 
+
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+    
+    
+    
+</head>
+
+<body>
+
+
+
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.3.0/mapbox-gl-geocoder.min.js'></script>
+
+    
+    
+    
+       <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.3.0/mapbox-gl-geocoder.css'
+        type='text/css' /> 
+
+        
+        
+        
+        
+        
+
+    
+        <script src='https://api.mapbox.com/mapbox.js/plugins/turf/v2.0.2/turf.min.js'></script>
+    
+    
+    <script src='https://api.tiles.mapbox.com/mapbox.js/plugins/turf/v3.0.11/turf.min.js'></script>
+    
+    
+    
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.js'></script>
+    
+    
+    
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.css'
+        type='text/css' />
+        
+        
+        
+        
+        
+        
+        
+        
+    <div class='showMap'>
+    
+    
+    
+  
+  
+  
+  
+  
+  
+   <div id='show-panel' onclick="showPanel()">
+            <i class="fas fa-chevron-left" id='icon-left'></i>
+            <i class="fas fa-chevron-right" id="icon-right"></i>
+        </div>
+        <div id='panel'>
+           
+
+
+
+
+
+            <div id="myDIV">
+
+                <div class='measurement-annotation'>
+                    <div class='toggle-button'>
+                            <span style="font-weight: 550; margin: 4px; color:white"> Measurement &amp; Annotation</span>                       
+
+                        <div class="onoffswitch">
+                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch">
+                            <label class="onoffswitch-label" for="myonoffswitch">
+                                <span class="onoffswitch-inner"></span>
+                                <span class="onoffswitch-switch"></span>
+                            </label>
+                        </div>
+                    </div>
+
+
+                    <div id='choose-measure'>
+                      
+                        <div id='show2'>
+                            <button class='ex' id="distance2" onclick="showCoordinate1()">
+                                <span class='button-wrapper'><i class="fas fa-map-marker-alt"></i></span>
+                                <div class="exx">Coordinate</div>
+                            </button></div>
+
+                        <button class='ex' id="add-comment"><span class='button-wrapper'><i class="far fa-comment"></i></span>
+                            <div class="exx">Annotation</div>
+                        </button>
+                        <div id='show1'>
+                            <button class='ex' id="distance1" onclick="measureDistance()">
+                                <span class='button-wrapper'><i class="fas fa-ruler-combined"></i>
+                                </span>
+                                <div class="exx">Distance</div>
+                            </button></div>
+ <div id='show3'>
+                            <button class='ex' id="zeroElevation" onclick="zeroElevation()">
+                                <span class='button-wrapper'><i class="fas fa-ruler-combined"></i>
+                                </span>
+                                <div class="exx">Reset</div>
+                            </button></div>
+
+                    </div>
+                </div>
+                <div class='selectData'>
+
+                <form action="#" method="post" id="demoForm" class="demoForm">
+                    <label for="location" id='lblocation' style="font-weight: 550">Location</label>
+                    <select id="address" name="location" onchange='renderDay()'>
+            
+                      <option>Where?</option>
+                    </select>
+                    <input type="button" id="navigate" value="Go" />
+                    <div id='display'></div>
+                </form>
+                <form action="#" method="post" class="demoForm">
+                        <label for="Drone-image" style="font-weight: 550">Drone images</label>
+                        <select id="daySelection" name="location">
+                          <option>When?</option>
+                        </select>
+                        <input type="button" id="ShowDroneImage" value="Show" />
+                </form> 
+                </div>
+                <div id='menu'>
+
+
+
+
+                    
+                
+                 
+                </div>
+              <div id='addMoreImageOverlay'>
+                <input id='jump' value='' onchange='jumpTo(this.value)' placeholder='Put long, lat...' type='text'>
+              </div> 
+            </div>
+            <div class='calculation-box'>
+                <div id='calculated-area'></div>
+            </div>
+        </div>
+
+        <div id='map'></div>
+        <pre id='info'></pre>
+
+        <div id='distance' class='distance-container'></div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    
+    
+    
+       
+
+    
+</body>
+
+</html>
+<!-- partial -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+
+mapboxgl.accessToken = 'pk.eyJ1IjoiZW1paWFhaSIsImEiOiJja21icnU4bHkyNGRwMnFrbjVvNXdtdGJ0In0.TcfxV21Ov7zOgvWvgPxzlA';
+
+
+var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/streets-v9',
+    center: [24.907733569925142,
+        60.155],
+    zoom: 19,
+    pitch: 180
+});
+
+var locations=[{siltakuja:{center: [24.65460777282715,
+                                    60.203076720849865],
+                           bearing: 150,
+                           zoom: 19,
+                           pitch: 180,}},{keilaranta:{bearing: 27,
+                                                      center: [24.82956556471052,
+                                                               60.17877924493226],
+                                                      zoom: 19,
+                                                      pitch: 180,}}]
+var database=[{siltakuja:{day1:'https://s3.eu-central-1.amazonaws.com/bliot-public/day01.png', day2:'https://s3.eu-central-1.amazonaws.com/bliot-public/day2.png', day3:'https://s3.eu-central-1.amazonaws.com/bliot-public/day3.png'}}, {keilaranta:{day1:'https://s3.eu-central-1.amazonaws.com/bliot-public/day4.gif', day2:'https://s3.eu-central-1.amazonaws.com/bliot-public/day5.jpeg'}}]
+
+map.addControl(new MapboxGeocoder({
+    accessToken: mapboxgl.accessToken
+}));
+map.addControl(new mapboxgl.NavigationControl());
+map.addControl(new mapboxgl.GeolocateControl({
+    positionOptions: {
+        enableHighAccuracy: true
+    },
+    trackUserLocation: true
+}));
+var layerList = document.getElementById('menu');
+var inputs = layerList.getElementsByTagName('input');
+function switchLayer(layer) {
+    var layerId = layer.target.id;
+    map.setStyle('mapbox://styles/mapbox/' + layerId + '-v9');
+}
+
+for (var i = 0; i < inputs.length; i++) {
+    inputs[i].onclick = switchLayer;
+}
+var sel = document.getElementById('address');
+locations.map(e=>{
+ var option = document.createElement("option");
+ option.text=Object.keys(e)[0].charAt(0).toUpperCase() + Object.keys(e)[0].substr(1);
+ option.value=Object.keys(e);
+ sel.add(option); 
+})
+var el = document.getElementById('display');
+document.getElementById('navigate').onclick = function () {
+    var k=document.getElementById('address').value
+    var i=locations.filter(obj=>Object.keys(obj)==k)
+    map.flyTo(i[0][k]);
+  
+}
+renderDay=()=>{
+ var x = document.getElementById("address").value;
+ var y = document.getElementById("daySelection");
+ while (y.hasChildNodes()) {
+               y.removeChild(y.firstChild);
+            }
+ var k= database.filter(obj=>Object.keys(obj)==x);  
+ Object.keys(k[0][x]).map(e=>{
+ var option1 = document.createElement("option"); 
+ option1.text=e.charAt(0).toUpperCase()+e.substr(1);;
+ option1.value=k[0][x][e];
+ y.add(option1);
+ })
+}
+
+
+
+var comments = []
+var onAddComment = false;
+document.getElementById('add-comment').onclick = function () {
+    if (onAddComment === false) { onAddComment = true; }
+    else
+        onAddComment = false
+}
+map.on('click', function (e) {
+    if (onAddComment === true) {
+        var desc = prompt("Please enter your description", "comment...");
+        if (desc) {
+
+            comments.push({ id: comments.length, coordinate: e.lngLat, description: desc })
+            comments.forEach(function (marker, index) {
+                var el = document.createElement('div');
+                el.className = 'marker';
+                var id = comments[index].id;
+               
+                new mapboxgl.Marker(el)
+                    .setLngLat(marker.coordinate)
+                    .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
+                    .setHTML('<p>' + marker.description + '</p>' + "<br>" + "<input type=button id=" + id + ' value=Delete onclick=remove(this.id)>'))
+                    .addTo(map);
+            })
+        }
+        onAddComment = false;
+        console.log(comments);
+    }
+})
+remove = (id) => {
+    var index = comments.map(x => { return x.id; }).indexOf(id);
+    comments.splice(index, 1);
+    console.log(comments);
+}
+var showMeasure = false;
+document.addEventListener('DOMContentLoaded', function () {
+    var showMeasure_value = document.getElementById('myonoffswitch');
+    showMeasure_value.addEventListener('change', function () {
+        if (showMeasure_value.checked) {
+            showMeasure = true;
+            map.getCanvas().style.cursor = 'crosshair';
+            map.setLayoutProperty('measure-points', 'visibility', 'visible');
+            map.setLayoutProperty('measure-lines', 'visibility', 'visible');
+         
+            document.getElementById('info').style.display = 'block';
+            document.getElementById('choose-measure').style.maxHeight = '500px';
+        } else {
+            showMeasure = false;
+            map.getCanvas().style.cursor = 'pointer';
+            map.setLayoutProperty('measure-points', 'visibility', 'none');
+            map.setLayoutProperty('measure-lines', 'visibility', 'none');
+            document.getElementById('info').style.display = 'none';
+            document.getElementById('choose-measure').style.maxHeight = '0px';
+        }
+    });
+});
+var showCoordinate = false;
+function showCoordinate1() {
+    if (showCoordinate === false) {
+        showCoordinate = true;
+        showMeasure = true;
+        document.getElementById('distance2').style.backgroundColor = '#28a745';
+        document.getElementById('distance2').style.color = 'white'
+
+    } else {
+        onMeasuring = false;
+        showCoordinate = false;
+        document.getElementById('distance2').style.backgroundColor = 'white';
+        document.getElementById('distance2').style.color = '#28a745'
+    }
+    console.log(showCoordinate);
+    console.log(showMeasure);
+}
+map.on('click', function (e) {
+    if (showCoordinate === true && showMeasure === true) {
+        document.getElementById('info').innerHTML = "Longitude: " + JSON.stringify(e.lngLat.lng) + " - Latitude: " + JSON.stringify(e.lngLat.lat);
+    }
+});
+var draw = new MapboxDraw({
+    displayControlsDefault: false,
+    controls: {
+        polygon: true,
+        trash: true
+    }
+});
+map.addControl(draw);
+map.on('draw.create', updateArea);
+map.on('draw.delete', updateArea);
+map.on('draw.update', updateArea);
+function updateArea(e) {
+    var data = draw.getAll();
+    var answer = document.getElementById('calculated-area');
+    if (data.features.length > 0) {
+        var area = turf.area(data);
+        var rounded_area = Math.round(area * 100) / 100;
+        answer.innerHTML = '<p><strong>' + rounded_area + '</strong></p><p>square meters</p>';
+    } else {
+        answer.innerHTML = '';
+        if (e.type !== 'draw.delete') alert("Use the draw tools to draw a polygon!");
+    }
+}
+showPanel = () => {    
+    var panel = document.getElementById('panel');
+    var iconLeft=document.getElementById('icon-left');
+    var iconRight=document.getElementById('icon-right');
+    var showPanel=document.getElementById('show-panel');
+
+    if (panel.style.transform === "translateX(-500px)") {
+        panel.style.transform ="translateX(0px)";
+        panel.style.opacity ="1";
+        showPanel.style.transform="translateX(0px)";
+        iconLeft.style.display='block';
+        iconRight.style.display='none';
+    } else {
+        panel.style.transform = "translateX(-500px)"
+        panel.style.opacity ="0.5";
+        showPanel.style.transform="translateX(-300px)";
+        iconLeft.style.display='none';
+        iconRight.style.display='block';
+    }
+}
+var dateControl = document.querySelector('input[type="date"]');
+showDateValue=(value)=>{
+    console.log(value);
+}
+var distanceContainer = document.getElementById('distance');
+var onMeasuring = false;
+
+measureDistance=()=>{
+    if (onMeasuring===false) {
+        onMeasuring = true;
+        showMeasure = true;
+        document.getElementById('distance1').style.backgroundColor='#28a745';
+        document.getElementById('distance1').style.color='white';
+    } else {
+        onMeasuring = false;
+        document.getElementById('distance1').style.backgroundColor='white';
+        document.getElementById('distance1').style.color='#28a745'
+    }
+}
+var geojson = {
+    "type": "FeatureCollection",
+    "features": []
+};
+var linestring = {
+    "type": "Feature",
+    "geometry": {
+        "type": "LineString",
+        "coordinates": []
+    }
+};
+map.on('load', function () {
+    map.addSource('geojson', {
+        "type": "geojson",
+        "data": geojson
+    });
+    map.addLayer({
+        id: 'measure-points',
+        type: 'circle',
+        source: 'geojson',
+        paint: {
+            'circle-radius': 5,
+            'circle-color': '#000'
+        },
+        layout: { 'visibility': 'visible' },
+        filter: ['in', '$type', 'Point']
+    });
+    map.addLayer({
+        id: 'measure-lines',
+        type: 'line',
+        source: 'geojson',
+        layout: {
+            'line-cap': 'round',
+            'line-join': 'round',
+            'visibility': 'visible'
+        },
+        paint: {
+            'line-color': '#000',
+            'line-width': 2.5
+        },
+        filter: ['in', '$type', 'LineString']
+    });
+    map.on('click', function (e) {
+        if (onMeasuring === true && showMeasure === true) {
+            var features = map.queryRenderedFeatures(e.point, { layers: ['measure-points'] });
+            if (geojson.features.length > 1) geojson.features.pop();
+            distanceContainer.innerHTML = '';
+            if (features.length) {
+                var id = features[0].properties.id;
+                geojson.features = geojson.features.filter(function (point) {
+                    return point.properties.id !== id;
+                });
+            } else {
+                var point = {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            e.lngLat.lng,
+                            e.lngLat.lat
+                        ]
+                    },
+                    "properties": {
+                        "id": String(new Date().getTime())
+                    }
+                };
+                geojson.features.push(point);
+            }
+            if (geojson.features.length > 1) {
+                linestring.geometry.coordinates = geojson.features.map(function (point) {
+                    return point.geometry.coordinates;
+                });
+                geojson.features.push(linestring);
+                var value = document.createElement('pre');
+                value.textContent = 'Total distance: ' + turf.lineDistance(linestring).toLocaleString() + 'km';
+                distanceContainer.appendChild(value);
+            }
+            map.getSource('geojson').setData(geojson);
+        }
+    });
+});
+var imageList_siltakuja = {
+    day1: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTr79QLReUxFCezluwRoy9jCDhae7QmPvIn5OOjzYiex_efvHDt',
+    day2: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzrZKdr0rknMEvL9bbMpgty80n7zz87U-Qa3s6FQnOIMi7dVzAqw',
+    day3: "https://atlas-content-cdn.pixelsquid.com/stock-images/contemporary-house-with-roof-basin-w1KOVa1-600.jpg"
+}
+var imageList_keilaranta = {
+    day1: 'https://upload.wikimedia.org/wikipedia/commons/a/ab/Winslow_House_floor_plan.gif',
+    day2: 'https://img.huffingtonpost.com/asset/55b2b15a1400002f002e0b80.gif?ops=1910_1000',
+    day3: "https://expo.advance.net/img/93fa2b73cc/width960/93c_3718huntingrunrd.jpeg"
+}
+map.on('load', function () {
+    map.addSource("siltakuja", {
+        type: "image",
+        url: 'https://s3.eu-central-1.amazonaws.com/bliot-public/day2.png',
+        coordinates: [
+           [24.654919448080562,
+                60.20296588150856],
+           
+           [24.65444489446469,
+                60.20296588150856],
+            [24.65443730160294,
+                60.20310737289276],
+            [24.654908058796906,
+                60.20311303253362],           
+        ]
+    });
+     map.addSource("keilaranta", {
+        type: "image",
+        url: 'https://s3.eu-central-1.amazonaws.com/bliot-public/day4.gif',
+      
+        coordinates: [
+            [24.82956556471052,
+          60.17877924493226],
+            [24.83031853214905,
+          60.17877478722906],
+            [ 24.830336459960705,
+          60.178422626621995],
+            [ 24.82957452860512,
+          60.17842708437294]
+        ]
+    });
+    map.addLayer({
+        "id": "overlay",
+        "source": "siltakuja",
+        "type": "raster",
+        "paint": {
+            "raster-opacity": 0.85
+        }
+    });
+     map.addLayer({
+        "id": "overlay1",
+        "source": "keilaranta",
+        "type": "raster",
+        "paint": {
+            "raster-opacity": 0.2
+        }
+    });
+});
+
+ document.getElementById('ShowDroneImage').onclick = function () {
+   var daySelection= document.getElementById("daySelection").value;
+   var locationSelection= document.getElementById("address").value;
+   var mySource = map.getSource(locationSelection);
+  mySource.updateImage({url:daySelection})
+ 
+
+ }
+
+
+
+function changeImageOpacity(){
+    var checkBox = document.getElementById("hide");
+    if (checkBox.checked == true){
+map.setLayoutProperty('123', 'visibility', 'none');
+  }
+  else
+map.setLayoutProperty('123', 'visibility', 'visible');
+
+}
+map.on('load', function () {
+  var imageCollection=[{url:'https://s3.eu-central-1.amazonaws.com/bliot-public/a813a292ae_A2B4717412OPENPIPELINE_Orthomosaic_export_TueFeb12200221.604943.jpg',name:'day2', coordinates:
+[[24.90665,60.1556666667],
+[24.9087527778, 60.1556666667],
+[24.9087527778, 60.15475],
+[24.90665, 60.15475]]
+},];
+ imageCollection.map(a=>{
+ map.addSource(a.name,{type:'image',url:a.url , coordinates:a.coordinates});
+ 
+   
+   map.addLayer({
+            "id": a.name,
+            "source": a.name,
+            "type": "raster",
+            "paint": {
+                "raster-opacity":0.8
+            }
+        })
+   var x = document.createElement("INPUT");
+      x.setAttribute("type", "button");
+      x.setAttribute("id", a.name+'id');
+      x.setAttribute("value", a.name);
+      document.getElementById('addMoreImageOverlay').appendChild(x);
+      document.getElementById(a.name+'id').onclick = function () {
+
+        if (map.getLayoutProperty(a.name, "visibility") == 'visible')
+          map.setLayoutProperty(a.name, 'visibility', 'none');
+        else {
+          map.setLayoutProperty(a.name, 'visibility', 'visible')
+        }
+      }
+ }) 
+})
+jumpTo=(a)=>{
+ var popup = new mapboxgl.Popup({ offset: 25 })
+.setText([a]);
+  
+var index= a.indexOf(',');
+var long=Number(a.substr(0, index));
+var lat=Number(a.substr(index+1, a.length));
+ map.jumpTo({center: [long,lat] });
+  new mapboxgl.Marker()
+.setLngLat([long,lat]).setPopup(popup) 
+.addTo(map);
+
+}  
+  
+  
+  
+  </script>
+  
+  
+  
+
+</body>
+</html>
