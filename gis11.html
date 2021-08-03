@@ -155,18 +155,81 @@
   
   
   <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.28.0/mapbox-gl.js'></script>
-    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.28.0/mapbox-gl.css' rel='stylesheet' />
+ 
   
   
   
-
+<link rel="stylesheet" href="https://framework.emiia.ai/gis_button.css"> 
   
 
  
   
   
 
+   <style>
+body { margin: 0; padding: 0; }
+#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+
+button1 {
+   position: absolute;
+}
+
+    #marker1 {
+        background-image: url('https://www.emiia.ai/emiia143.1.svg');
+        background-size: cover;
+        width: 55px;
+        height: 82px;
+        border-radius: 0%;
+        cursor: pointer;
+    }
+
+    .mapboxgl-popup {
+        max-width: 200px;
+    }
+    
+    
+    
+    
+
+
+
+
+  </style>
   
+  
+  
+  	  <style>
+body { margin: 0; padding: 0; }
+#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+
+
+button1 {
+   position: absolute;
+}
+
+button:focus {
+outline: none !important
+}
+
+*{
+outline: none !important
+}
+
+    #marker2 {
+        background-image: url('');
+        background-size: cover;
+        width: 45px;
+        height: 75px;
+        border-radius: 0%;
+        cursor: pointer;
+    }
+
+    .mapboxgl-popup {
+        max-width: 200px;
+    }
+
+
+  </style>
   
 
   
@@ -349,16 +412,9 @@ map.addControl(nav, 'top-left');
       closeButton: false,
       anchor: 'bottom-left',
     })
-    .setLngLat([-74.50, 40])
-    .setHTML('<div class="popup-content"><div class="pin-icon"><i class="fas fa-map-pin"></i></div><div class="vl"></div><div>'+place[0]+'<br>'+ place[1]+','+place[2]+'</div></div>')
-    .addTo(this.map);
 
 
 
-
-
-
-    
         
            // create the popup
     var popup = new mapboxgl.Popup({ offset: 25 }).setText(
