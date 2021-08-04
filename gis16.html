@@ -1,0 +1,3362 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  
+ <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+ 
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        
+        
+   
+   
+   
+   
+   
+   
+   
+      <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet' />
+
+   
+    
+    
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+        crossorigin="anonymous">
+   
+   
+   
+   
+   
+   
+   
+   
+
+        
+        	<style>
+@import url('https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap&subset=cyrillic');
+</style>
+
+	<style>
+@import url('https://www.emiia.ru/css.css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap&subset=cyrillic');
+</style>
+
+  <style>  
+@import url('/css.css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap&subset=cyrillic');
+</style>
+
+<link rel="stylesheet" href="https://www.emiia.ru/cssfamily=Montserrat.css">
+<link rel="stylesheet" href="/cssfamily=Montserrat.css">
+        
+        
+        
+        
+        
+        
+             
+
+		<title>EMIIA.AI FRAMEWORK & LIBRARY</title>
+        
+        
+		<meta name="description" content="EMIIA.AI: FRAMEWORK & LIBRARY" />
+        
+        
+		<meta property="og:title" content="EMIIA.AI: FRAMEWORK & LIBRARY" />
+		<meta property="og:description" content="" />
+		<meta property="og:site_name" content="" />
+		<meta property="og:image" content="https://framework.emiia.ai/emiia_analytics_logo_bim_500_500.png" />
+		<meta property="og:type" content="article" />
+		<meta property="og:url" content="https://framework.emiia.ai" />
+        
+        
+		<meta property="fb:app_id" content="146002942236376" />
+        
+
+		<meta name="mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="white-translucent">
+	<meta name="apple-mobile-web-app-title" content="EMIIA.AI">
+        
+        
+        			<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:site" content="@LIBRARY">
+	<meta name="twitter:title" content="EMIIA.AI">
+	<meta name="twitter:description" content="EMIIA.AI — Intelligent software sensor | Framework & Library">
+	<meta content='GIS-BIM-EDM' name='apple-mobile-web-app-title'/>
+	<meta name="twitter:image" content="https://framework.emiia.ai/emiia_analytics_logo_bim_500_500.png">
+  
+  
+
+  
+ 
+ 
+ 
+ 
+ 
+<service android:name="com.mapbox.services.android.telemetry.service.TelemetryService" />
+    
+    
+    
+<!-- Android app support -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="manifest" href="manifest1.json">
+  <link rel="manifest" href="https://framework.emiia.ai/manifest1.json">
+
+  <!-- iOS app support -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+
+  <!-- Windows app support -->
+  <meta name="msapplication-TileColor" content="#005F9E">
+  <meta name="msapplication-tap-highlight" content="no">
+    
+    
+    
+    
+    
+    
+    
+    
+  
+  
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+	<link rel="shortcut icon" href="https://framework.emiia.ai/favicon.ico" type="image/x-icon">
+  
+
+  
+  <meta name="Description" content="EMIIA.AI GIS"/>
+  <meta content='GIS-BIM-EDM' name='apple-mobile-web-app-title'/>
+  <link content='GIS-BIM-EDM' href='https://upload.emiia.ru/emiia20.png' rel='apple-touch-icon' title='EMIIA AI — Machine Radio vision'/>
+ 
+ 
+ 
+  
+ 	  <link rel="image_src" href="/emiia-cognitive-radio-optics.png"/>
+  <link rel="image_src" href="https://framework.emiia.ai/emiia-cognitive-radio-optics.png"/>
+  
+
+ 
+ 
+ 
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+	
+	
+	
+  
+  
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="https://www.emiia.ai/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://www.emiia.ai/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="https://www.emiia.ai/favicon-16x16.png">
+
+
+
+<link rel="mask-icon" href="https://www.emiia.ai/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+<link rel='stylesheet' href='https://framework.emiia.ai/map-gl.css'>
+
+
+
+
+
+<meta name="msapplication-TileColor" content="#2d89ef">
+
+
+
+<meta name="theme-color" content="#f8f9fa">
+  
+  
+  
+ 
+  
+  
+<link rel="stylesheet" href="https://framework.emiia.ai/gis_button.css"> 
+  
+
+
+
+
+
+
+
+
+<style>
+
+body {
+    margin: 0;
+    padding: 0;
+}
+#jump{
+  width: 80%;
+  font-size: 16px;
+  padding: 4px 4px;
+  margin: 8px 0;
+  box-sizing: border-box;
+   border-radius: 0.25rem;
+  line-height: 1;
+
+
+}
+
+#map {
+    position: absolute;
+    top: 0px;
+    bottom: 0;
+    width: 100%;
+}
+
+ #info {
+    display: none;
+    position: relative;
+    margin: 0px auto;
+    width: 50%;
+    padding: 10px;
+    border: none;
+    border-radius: 3px;
+    font-size: 12px;
+    text-align: center;
+    color: #222;
+    background: #fff;
+} 
+
+#menu {
+    position: absolute;
+    background: #fff;
+    padding: 10px;
+    font-family: 'Open Sans', sans-serif;
+    margin: 12px 0px;
+
+}
+
+#myDIV {
+    position: absolute;
+    margin: 0px auto;
+    width: 90%;
+    padding: 7px;
+    border: none;
+    border-radius: 3px;
+    font-size: 12px;
+    text-align: center;
+    color: #222;
+}
+
+#navigate {
+    background-color: white;
+    color: #eea236;
+    border: 2px solid #eea236;
+    font-size: 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 400;
+    line-height: 1.5;
+    width:74px;
+    margin-top: 5px;
+
+}
+
+#navigate:hover {
+    color: white;
+    background-color: #eea236
+}
+
+#add-comment {
+    background-color: white;
+    color: #28a745;
+    border: 2px solid #28a745;
+    font-size: 15px;
+    border-radius: 4px;
+    margin: auto;
+    cursor: pointer;
+    font-weight: 400;
+    padding: .375rem .75rem;
+    line-height: 1.5;
+    display: block;
+}
+
+#add-comment:hover {
+    color: white;
+    background-color: #28a745
+}
+
+.marker {
+    background-image: url('https://www.mapbox.com/help/demos/custom-markers-gl-js/mapbox-icon.png');
+    background-size: cover;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.distance-container {
+    position: absolute;
+    bottom: 15px;
+    z-index: 1;
+    margin: 20px;
+    padding: 20px;
+}
+
+.distance-container>* {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    font-size: 11px;
+    line-height: 18px;
+    display: block;
+    margin: 0;
+    padding: 5px 10px;
+    border-radius: 3px;
+}
+
+#measurement {
+    background-color: white;
+    color: #28a745;
+    border: 2px solid #28a745;
+    font-size: 15px;
+    border-radius: 4px;
+    margin: auto;
+    cursor: pointer;
+    font-weight: 400;
+    padding: .375rem .75rem;
+    line-height: 1.5;
+}
+
+#lblocation {
+    font-size: 20px
+}
+
+#address {
+    font-size: 20px;
+    background-color: white;
+    padding: .375rem .75rem;
+}
+
+#measurement:hover {
+    color: white;
+    background-color: #28a745
+}
+
+#panel {
+    position: absolute;
+    width: 300px;
+    height: 100%;
+    left: 0;
+    background-color: rgb(243, 240, 240);
+    z-index: 1;
+    opacity: 1;
+    transition: all 0.3s;
+}
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+.switch input {
+    display: none;
+}
+.measurement-annotation{
+background-color: #eea236;
+font-size: 18px;
+margin: 15px 0px;
+font-weight: 500;
+border-radius: 5px;
+box-shadow: 1px 2px 27px rgba(29, 28, 28, 0.726);
+
+
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .2s;
+    transition: .2s;
+    height: 18px;
+    border-radius: 10px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 11px;
+    width:11px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .2s;
+    transition: .2s;
+    border-radius: 10px
+}
+
+input:checked+.slider {
+    background-color: #2196F3;
+}
+
+input:focus+.slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked+.slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(39px);
+}
+#show1{
+    display: block;
+}
+#show2{
+    display: block
+}
+.calculation-box {
+    height: 75px;
+    width: 150px;
+    position: absolute;
+    bottom: 70px;
+    left: 10px;
+    background-color: rgba(204, 197, 197, 0.9);
+    padding: 15px;
+    text-align: center;
+    z-index: -1;
+    margin: 20px;
+    padding: 20px;
+}
+.sidenav-toggle {
+    position: absolute;
+    right: -32px;
+    top: 50%;
+    width: 32px;
+    height: 54px;
+    margin-top: -16px;
+    z-index: -1;
+}
+.collapse {
+    width: 24px;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    height: 58px;
+    background-color: #2196f3;
+    cursor: pointer;
+}
+#show-panel{
+    font-size: 20px;
+    position: absolute;
+    padding: 0px;
+    cursor: pointer;
+    left: 300px;
+    top: 45%;
+    z-index: 1;
+    transition: all 0.3s;
+    background-color: #2196f3;
+    color: white;
+    border-radius: 5px; 
+    width: 30px;
+    height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+
+
+}
+#show-panel:hover{
+    transform: scale(1.1)
+}
+.toggle-button{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+
+}
+#choose-measure{
+    display: flex;
+    flex-wrap: wrap;
+    transition: all 0.3s ease-in-out;
+    overflow: hidden;
+    box-sizing: border-box;
+    max-height: 0px
+
+
+}
+
+.ex{
+    text-transform: none;
+    margin-left: 4px;
+    margin-right: 4px;
+    width: 100px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: transparent;
+
+
+    background-color: white;
+    color: #28a745;
+    border: 2px solid #28a745;
+    font-size: 15px;
+    border-radius: 4px;
+    margin: 10px;
+    cursor: pointer;
+    font-weight: 400;
+    padding: .375rem .75rem;
+    line-height: 22px;
+}
+.ex:hover{
+    color: white;
+    background-color: #28a745
+}
+.exx{
+    vertical-align: middle;
+
+}
+.button-wrapper{
+    line-height: 15px;
+    font-size: 15px;
+    text-transform: none;
+
+}
+.fa, .fas,.far {
+    font-weight: 900;
+    font-size: 30px;
+}
+.fa-ruler-combined {
+    font-size: 30px;
+}
+
+
+
+.onoffswitch-switch {
+    display: block; width: 18px; margin: 6px;
+    background: #FFFFFF;
+    position: absolute; top: 0; bottom: 0;
+    right: 43px;
+    border: 2px solid #999999; border-radius: 20px;
+    transition: all 0.3s ease-in 0s; 
+
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+    margin-left: 0;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+    right: 0px; 
+}
+
+.onoffswitch-inner:before, .onoffswitch-inner:after {
+    display: block; float: left; width: 50%; height: 27px; padding: 0; line-height: 30px;
+    font-size: 14px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+    box-sizing: border-box;
+}
+.onoffswitch-inner:before {
+    content: "ON";
+    padding-left: 0px;
+    background-color: rgb(25, 189, 226); color: #FFFFFF;
+}
+.onoffswitch-inner:after {
+    content: "OFF";
+    padding-right: 10px;
+    background-color: #EEEEEE; color: #999999;
+    text-align: right;
+}
+.onoffswitch {
+    position: relative; width: 90px;
+    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+}
+.onoffswitch-checkbox {
+    display: none;
+}
+.onoffswitch-label {
+    display: block; overflow: hidden; cursor: pointer;
+    border: 2px solid #999999; border-radius: 20px;
+}
+.onoffswitch-inner {
+    display: block; width: 200%; margin-left: -100%;
+    transition: margin 0.3s ease-in 0s;
+}
+#icon-left{
+    display: block;
+}
+#icon-right{
+    display: none;
+}
+.selectData{
+    height: 100px;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    background-color: rgba(255, 255, 255, 0.979);
+    font-size: 20px;
+    margin: 5px 0px;
+    padding: 5px 0px;
+    border-radius: 4px;
+    box-shadow: 1px 2px 27px rgba(29, 28, 28, 0.726);
+
+}
+#ShowDroneImage{
+    background-color: white;
+    color: #eea236;
+    border: 2px solid #eea236;
+    font-size: 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 400;
+    line-height: 1.5;
+    width:74px;
+    margin-top: 5px;
+
+}
+
+#daySelection{
+    width: 97px;
+    font-size: 17px;
+    height: 28px;
+    background-color: white;
+}
+
+#ShowDroneImage:hover {
+    color: white;
+    background-color: #eea236
+}
+
+#addMoreImageOverlay{
+  height: 50px;
+  position: absolute;
+  width: 100%
+
+  
+  
+}
+ 
+  
+  
+  
+  
+  </style>
+  
+  
+  
+  
+  
+  
+  
+
+   <style>
+body { margin: 0; padding: 0; }
+#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+
+button1 {
+   position: absolute;
+}
+
+    #marker1 {
+        background-image: url('https://www.emiia.ai/emiia143.1.svg');
+        background-size: cover;
+        width: 55px;
+        height: 82px;
+        border-radius: 0%;
+        cursor: pointer;
+    }
+
+    .mapboxgl-popup {
+        max-width: 200px;
+    }
+    
+    
+    
+    
+
+
+
+
+  </style>
+  
+  
+  
+  	  <style>
+body { margin: 0; padding: 0; }
+#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+
+
+button1 {
+   position: absolute;
+}
+
+button:focus {
+outline: none !important
+}
+
+*{
+outline: none !important
+}
+
+    #marker2 {
+        background-image: url('');
+        background-size: cover;
+        width: 45px;
+        height: 75px;
+        border-radius: 0%;
+        cursor: pointer;
+    }
+
+    .mapboxgl-popup {
+        max-width: 200px;
+    }
+
+
+  </style>
+  
+
+  
+
+
+	
+	
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+	
+	
+	
+    
+    
+  <style>  
+    
+    
+    
+    
+    
+    
+    
+    
+   </style> 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+	
+
+
+
+	
+	
+	
+	
+	
+	<style>
+	
+        body { margin:0; padding:0; }
+        #map { position:absolute; top:0; bottom:0; width:100%; }
+
+
+
+
+
+
+
+
+
+
+	
+	</style>
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+</head>
+
+<body>
+<div id="map"></div>
+
+
+
+
+  
+  
+  
+     <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.3.0/mapbox-gl-geocoder.min.js'></script>
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.3.0/mapbox-gl-geocoder.css' type='text/css' />
+    
+    <script src='https://api.mapbox.com/mapbox.js/plugins/turf/v2.0.2/turf.min.js'></script>
+    
+    <script src='https://api.tiles.mapbox.com/mapbox.js/plugins/turf/v3.0.11/turf.min.js'></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.js'></script>
+    
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.css'
+        type='text/css' />
+
+
+
+
+<script>
+
+
+
+mapboxgl.accessToken = 'pk.eyJ1IjoiZW1paWFhaSIsImEiOiJja21icnU4bHkyNGRwMnFrbjVvNXdtdGJ0In0.TcfxV21Ov7zOgvWvgPxzlA';
+
+
+var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/emiiaai/ckofqwhvv1ujy17p27p0a6cr8',
+    center: [24.907733569925142,
+        60.155],
+    zoom: 19,
+    pitch: 180
+});
+
+var locations=[{siltakuja:{center: [24.65460777282715,
+                                    60.203076720849865],
+                           bearing: 150,
+                           zoom: 19,
+                           pitch: 180,}},{keilaranta:{bearing: 27,
+                                                      center: [24.82956556471052,
+                                                               60.17877924493226],
+                                                      zoom: 19,
+                                                      pitch: 180,}}]
+var database=[{siltakuja:{day1:'https://s3.eu-central-1.amazonaws.com/bliot-public/day01.png', day2:'https://s3.eu-central-1.amazonaws.com/bliot-public/day2.png', day3:'https://s3.eu-central-1.amazonaws.com/bliot-public/day3.png'}}, {keilaranta:{day1:'https://s3.eu-central-1.amazonaws.com/bliot-public/day4.gif', day2:'https://s3.eu-central-1.amazonaws.com/bliot-public/day5.jpeg'}}]
+
+map.addControl(new MapboxGeocoder({
+    accessToken: mapboxgl.accessToken
+}));
+map.addControl(new mapboxgl.NavigationControl());
+map.addControl(new mapboxgl.GeolocateControl({
+    positionOptions: {
+        enableHighAccuracy: true
+    },
+    trackUserLocation: true
+}));
+var layerList = document.getElementById('menu');
+var inputs = layerList.getElementsByTagName('input');
+function switchLayer(layer) {
+    var layerId = layer.target.id;
+    map.setStyle('mapbox://styles/mapbox/' + layerId + '-v9');
+}
+
+for (var i = 0; i < inputs.length; i++) {
+    inputs[i].onclick = switchLayer;
+}
+var sel = document.getElementById('address');
+locations.map(e=>{
+ var option = document.createElement("option");
+ option.text=Object.keys(e)[0].charAt(0).toUpperCase() + Object.keys(e)[0].substr(1);
+ option.value=Object.keys(e);
+ sel.add(option); 
+})
+var el = document.getElementById('display');
+document.getElementById('navigate').onclick = function () {
+    var k=document.getElementById('address').value
+    var i=locations.filter(obj=>Object.keys(obj)==k)
+    map.flyTo(i[0][k]);
+  
+}
+renderDay=()=>{
+ var x = document.getElementById("address").value;
+ var y = document.getElementById("daySelection");
+ while (y.hasChildNodes()) {
+               y.removeChild(y.firstChild);
+            }
+ var k= database.filter(obj=>Object.keys(obj)==x);  
+ Object.keys(k[0][x]).map(e=>{
+ var option1 = document.createElement("option"); 
+ option1.text=e.charAt(0).toUpperCase()+e.substr(1);;
+ option1.value=k[0][x][e];
+ y.add(option1);
+ })
+}
+
+
+
+var comments = []
+var onAddComment = false;
+document.getElementById('add-comment').onclick = function () {
+    if (onAddComment === false) { onAddComment = true; }
+    else
+        onAddComment = false
+}
+map.on('click', function (e) {
+    if (onAddComment === true) {
+        var desc = prompt("Please enter your description", "comment...");
+        if (desc) {
+
+            comments.push({ id: comments.length, coordinate: e.lngLat, description: desc })
+            comments.forEach(function (marker, index) {
+                var el = document.createElement('div');
+                el.className = 'marker';
+                var id = comments[index].id;
+               
+                new mapboxgl.Marker(el)
+                    .setLngLat(marker.coordinate)
+                    .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
+                    .setHTML('<p>' + marker.description + '</p>' + "<br>" + "<input type=button id=" + id + ' value=Delete onclick=remove(this.id)>'))
+                    .addTo(map);
+            })
+        }
+        onAddComment = false;
+        console.log(comments);
+    }
+})
+remove = (id) => {
+    var index = comments.map(x => { return x.id; }).indexOf(id);
+    comments.splice(index, 1);
+    console.log(comments);
+}
+var showMeasure = false;
+document.addEventListener('DOMContentLoaded', function () {
+    var showMeasure_value = document.getElementById('myonoffswitch');
+    showMeasure_value.addEventListener('change', function () {
+        if (showMeasure_value.checked) {
+            showMeasure = true;
+            map.getCanvas().style.cursor = 'crosshair';
+            map.setLayoutProperty('measure-points', 'visibility', 'visible');
+            map.setLayoutProperty('measure-lines', 'visibility', 'visible');
+         
+            document.getElementById('info').style.display = 'block';
+            document.getElementById('choose-measure').style.maxHeight = '500px';
+        } else {
+            showMeasure = false;
+            map.getCanvas().style.cursor = 'pointer';
+            map.setLayoutProperty('measure-points', 'visibility', 'none');
+            map.setLayoutProperty('measure-lines', 'visibility', 'none');
+            document.getElementById('info').style.display = 'none';
+            document.getElementById('choose-measure').style.maxHeight = '0px';
+        }
+    });
+});
+var showCoordinate = false;
+function showCoordinate1() {
+    if (showCoordinate === false) {
+        showCoordinate = true;
+        showMeasure = true;
+        document.getElementById('distance2').style.backgroundColor = '#28a745';
+        document.getElementById('distance2').style.color = 'white'
+
+    } else {
+        onMeasuring = false;
+        showCoordinate = false;
+        document.getElementById('distance2').style.backgroundColor = 'white';
+        document.getElementById('distance2').style.color = '#28a745'
+    }
+    console.log(showCoordinate);
+    console.log(showMeasure);
+}
+map.on('click', function (e) {
+    if (showCoordinate === true && showMeasure === true) {
+        document.getElementById('info').innerHTML = "Longitude: " + JSON.stringify(e.lngLat.lng) + " - Latitude: " + JSON.stringify(e.lngLat.lat);
+    }
+});
+var draw = new MapboxDraw({
+    displayControlsDefault: false,
+    controls: {
+        polygon: true,
+        trash: true
+    }
+});
+map.addControl(draw);
+map.on('draw.create', updateArea);
+map.on('draw.delete', updateArea);
+map.on('draw.update', updateArea);
+function updateArea(e) {
+    var data = draw.getAll();
+    var answer = document.getElementById('calculated-area');
+    if (data.features.length > 0) {
+        var area = turf.area(data);
+        var rounded_area = Math.round(area * 100) / 100;
+        answer.innerHTML = '<p><strong>' + rounded_area + '</strong></p><p>square meters</p>';
+    } else {
+        answer.innerHTML = '';
+        if (e.type !== 'draw.delete') alert("Use the draw tools to draw a polygon!");
+    }
+}
+showPanel = () => {    
+    var panel = document.getElementById('panel');
+    var iconLeft=document.getElementById('icon-left');
+    var iconRight=document.getElementById('icon-right');
+    var showPanel=document.getElementById('show-panel');
+
+    if (panel.style.transform === "translateX(-500px)") {
+        panel.style.transform ="translateX(0px)";
+        panel.style.opacity ="1";
+        showPanel.style.transform="translateX(0px)";
+        iconLeft.style.display='block';
+        iconRight.style.display='none';
+    } else {
+        panel.style.transform = "translateX(-500px)"
+        panel.style.opacity ="0.5";
+        showPanel.style.transform="translateX(-300px)";
+        iconLeft.style.display='none';
+        iconRight.style.display='block';
+    }
+}
+var dateControl = document.querySelector('input[type="date"]');
+showDateValue=(value)=>{
+    console.log(value);
+}
+var distanceContainer = document.getElementById('distance');
+var onMeasuring = false;
+
+measureDistance=()=>{
+    if (onMeasuring===false) {
+        onMeasuring = true;
+        showMeasure = true;
+        document.getElementById('distance1').style.backgroundColor='#28a745';
+        document.getElementById('distance1').style.color='white';
+    } else {
+        onMeasuring = false;
+        document.getElementById('distance1').style.backgroundColor='white';
+        document.getElementById('distance1').style.color='#28a745'
+    }
+}
+var geojson = {
+    "type": "FeatureCollection",
+    "features": []
+};
+var linestring = {
+    "type": "Feature",
+    "geometry": {
+        "type": "LineString",
+        "coordinates": []
+    }
+};
+map.on('load', function () {
+    map.addSource('geojson', {
+        "type": "geojson",
+        "data": geojson
+    });
+    map.addLayer({
+        id: 'measure-points',
+        type: 'circle',
+        source: 'geojson',
+        paint: {
+            'circle-radius': 5,
+            'circle-color': '#000'
+        },
+        layout: { 'visibility': 'visible' },
+        filter: ['in', '$type', 'Point']
+    });
+    map.addLayer({
+        id: 'measure-lines',
+        type: 'line',
+        source: 'geojson',
+        layout: {
+            'line-cap': 'round',
+            'line-join': 'round',
+            'visibility': 'visible'
+        },
+        paint: {
+            'line-color': '#000',
+            'line-width': 2.5
+        },
+        filter: ['in', '$type', 'LineString']
+    });
+    map.on('click', function (e) {
+        if (onMeasuring === true && showMeasure === true) {
+            var features = map.queryRenderedFeatures(e.point, { layers: ['measure-points'] });
+            if (geojson.features.length > 1) geojson.features.pop();
+            distanceContainer.innerHTML = '';
+            if (features.length) {
+                var id = features[0].properties.id;
+                geojson.features = geojson.features.filter(function (point) {
+                    return point.properties.id !== id;
+                });
+            } else {
+                var point = {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            e.lngLat.lng,
+                            e.lngLat.lat
+                        ]
+                    },
+                    "properties": {
+                        "id": String(new Date().getTime())
+                    }
+                };
+                geojson.features.push(point);
+            }
+            if (geojson.features.length > 1) {
+                linestring.geometry.coordinates = geojson.features.map(function (point) {
+                    return point.geometry.coordinates;
+                });
+                geojson.features.push(linestring);
+                var value = document.createElement('pre');
+                value.textContent = 'Total distance: ' + turf.lineDistance(linestring).toLocaleString() + 'km';
+                distanceContainer.appendChild(value);
+            }
+            map.getSource('geojson').setData(geojson);
+        }
+    });
+});
+var imageList_siltakuja = {
+    day1: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTr79QLReUxFCezluwRoy9jCDhae7QmPvIn5OOjzYiex_efvHDt',
+    day2: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzrZKdr0rknMEvL9bbMpgty80n7zz87U-Qa3s6FQnOIMi7dVzAqw',
+    day3: "https://atlas-content-cdn.pixelsquid.com/stock-images/contemporary-house-with-roof-basin-w1KOVa1-600.jpg"
+}
+var imageList_keilaranta = {
+    day1: 'https://upload.wikimedia.org/wikipedia/commons/a/ab/Winslow_House_floor_plan.gif',
+    day2: 'https://img.huffingtonpost.com/asset/55b2b15a1400002f002e0b80.gif?ops=1910_1000',
+    day3: "https://expo.advance.net/img/93fa2b73cc/width960/93c_3718huntingrunrd.jpeg"
+}
+map.on('load', function () {
+    map.addSource("siltakuja", {
+        type: "image",
+        url: 'https://s3.eu-central-1.amazonaws.com/bliot-public/day2.png',
+        coordinates: [
+           [24.654919448080562,
+                60.20296588150856],
+           
+           [24.65444489446469,
+                60.20296588150856],
+            [24.65443730160294,
+                60.20310737289276],
+            [24.654908058796906,
+                60.20311303253362],           
+        ]
+    });
+     map.addSource("keilaranta", {
+        type: "image",
+        url: 'https://s3.eu-central-1.amazonaws.com/bliot-public/day4.gif',
+      
+        coordinates: [
+            [24.82956556471052,
+          60.17877924493226],
+            [24.83031853214905,
+          60.17877478722906],
+            [ 24.830336459960705,
+          60.178422626621995],
+            [ 24.82957452860512,
+          60.17842708437294]
+        ]
+    });
+    map.addLayer({
+        "id": "overlay",
+        "source": "siltakuja",
+        "type": "raster",
+        "paint": {
+            "raster-opacity": 0.85
+        }
+    });
+     map.addLayer({
+        "id": "overlay1",
+        "source": "keilaranta",
+        "type": "raster",
+        "paint": {
+            "raster-opacity": 0.2
+        }
+    });
+});
+
+ document.getElementById('ShowDroneImage').onclick = function () {
+   var daySelection= document.getElementById("daySelection").value;
+   var locationSelection= document.getElementById("address").value;
+   var mySource = map.getSource(locationSelection);
+  mySource.updateImage({url:daySelection})
+ 
+
+ }
+
+
+
+function changeImageOpacity(){
+    var checkBox = document.getElementById("hide");
+    if (checkBox.checked == true){
+map.setLayoutProperty('123', 'visibility', 'none');
+  }
+  else
+map.setLayoutProperty('123', 'visibility', 'visible');
+
+}
+map.on('load', function () {
+  var imageCollection=[{url:'https://s3.eu-central-1.amazonaws.com/bliot-public/a813a292ae_A2B4717412OPENPIPELINE_Orthomosaic_export_TueFeb12200221.604943.jpg',name:'day2', coordinates:
+[[24.90665,60.1556666667],
+[24.9087527778, 60.1556666667],
+[24.9087527778, 60.15475],
+[24.90665, 60.15475]]
+},];
+ imageCollection.map(a=>{
+ map.addSource(a.name,{type:'image',url:a.url , coordinates:a.coordinates});
+ 
+   
+   map.addLayer({
+            "id": a.name,
+            "source": a.name,
+            "type": "raster",
+            "paint": {
+                "raster-opacity":0.8
+            }
+        })
+   var x = document.createElement("INPUT");
+      x.setAttribute("type", "button");
+      x.setAttribute("id", a.name+'id');
+      x.setAttribute("value", a.name);
+      document.getElementById('addMoreImageOverlay').appendChild(x);
+      document.getElementById(a.name+'id').onclick = function () {
+
+        if (map.getLayoutProperty(a.name, "visibility") == 'visible')
+          map.setLayoutProperty(a.name, 'visibility', 'none');
+        else {
+          map.setLayoutProperty(a.name, 'visibility', 'visible')
+        }
+      }
+ }) 
+})
+jumpTo=(a)=>{
+ var popup = new mapboxgl.Popup({ offset: 25 })
+.setText([a]);
+  
+var index= a.indexOf(',');
+var long=Number(a.substr(0, index));
+var lat=Number(a.substr(index+1, a.length));
+ map.jumpTo({center: [long,lat] });
+  new mapboxgl.Marker()
+.setLngLat([long,lat]).setPopup(popup) 
+.addTo(map);
+
+}
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+
+
+
+
+        
+           // create the popup
+    var popup = new mapboxgl.Popup({ offset: 25 }).setText(
+        'EMIIA.AI MACHINE RADIO VISION'
+    );
+
+    // create DOM element for the marker
+    var el = document.createElement('div');
+    el.id = 'marker1';
+
+    // create the marker
+    new mapboxgl.Marker(el)
+        .setLngLat(monument1)
+        .setPopup(popup) // sets a popup on this marker
+        .addTo(map); 
+        
+        
+        
+
+      
+  
+    
+    
+        
+                   // create the popup
+    var popup = new mapboxgl.Popup({ offset: 25 }).setText(
+        'EMIIA.AI MACHINE RADIO VISION'
+    );
+
+    // create DOM element for the marker
+    var el = document.createElement('div');
+    el.id = 'marker2';
+
+    // create the marker
+    new mapboxgl.Marker(el)
+        .setLngLat(monument2)
+        .setPopup(popup) // sets a popup on this marker
+        .addTo(map); 
+        
+        
+        
+        
+        
+        
+    
+    
+    
+    
+    
+
+
+
+
+
+    map.on('load', function () {
+        // Insert the layer beneath any symbol layer.
+        var layers = map.getStyle().layers;
+        var labelLayerId;
+        for (var i = 0; i < layers.length; i++) {
+            if (layers[i].type === 'symbol' && layers[i].layout['text-field']) {
+                labelLayerId = layers[i].id;
+                break;
+            }
+        }
+
+        // The 'building' layer in the Mapbox Streets
+        // vector tileset contains building height data
+        // from OpenStreetMap.
+        map.addLayer(
+            {
+                'id': 'add-3d-buildings',
+                'source': 'composite',
+                'source-layer': 'building',
+                'filter': ['==', 'extrude', 'true'],
+                'type': 'fill-extrusion',
+                'minzoom': 15,
+                'paint': {
+                    'fill-extrusion-color': '#d4d4d4',
+
+                    // Use an 'interpolate' expression to
+                    // add a smooth transition effect to
+                    // the buildings as the user zooms in.
+                    'fill-extrusion-height': [
+                        'interpolate',
+                        ['linear'],
+                        ['zoom'],
+                        15,
+                        0,
+                        15.05,
+                        ['get', 'height']
+                    ],
+                    'fill-extrusion-base': [
+                        'interpolate',
+                        ['linear'],
+                        ['zoom'],
+                        15,
+                        0,
+                        15.05,
+                        ['get', 'min_height']
+                    ],
+                    'fill-extrusion-opacity': 0.5
+                }
+            },
+
+            labelLayerId
+        );
+    });
+    
+    
+    
+    
+    
+    
+    
+  
+  
+  
+  
+  
+  
+  
+
+
+
+
+
+
+  var size = 100;
+
+    // This implements `StyleImageInterface`
+    // to draw a pulsing dot icon on the map.
+    var pulsingDot1 = {
+        width: size,
+        height: size,
+        data: new Uint8Array(size * size * 4),
+
+        // When the layer is added to the map,
+        // get the rendering context for the map canvas.
+        onAdd: function () {
+            var canvas = document.createElement('canvas');
+            canvas.width = this.width;
+            canvas.height = this.height;
+            this.context = canvas.getContext('2d');
+        },
+
+        // Call once before every frame where the icon will be used.
+        render: function () {
+            var duration = 1000;
+            var t = (performance.now() % duration) / duration;
+
+            var radius = (size / 2) * 0.3;
+            var outerRadius = (size / 2) * 0.7 * t + radius;
+            var context = this.context;
+
+            // Draw the outer circle.
+            context.clearRect(0, 0, this.width, this.height);
+            context.beginPath();
+            context.arc(
+                this.width / 2,
+                this.height / 2,
+                outerRadius,
+                0,
+                Math.PI * 2
+            );
+            context.fillStyle = 'rgba(61, 133, 198,' + (0 - t) + ')';
+            context.fill();
+
+            // Draw the inner circle.
+            context.beginPath();
+            context.arc(
+                this.width / 2,
+                this.height / 2,
+                radius,
+                0,
+                Math.PI * 2
+            );
+            context.fillStyle = '#3d85c6';
+            context.strokeStyle = 'white';
+            context.lineWidth = 2 + 4 * (1 - t);
+            context.fill();
+            context.stroke();
+
+            // Update this image's data with data from the canvas.
+            this.data = context.getImageData(
+                0,
+                0,
+                this.width,
+                this.height
+            ).data;
+
+            // Continuously repaint the map, resulting
+            // in the smooth animation of the dot.
+            map.triggerRepaint();
+
+            // Return `true` to let the map know that the image was updated.
+            return true;
+        }
+    };
+
+    map.on('load', function () {
+        map.addImage('pulsing-dot1', pulsingDot1, { pixelRatio: 2 });
+
+        map.addSource('dot-point1', {
+            'type': 'geojson',
+            'data': { "id": "layer-with-pulsing-dot1",
+                'type': 'FeatureCollection',
+                'features': [
+                    {
+                        'type': 'Feature1',
+                        'geometry': {
+                            'type': 'Point',
+                           
+                   
+                            'coordinates' : [37.17408380155007, 55.97734541443717], // icon position [lng, lat]
+                        }
+                        
+                        
+                        
+                        
+                    }
+                ]
+            }
+        });
+        
+
+        
+        map.addLayer({
+            'id': 'layer-with-pulsing-dot1',
+            'type': 'symbol',
+            'source': 'dot-point1',
+            'layout': {
+                'icon-image': 'pulsing-dot1'
+            }
+        });
+    });
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+var size = 100;
+
+    // This implements `StyleImageInterface`
+    // to draw a pulsing dot icon on the map.
+    var pulsingDot2 = {
+        width: size,
+        height: size,
+        data: new Uint8Array(size * size * 4),
+
+        // When the layer is added to the map,
+        // get the rendering context for the map canvas.
+        onAdd: function () {
+            var canvas = document.createElement('canvas');
+            canvas.width = this.width;
+            canvas.height = this.height;
+            this.context = canvas.getContext('2d');
+        },
+
+        // Call once before every frame where the icon will be used.
+        render: function () {
+            var duration = 1500;
+            var t = (performance.now() % duration) / duration;
+
+            var radius = (size / 2) * 0.3;
+            var outerRadius = (size / 2) * 0.7 * t + radius;
+            var context = this.context;
+
+            // Draw the outer circle.
+            context.clearRect(0, 0, this.width, this.height);
+            context.beginPath();
+            context.arc(
+                this.width / 2,
+                this.height / 2,
+                outerRadius,
+                0,
+                Math.PI * 2
+            );
+            context.fillStyle = 'rgba(61, 133, 198,' + (0 - t) + ')';
+            context.fill();
+
+            // Draw the inner circle.
+            context.beginPath();
+            context.arc(
+                this.width / 2,
+                this.height / 2,
+                radius,
+                0,
+                Math.PI * 2
+            );
+            context.fillStyle = '#3d85c6';
+            context.strokeStyle = 'white';
+            context.lineWidth = 2 + 4 * (1 - t);
+            context.fill();
+            context.stroke();
+
+            // Update this image's data with data from the canvas.
+            this.data = context.getImageData(
+                0,
+                0,
+                this.width,
+                this.height
+            ).data;
+
+            // Continuously repaint the map, resulting
+            // in the smooth animation of the dot.
+            map.triggerRepaint();
+
+            // Return `true` to let the map know that the image was updated.
+            return true;
+        }
+    };
+
+    map.on('load', function () {
+        map.addImage('pulsing-dot2', pulsingDot2, { pixelRatio: 2 });
+
+        map.addSource('dot-point2', {
+            'type': 'geojson',
+            'data': { "id": "layer-with-pulsing-dot2",
+                'type': 'FeatureCollection',
+                'features': [
+                    {
+                        'type': 'Feature2',
+                        'geometry': {
+                            'type': 'Point',
+                           
+                   
+                            'coordinates' : [37.174090608623146, 55.977438727435384], // icon position [lng, lat]
+                        }
+                        
+                        
+                        
+                        
+                    }
+                ]
+            }
+        });
+        
+
+        
+        map.addLayer({
+            'id': 'layer-with-pulsing-dot2',
+            'type': 'symbol',
+            'source': 'dot-point2',
+            'layout': {
+                'icon-image': 'pulsing-dot2'
+            }
+        });
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  var size = 100;
+
+    // This implements `StyleImageInterface`
+    // to draw a pulsing dot icon on the map.
+    var pulsingDot3 = {
+        width: size,
+        height: size,
+        data: new Uint8Array(size * size * 4),
+
+        // When the layer is added to the map,
+        // get the rendering context for the map canvas.
+        onAdd: function () {
+            var canvas = document.createElement('canvas');
+            canvas.width = this.width;
+            canvas.height = this.height;
+            this.context = canvas.getContext('2d');
+        },
+
+        // Call once before every frame where the icon will be used.
+        render: function () {
+            var duration = 2000;
+            var t = (performance.now() % duration) / duration;
+
+            var radius = (size / 2) * 0.3;
+            var outerRadius = (size / 2) * 0.7 * t + radius;
+            var context = this.context;
+
+            // Draw the outer circle.
+            context.clearRect(0, 0, this.width, this.height);
+            context.beginPath();
+            context.arc(
+                this.width / 2,
+                this.height / 2,
+                outerRadius,
+                0,
+                Math.PI * 2
+            );
+            context.fillStyle = 'rgba(61, 133, 198,' + (0 - t) + ')';
+            context.fill();
+
+            // Draw the inner circle.
+            context.beginPath();
+            context.arc(
+                this.width / 2,
+                this.height / 2,
+                radius,
+                0,
+                Math.PI * 2
+            );
+            context.fillStyle = '#3d85c6';
+            context.strokeStyle = 'white';
+            context.lineWidth = 2 + 4 * (1- t);
+            context.fill();
+            context.stroke();
+
+            // Update this image's data with data from the canvas.
+            this.data = context.getImageData(
+                0,
+                0,
+                this.width,
+                this.height
+            ).data;
+
+            // Continuously repaint the map, resulting
+            // in the smooth animation of the dot.
+            map.triggerRepaint();
+
+            // Return `true` to let the map know that the image was updated.
+            return true;
+        }
+    };
+
+    map.on('load', function () {
+        map.addImage('pulsing-dot3', pulsingDot3, { pixelRatio: 2 });
+
+        map.addSource('dot-point3', {
+            'type': 'geojson',
+            'data': { "id": "layer-with-pulsing-dot3",
+                'type': 'FeatureCollection',
+                'features': [
+                    {
+                        'type': 'Feature3',
+                        'geometry': {
+                            'type': 'Point',
+                           
+                   
+                            'coordinates' : [37.17402253788583, 55.97738540574963], // icon position [lng, lat]
+                        }
+                        
+                        
+                        
+                        
+                    }
+                ]
+            }
+        });
+        
+
+        
+        map.addLayer({
+            'id': 'layer-with-pulsing-dot3',
+            'type': 'symbol',
+            'source': 'dot-point3',
+            'layout': {
+                'icon-image': 'pulsing-dot3'
+            }
+        });
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+	
+
+
+
+  
+     var size = 100;
+
+    // This implements `StyleImageInterface`
+    // to draw a pulsing dot icon on the map.
+    var pulsingDot88 = {
+width: size,
+        height: size,
+        data: new Uint8Array(size * size * 4),
+
+        // When the layer is added to the map,
+        // get the rendering context for the map canvas.
+        onAdd: function () {
+            var canvas = document.createElement('canvas');
+            canvas.width = this.width;
+            canvas.height = this.height;
+            this.context = canvas.getContext('2d');
+        },
+
+        // Call once before every frame where the icon will be used.
+        render: function () {
+            var duration = 1000;
+            var t = (performance.now() % duration) / duration;
+
+            var radius = (size / 2) * 0.3;
+            var outerRadius = (size / 2) * 0.7 * t + radius;
+            var context = this.context;
+
+            // Draw the outer circle.
+            context.clearRect(0, 0, this.width, this.height);
+            context.beginPath();
+            context.arc(
+                this.width / 2,
+                this.height / 2,
+                outerRadius,
+                0,
+                Math.PI * 2
+            );
+            context.fillStyle = 'rgba(255, 200, 200,' + (1.1 - t) + ')';
+            context.fill();
+
+            // Draw the inner circle.
+            context.beginPath();
+            context.arc(
+                this.width / 2,
+                this.height / 2,
+                radius,
+                0,
+                Math.PI * 2
+            );
+            context.fillStyle = '#3d85c6';
+            context.strokeStyle = 'white';
+            context.lineWidth = 2 + 4 * (1 - t);
+            context.fill();
+            context.stroke();
+
+            // Update this image's data with data from the canvas.
+            this.data = context.getImageData(
+                0,
+                0,
+                this.width,
+                this.height
+            ).data;
+
+            // Continuously repaint the map, resulting
+            // in the smooth animation of the dot.
+            map.triggerRepaint();
+
+            // Return `true` to let the map know that the image was updated.
+            return true;
+        }
+    };
+    
+    
+    
+    
+
+    map.on('load', function () {
+        map.addImage('pulsing-dot88', pulsingDot88, { pixelRatio: 2 });
+
+        map.addSource('dot-point88', {
+            'type': 'geojson',
+            'data': { "id": "layer-with-pulsing-dot88",
+                'type': 'FeatureCollection',
+                'features': [
+                    {
+                        'type': 'Feature88',
+                        'geometry': {
+                            'type': 'Point',
+                           
+                   
+                            'coordinates' : [37.179822509803984, 55.97115799334276], // icon position [lng, lat]
+                        }
+                        
+                        
+                        
+                        
+                    }
+                ]
+            }
+        });
+        
+    
+ 
+        
+        
+        map.addLayer({
+            'id': 'layer-with-pulsing-dot88',
+            'type': 'symbol',
+            'source': 'dot-point88',
+            'layout': {
+                'icon-image': 'pulsing-dot88'
+            }
+        });
+
+
+
+});
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+
+
+//DATA OF UNIVERSITIES
+let geojson = {
+    "id": "alldata",
+    "type": "FeatureCollection",
+    "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Umeå Universitet",
+        "country": "Sweden",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://www.umu.se/en/education/student-services--support/student-guide/"
+      },
+      "geometry": {
+        "coordinates": [
+          20.300855,
+          63.820938
+        ],
+        "type": "Point"
+      },
+      "id": "09e708d842e65f3c5ac9fc40a2c90b22"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Tsinghua University\t",
+        "country": "China",
+        "study": "BWL and Economics",
+        "agreement": "Faculty Agreement",
+        "url": "https://www.tsinghua.edu.cn/en/Admissions/Non_Degree_Programs.htm"
+      },
+      "geometry": {
+        "coordinates": [
+          116.320882,
+          39.998497
+        ],
+        "type": "Point"
+      },
+      "id": "11175afb458129eaa68a185f44f2197a"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Chulalongkorn University",
+        "country": "Thailand",
+        "study": "BWL and Economics",
+        "agreement": "Faculty Agreement",
+        "url": "https://www.chula.ac.th/en/admissions/exchange-student/inbound-exchange-student/"
+      },
+      "geometry": {
+        "coordinates": [
+          100.532886,
+          13.743144
+        ],
+        "type": "Point"
+      },
+      "id": "1f5d1a4d5ecaa3a440b749829e42b49a"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Università degli Studi di Perugia",
+        "country": "Italy",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://www.unipg.it/en/international-students/incoming-exchange-students"
+      },
+      "geometry": {
+        "coordinates": [
+          12.385345,
+          43.115865
+        ],
+        "type": "Point"
+      },
+      "id": "22d08d0a14e6756e2782b53b2274901e"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Universidad de las Palmas de Gran Canaria",
+        "country": "Spain",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://internacional.ulpgc.es/en/movilidad-incoming/estudiantes-incoming/study-at-the-ulpgc-incoming/espanol-programas-de-movilidad/"
+      },
+      "geometry": {
+        "coordinates": [
+          -15.419919,
+          28.099106
+        ],
+        "type": "Point"
+      },
+      "id": "24a0b84989d3de4b1209f0fb4c71dfe8"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Università degli Studi di Milano",
+        "country": "Italy",
+        "study": "Informatics",
+        "agreement": "SEMP",
+        "url": "https://www.unimi.it/en/international"
+      },
+      "geometry": {
+        "coordinates": [
+          9.194627,
+          45.460068
+        ],
+        "type": "Point"
+      },
+      "id": "2db49da1224f4ed73b595838ff52ddb6"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Università Ca' Foscari di Venezia",
+        "country": "Italy",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://www.unive.it/pag/12573/"
+      },
+      "geometry": {
+        "coordinates": [
+          12.326441,
+          45.434492
+        ],
+        "type": "Point"
+      },
+      "id": "2e083bcbe4d97f84db5ae4cb4dafe38a"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "University of Limerick",
+        "country": "Ireland",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://www.ul.ie/international/"
+      },
+      "geometry": {
+        "coordinates": [
+          -8.570966,
+          52.673748
+        ],
+        "type": "Point"
+      },
+      "id": "3104c9b3b08f233067808267c048c829"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Københavns Universitet\t",
+        "agreement": "SEMP",
+        "study": "BWL and Economics",
+        "url": "studies.ku.dk/visiting/",
+        "country": "Denmark"
+      },
+      "geometry": {
+        "coordinates": [
+          12.572319,
+          55.68015
+        ],
+        "type": "Point"
+      },
+      "id": "322e146fef794538864ec08ad53f5488"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Linköpings Universitet",
+        "country": "Sweden",
+        "agreement": "SEMP",
+        "study": "BWL",
+        "url": "https://liu.se/en/education/exchange-studies"
+      },
+      "geometry": {
+        "coordinates": [
+          15.575403,
+          58.39779
+        ],
+        "type": "Point"
+      },
+      "id": "3f87b2f5ef9f91f8291a8bf289612915"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Universite Claude Bernard - Lyon 1",
+        "country": "France",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://www.univ-lyon1.fr/en/foreign-student/foreign-students-in-exchange-programs"
+      },
+      "geometry": {
+        "coordinates": [
+          4.868177,
+          45.781561
+        ],
+        "type": "Point"
+      },
+      "id": "40c9209024ff0821c137a9a1ac48f53f"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Ludwig-Maximilians-Universität München",
+        "country": "Germany",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://www.lmu.de/en/study/all-degrees-and-programs/programs-for-international-visiting-students/index.html"
+      },
+      "geometry": {
+        "coordinates": [
+          11.594295,
+          48.150027
+        ],
+        "type": "Point"
+      },
+      "id": "48a0923a4ad05b5059e7075fced1a6ef"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Technische Universität Darmstadt",
+        "country": "Germany",
+        "study": "Informatics",
+        "agreement": "SEMP",
+        "url": "https://www.tu-darmstadt.de/studieren/studierende_tu/internationale_studierende_1/index.en.jsp"
+      },
+      "geometry": {
+        "coordinates": [
+          8.656805,
+          49.876397
+        ],
+        "type": "Point"
+      },
+      "id": "4b5533835c492a08cf93074ffc3d05a5"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Westfälische Wilhelms-Universität Münster",
+        "country": "Germany",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://www.uni-muenster.de/InternationalOffice/"
+      },
+      "geometry": {
+        "coordinates": [
+          7.61311,
+          51.963833
+        ],
+        "type": "Point"
+      },
+      "id": "4e8af4aa7713eeada82ba4e4bfea70a4"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Högskolan i Skövde",
+        "country": "Sweden",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://www.his.se/en/education/exchange-student/"
+      },
+      "geometry": {
+        "coordinates": [
+          13.854841,
+          58.394164
+        ],
+        "type": "Point"
+      },
+      "id": "4ece07c5ad055ac6904eb4a55c776a54"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Universidad Rey Juan Carlos",
+        "country": "Spain",
+        "study": "BWL, Economics, Informatics",
+        "agreement": "SEMP",
+        "url": "https://www.urjc.es/en/international/internatinal-students/content/international-students"
+      },
+      "geometry": {
+        "coordinates": [
+          -3.819571,
+          40.282609
+        ],
+        "type": "Point"
+      },
+      "id": "52a55a477a954dae4b6c7ace70ad3cf8"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "NEOMA Business School - Reims Campus",
+        "country": "France",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://neoma-bs.com/about-neoma/international/international-students/"
+      },
+      "geometry": {
+        "coordinates": [
+          4.003151,
+          49.238941
+        ],
+        "type": "Point"
+      },
+      "id": "54c0a36ff1b24ffac62ad1492b34eaa0"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Fudan University",
+        "agreement": "Faculty Agreement",
+        "study": "BWL and Economics",
+        "country": "China",
+        "url": "https://iso.fudan.edu.cn/isoenglish/main.htm"
+      },
+      "geometry": {
+        "coordinates": [
+          121.500477,
+          31.301049
+        ],
+        "type": "Point"
+      },
+      "id": "5552c6af25de98cdfb7ad284071a2058"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Jiaotong University\t",
+        "country": "China",
+        "study": "BWL, Economics, Informatics",
+        "agreement": "Faculty Agreement",
+        "url": "isc.sjtu.edu.cn/EN/content.aspx?info_lb=12&flag=1"
+      },
+      "geometry": {
+        "coordinates": [
+          121.432217,
+          31.02778
+        ],
+        "type": "Point"
+      },
+      "id": "5b02b806a266bfe2b14d4e46e401484c"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Universität Wien",
+        "url": "https://international.univie.ac.at/en/student-mobility/incoming-students/",
+        "country": "Austria",
+        "study": "BWL, Economics, Informatics",
+        "agreement": "SEMP"
+      },
+      "geometry": {
+        "coordinates": [
+          16.360078,
+          48.213171
+        ],
+        "type": "Point"
+      },
+      "id": "5b394121ccb49b648d7988c5ce16f377"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Johann Wolfgang Göthe-Universität",
+        "country": "Germany",
+        "url": "https://www.uni-frankfurt.de/38294581/An_die_Goethe_Uni",
+        "study": "BWL and Economics",
+        "agreement": "SEMP"
+      },
+      "geometry": {
+        "coordinates": [
+          8.667401,
+          50.126796
+        ],
+        "type": "Point"
+      },
+      "id": "5f8f6dd9d8ed9b70e60ae7071bd21d91"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Stockholms Universitet",
+        "country": "Sweden",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://www.su.se/english/education/2.24322"
+      },
+      "geometry": {
+        "coordinates": [
+          18.058786,
+          59.363356
+        ],
+        "type": "Point"
+      },
+      "id": "696665d3b68ff9a7c19296b32e102661"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Korea University Business School",
+        "country": "South Korea",
+        "study": "BWL",
+        "agreement": "Faculty Agreement",
+        "url": "https://biz.korea.ac.kr/eng/undergraduate/inbound"
+      },
+      "geometry": {
+        "coordinates": [
+          127.032526,
+          37.589305
+        ],
+        "type": "Point"
+      },
+      "id": "6a6e807bc3da0ded2386eecf314b74af"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Katholieke Universiteit Leuven",
+        "agreement": "SEMP",
+        "study": "BWL and Economics",
+        "country": "Belgium",
+        "url": "https://www.kuleuven.be/english/admissions/exchange"
+      },
+      "geometry": {
+        "coordinates": [
+          4.700373,
+          50.877977
+        ],
+        "type": "Point"
+      },
+      "id": "6bf8659399599f43ffb0eef06a0c8094"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Università degli Studi di Firenze",
+        "country": "Italy",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://www.unifi.it/index.php?module=CMpro&func=viewpage&pageid=10591&newlang=eng"
+      },
+      "geometry": {
+        "coordinates": [
+          11.242081,
+          43.806858
+        ],
+        "type": "Point"
+      },
+      "id": "703e7a3d99f1e655195d87d101a3e52c"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "École de management de Normandie",
+        "country": "France",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://www.em-normandie.com/en/international-students"
+      },
+      "geometry": {
+        "coordinates": [
+          0.10355,
+          49.489022
+        ],
+        "type": "Point"
+      },
+      "id": "769c78aac7779385e56b9e5662dae24f"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Humboldt-Universität zu Berlin",
+        "country": "Germany",
+        "agreement": "SEMP",
+        "study": "BWL and Economics",
+        "url": "https://www.international.hu-berlin.de/de/studierende/aus-dem-ausland"
+      },
+      "geometry": {
+        "coordinates": [
+          13.39355,
+          52.51875
+        ],
+        "type": "Point"
+      },
+      "id": "7ae88782e819ec3d5d82f8cf24a6decc"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Università degli Studi di Salerno",
+        "country": "Italy",
+        "agreement": "SEMP",
+        "study": "Informatics",
+        "url": "https://web.unisa.it/unisa-rescue-page/dettaglio/id/685/module/196/row/21"
+      },
+      "geometry": {
+        "coordinates": [
+          14.791166,
+          40.772038
+        ],
+        "type": "Point"
+      },
+      "id": "7b266b27d6918a02afe3432dc0f2dbc7"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Technische Universität München",
+        "country": "Germany",
+        "agreement": "SEMP",
+        "study": "BWL and Economics",
+        "url": "https://www.tum.de/studium/internationale-studierende/"
+      },
+      "geometry": {
+        "coordinates": [
+          11.567739,
+          48.149557
+        ],
+        "type": "Point"
+      },
+      "id": "7bed9edffac88aa9b6957553cc2635e3"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Rijksuniversiteit Groningen",
+        "country": "Netherlands",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://www.rug.nl/education/exchange/"
+      },
+      "geometry": {
+        "coordinates": [
+          6.562545,
+          53.219538
+        ],
+        "type": "Point"
+      },
+      "id": "84dedbcf217e305f016ffbe93633a49e"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Radboud Universiteit Nijmegen",
+        "country": "Netherlands",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://www.ru.nl/io/english/students/incoming-exchange-0/"
+      },
+      "geometry": {
+        "coordinates": [
+          5.86521,
+          51.819693
+        ],
+        "type": "Point"
+      },
+      "id": "85952e25904bc12d1dbd21ea22d7378e"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Universität Karlsruhe (TH)",
+        "country": "Germany",
+        "study": "Informatics",
+        "url": "https://www.intl.kit.edu/istudies/",
+        "agreement": "SEMP"
+      },
+      "geometry": {
+        "coordinates": [
+          8.416899,
+          49.012379
+        ],
+        "type": "Point"
+      },
+      "id": "91295f9c15ebc226128696c5acde4914"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Uppsala Universitet",
+        "study": "BWL, Economics, Informatics",
+        "agreement": "SEMP",
+        "url": "https://www.uu.se/en/admissions/exchange/",
+        "country": "Sweden"
+      },
+      "geometry": {
+        "coordinates": [
+          17.626643,
+          59.853701
+        ],
+        "type": "Point"
+      },
+      "id": "92fab91146360a349c3c93ae31ddc1a7"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "ESC Rennes School of Business",
+        "country": "France",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://www.rennes-sb.com/programmes/exchange-programme/"
+      },
+      "geometry": {
+        "coordinates": [
+          -1.692348,
+          48.127834
+        ],
+        "type": "Point"
+      },
+      "id": "94e99c0c04cd0c507bc2996846200cc7"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Institut d'études Politiques de Paris (Sciences Po)",
+        "country": "France",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://www.sciencespo.fr/international/en/content/exchange-programme.html"
+      },
+      "geometry": {
+        "coordinates": [
+          2.329003,
+          48.853898
+        ],
+        "type": "Point"
+      },
+      "id": "9764c8dc172758e35acb13e050ca51f0"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "tile": "Hanken Svenska Handelshögskolan",
+        "country": "Finland",
+        "url": "https://www.hanken.fi/en/apply/international-opportunities/incoming-exchange-students",
+        "study": "BWL and Economics",
+        "agreement": "SEMP"
+      },
+      "geometry": {
+        "coordinates": [
+          24.924495,
+          60.170851
+        ],
+        "type": "Point"
+      },
+      "id": "97eea7d1fa41900cee3d01a147edaa37"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "ESCEM",
+        "country": "France",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://www.escem.fr/escem-business-school/international/student-life/"
+      },
+      "geometry": {
+        "coordinates": [
+          0.704807,
+          47.365095
+        ],
+        "type": "Point"
+      },
+      "id": "9a80b7b1715a1332109b340bf87ea533"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "University of Victoria",
+        "agreement": "Faculty Agreement",
+        "country": "Canada",
+        "url": "https://www.uvic.ca/international/inbound-students/exchange/index.php",
+        "study": "BWL and Economics"
+      },
+      "geometry": {
+        "coordinates": [
+          -123.311731,
+          48.465128
+        ],
+        "type": "Point"
+      },
+      "id": "a33b50144bb772cae9228a9edef832a0"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Erasmus Universiteit Rotterdam",
+        "country": "Netherlands",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://www.eur.nl/en/education/exchange/come-rotterdam-exchange"
+      },
+      "geometry": {
+        "coordinates": [
+          4.52598,
+          51.917627
+        ],
+        "type": "Point"
+      },
+      "id": "a50540eba9125ff12bed064636f3d0c4"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Singapore Management University",
+        "country": "Singapore",
+        "study": "BWL and Economics",
+        "agreement": "Faculty Agreement",
+        "url": "https://www.smu.edu.sg/global/study-in-smu"
+      },
+      "geometry": {
+        "coordinates": [
+          103.850276,
+          1.296466
+        ],
+        "type": "Point"
+      },
+      "id": "a70a661da3defa1c4ed374b4a3cb8a2b"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Örebro Universitet",
+        "country": "Sweden",
+        "agreement": "SEMP",
+        "url": "https://www.oru.se/english/study/exchange-students/",
+        "study": "BWL, Economics, Informatics"
+      },
+      "geometry": {
+        "coordinates": [
+          15.249113,
+          59.25473
+        ],
+        "type": "Point"
+      },
+      "id": "a76db46b44998922ed3d38a7d9d74607"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Handelshøyskolen BI",
+        "country": "Norway",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://www.bi.edu/programmes-and-individual-courses/exchange-programme/"
+      },
+      "geometry": {
+        "coordinates": [
+          10.768531,
+          59.948363
+        ],
+        "type": "Point"
+      },
+      "id": "ab7f0321a98e00efcf2fe37495695e71"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Libera Università di Bolzano",
+        "country": "Italy",
+        "study": "Informatics",
+        "agreement": "SEMP",
+        "url": "https://www.unibz.it/en/applicants/international/incoming-exchange-students/"
+      },
+      "geometry": {
+        "coordinates": [
+          11.350055,
+          46.498315
+        ],
+        "type": "Point"
+      },
+      "id": "b856a9fb639ec51f52885a2f5ae76a09"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "University of Lincoln",
+        "agreement": "SEMP",
+        "study": "BWL and Economics",
+        "country": "United Kingdom",
+        "url": "https://www.lincoln.ac.uk/home/studywithus/internationalstudents/"
+      },
+      "geometry": {
+        "coordinates": [
+          -0.548748,
+          53.228544
+        ],
+        "type": "Point"
+      },
+      "id": "bc5a69667aaabdab3ad85bff94ec8875"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Hong Kong Polytechnic University",
+        "country": "China",
+        "url": "https://www.polyu.edu.hk/geo/exchange-and-study-abroad/incoming-students/",
+        "study": "BWL and Economics",
+        "agreement": "Faculty Agreement"
+      },
+      "geometry": {
+        "coordinates": [
+          114.179756,
+          22.304572
+        ],
+        "type": "Point"
+      },
+      "id": "c355a47327baf05181730f9a8044eca3"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "ESSEC Business School",
+        "country": "France",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://sites.google.com/a/essec.edu/bba-incoming-international-exchange/home"
+      },
+      "geometry": {
+        "coordinates": [
+          2.077174,
+          49.033481
+        ],
+        "type": "Point"
+      },
+      "id": "c37ba930d6830201cf2745a8c0a8fab8"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Syddansk Universitet",
+        "agreement": "SEMP",
+        "study": "BWL and Economics",
+        "country": "Denmark",
+        "url": "https://www.sdu.dk/en/uddannelse/exchange_programmes/exchange_facultyofbss"
+      },
+      "geometry": {
+        "coordinates": [
+          10.428135,
+          55.367904
+        ],
+        "type": "Point"
+      },
+      "id": "c7541f2284116bd947863ec2be364c30"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Universität Mannheim",
+        "country": "Germany",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://www.uni-mannheim.de/studium/vom-ausland-nach-mannheim/"
+      },
+      "geometry": {
+        "coordinates": [
+          8.46456,
+          49.483244
+        ],
+        "type": "Point"
+      },
+      "id": "ca484381e1124ddd8aae9e7362038cc4"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Università Commerciale Luigi Bocconi",
+        "country": "Italy",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://www.unibocconi.eu/wps/wcm/connect/Bocconi/SitoPubblico_EN/Navigation+Tree/Home/programs/current+students/Services/International+Relations/International+Students/International+Student+Desk/"
+      },
+      "geometry": {
+        "coordinates": [
+          9.188678,
+          45.449714
+        ],
+        "type": "Point"
+      },
+      "id": "caea424d84380cecbbf02a7159d010e3"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Universitat Internacional de Catalunya",
+        "country": "Spain",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://www.uic.es/en/international/study-uic-barcelona/international-mobility/admission-and-enrolment-exchange-students"
+      },
+      "geometry": {
+        "coordinates": [
+          2.123529,
+          41.405719
+        ],
+        "type": "Point"
+      },
+      "id": "cdc6fe97e3322afa3e051ea0b41b21f2"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Universidad Autonoma de Madrid",
+        "country": "Spain",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "http://www.uam.es/UAM/incoming-students?language=en&nodepath=Incoming%20Students"
+      },
+      "geometry": {
+        "coordinates": [
+          -3.694989,
+          40.545565
+        ],
+        "type": "Point"
+      },
+      "id": "cec932d9aa01b042d895e4b561990573"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Queen Mary University of London",
+        "country": "United Kingdom",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://www.qmul.ac.uk/international-students/"
+      },
+      "geometry": {
+        "coordinates": [
+          -0.039322,
+          51.52472
+        ],
+        "type": "Point"
+      },
+      "id": "d42fbf91a29c79c723a2a5b2a91be125"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Univerza v Ljubljani",
+        "country": "Slovenia",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://www.uni-lj.si/study/information/exchange/"
+      },
+      "geometry": {
+        "coordinates": [
+          14.504128,
+          46.048982
+        ],
+        "type": "Point"
+      },
+      "id": "d45dec053ce7e973f739c7a6143aa3d2"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Aalto-Yliopisto",
+        "country": "Finland",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://into.aalto.fi/display/enopisk/International+students"
+      },
+      "geometry": {
+        "coordinates": [
+          24.828341,
+          60.186547
+        ],
+        "type": "Point"
+      },
+      "id": "ddbd29a0de4a66a580e1e075ddf15648"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "København Handelshøjskolen",
+        "country": "Denmark",
+        "url": "https://www.cbs.dk/en/international-opportunities/international-students",
+        "study": "BWL and Economics",
+        "agreement": "SEMP"
+      },
+      "geometry": {
+        "coordinates": [
+          12.52475,
+          55.680862
+        ],
+        "type": "Point"
+      },
+      "id": "e62c3b8b7013777710e5474ea83871ab"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Queen's University",
+        "country": "Canada",
+        "study": "BWL and Economics",
+        "agreement": "Faculty Agreement",
+        "url": "https://www.queensu.ca/artsci/think-and-apply/undergrad/international-students"
+      },
+      "geometry": {
+        "coordinates": [
+          -76.495213,
+          44.22624
+        ],
+        "type": "Point"
+      },
+      "id": "e6b71f97a600b6140722d9b73ce59474"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "EDHEC Business School",
+        "country": "France",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://bba.edhec.edu/en/exchange-students"
+      },
+      "geometry": {
+        "coordinates": [
+          3.166072,
+          50.672982
+        ],
+        "type": "Point"
+      },
+      "id": "e9343f935476600bb04fc6d6dfcd8014"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "The University of Tokyo",
+        "country": "Japan",
+        "study": "Informatics",
+        "agreement": "Faculty Agreement",
+        "url": "https://www.u-tokyo.ac.jp/adm/inbound/en/programs-ex.html"
+      },
+      "geometry": {
+        "coordinates": [
+          139.76374,
+          35.711707
+        ],
+        "type": "Point"
+      },
+      "id": "eb63dc7d9e202b2a399e0a00106da374"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Renmin University of China\t",
+        "country": "China",
+        "study": "BWL and Economics",
+        "agreement": "Faculty Agreement",
+        "url": "https://www.ruc.edu.cn/forinternationalstudents-en"
+      },
+      "geometry": {
+        "coordinates": [
+          116.307088,
+          39.969776
+        ],
+        "type": "Point"
+      },
+      "id": "ed02293c242d6252f7d18b71639cbcdf"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Universidade de Sao Paulo",
+        "agreement": "Faculty Agreement",
+        "study": "BWL and Economics",
+        "url": "http://www.usp.br/internationaloffice/en/index.php/admissions/studentexchange",
+        "country": "Brasil"
+      },
+      "geometry": {
+        "coordinates": [
+          -46.723775,
+          -23.55907
+        ],
+        "type": "Point"
+      },
+      "id": "f76cf597d3e8b7817e6580e5539c05fd"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Göteborgs Universitet",
+        "country": "Sweden",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://www.gu.se/en/study-in-gothenburg/exchange-student"
+      },
+      "geometry": {
+        "coordinates": [
+          11.971299,
+          57.698551
+        ],
+        "type": "Point"
+      },
+      "id": "faf7ebed35a56e4fed50c313f9690ede"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Universitat Pompeu Fabra",
+        "country": "Spain",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://www.upf.edu/web/incoming"
+      },
+      "geometry": {
+        "coordinates": [
+          2.179736,
+          41.378997
+        ],
+        "type": "Point"
+      },
+      "id": "fc5bb5e29b1bed1abcdd15576a074496"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Wirtschaftsuniversität Wien",
+        "country": "Austria",
+        "study": "BWL and Economics",
+        "url": "https://www.wu.ac.at/en/programs/incoming-students",
+        "agreement": "SEMP"
+      },
+      "geometry": {
+        "coordinates": [
+          16.408251,
+          48.213675
+        ],
+        "type": "Point"
+      },
+      "id": "ff05535b4b357e212a2e2cecf138bf24"
+    }
+  ],
+  "type": "FeatureCollection"
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//MAP DATA, DESIGN, ACCESS TOKEN
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    map.on('load', function () {
+        // Add a new source from our GeoJSON data and
+        // set the 'cluster' option to true. GL-JS will
+        // add the point_count property to your source data.
+        map.addSource('alldata', {
+            type: 'geojson',
+            data:  geojson,
+            cluster: true,
+            clusterMaxZoom: 14, // Max zoom to cluster points on
+            clusterRadius: 50 // Radius of each cluster when clustering points (defaults to 50)
+        });
+//CLUSTER AND ADDING LAYERS
+          map.addLayer({
+            id: 'BWL / Economics',
+            type: 'circle',
+            source: 'alldata',
+            filter: ["any", ['==', ['get', 'study'], 'BWL'],
+          ['==', ['get', 'study'], 'BWL and Economics'],['==', ['get', 'study'], 'BWL, Economics, Informatics']],
+            paint: {
+                'circle-color': '#3d85c6',
+                'circle-radius': 8,
+                'circle-stroke-width': 2,
+                'circle-stroke-color': 'white'
+            }
+        });
+       //layer informatics universities
+   map.addLayer({
+            id: 'Informatics',
+            type: 'circle',
+            source: 'alldata',
+            filter: ["any", ['==', ['get', 'study'], 'Informatics'],
+          ['==', ['get', 'study'], 'BWL, Economics, Informatics']],
+            paint: {
+                'circle-color': '#3d85c6',
+                'circle-radius': 8,
+                'circle-stroke-width': 2,
+                'circle-stroke-color': 'white'
+            }
+        });
+       map.addLayer({
+            id: 'clusters',
+            type: 'circle',
+            source: 'alldata',
+            filter: ['has', 'point_count'],
+            paint: {
+                // Use step expressions (https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-step)
+                // with three steps to implement three types of circles:
+                //   * Blue, 20px circles when point count is less than 100
+                //   * Yellow, 30px circles when point count is between 100 and 750
+                //   * Pink, 40px circles when point count is greater than or equal to 750
+                'circle-color': [
+                    'step',
+                    ['get', 'point_count'],
+                    '#3d85c6',
+                    100,
+                    '#3d85c6',
+                    
+                ],
+                'circle-radius': [
+                    'step',
+                    ['get', 'point_count'],
+                    17,
+                    100,
+                    20,
+                    750,
+                    20
+                ]
+            }
+        });
+
+        map.addLayer({
+            id: 'cluster-count',
+            type: 'symbol',
+            source: 'alldata',
+            filter: ['has', 'point_count'],
+            layout: {
+                'text-field': '{point_count_abbreviated}',
+                'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+                'text-size': 12              
+            },
+          paint: {
+  "text-color": "#ffffff"
+}
+        });
+//don't need this anymore
+      /* map.addLayer({
+            id: 'unclustered-point',
+            type: 'circle',
+            source: 'alldata',
+            filter: ['!', ['has', 'point_count']],
+            paint: {
+                'circle-color': '#0028a5',
+                'circle-radius': 8,
+                'circle-stroke-width': 0,
+                'circle-stroke-color': '#fff'
+            }
+        }); */ 
+      //layer bwl and vwl universities
+
+        // inspect a cluster on click, zoom in if you click on cluster
+        map.on('click', 'clusters', function (e) {
+            var features = map.queryRenderedFeatures(e.point, {
+                layers: ['clusters']
+            });
+            var clusterId = features[0].properties.cluster_id;
+            map.getSource('alldata').getClusterExpansionZoom(
+                clusterId,
+                function (err, zoom) {
+                    if (err) return;
+
+                    map.easeTo({
+                        center: features[0].geometry.coordinates,
+                        zoom: zoom
+                    });
+                }
+            );
+        });
+
+        // When a click event occurs on a feature in
+        // the unclustered-point layer, open a popup at
+        // the location of the feature, with
+//POP UP
+        map.on('click', function(e) {
+  var features = map.queryRenderedFeatures(e.point, {
+    layers: ['BWL / Economics', 'Informatics'] // replace this with the name of the layer
+  });
+            
+       if (!features.length) {return;}
+       var feature = features[0];
+
+            // Ensure that if the map is zoomed out such that
+            // multiple copies of the feature are visible, the
+            // popup appears over the copy being pointed to.
+            
+
+            var popup = new mapboxgl.Popup({ offset: [0, 0] })
+    .setLngLat(feature.geometry.coordinates)
+    .setHTML('<h4>' + feature.properties.country + '</h4><h2>' + feature.properties.title + '</h2><p><a href="' + feature.properties.url + '" target="_blank">Website</a></p><p>Agreement: ' + feature.properties.agreement + '<br>Study: ' + feature.properties.study +'</p>')
+    .addTo(map);
+      });
+       
+    });
+
+//changes design of cursor when it moves over cluster, makes it a pointy finger
+map.on('mouseenter', 'clusters', function () {
+            map.getCanvas().style.cursor = 'pointer';
+        });
+        map.on('mouseleave', 'clusters', function () {
+            map.getCanvas().style.cursor = '';
+        });
+
+//FILTER
+ // enumerate ids of the layers
+    var toggleableLayerIds = ['BWL / Economics', 'Informatics'];
+
+    // set up the corresponding toggle button for each layer
+    for (var i = 0; i < toggleableLayerIds.length; i++) {
+        var id = toggleableLayerIds[i];
+
+        var link = document.createElement('a');
+        link.href = '#';
+        link.className = 'active';
+        link.textContent = id;
+
+        link.onclick = function (e) {
+            var clickedLayer = this.textContent;
+            e.preventDefault();
+            e.stopPropagation();
+
+            var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+
+            // toggle layer visibility by changing the layout object's visibility property
+            if (visibility === 'visible') {
+                map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+                this.className = '';
+            } else {
+                this.className = 'active';
+                map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+            }
+        };
+
+        var layers = document.getElementById('menu');
+        layers.appendChild(link); 
+    }
+    
+    
+    
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+	
+
+</body>
+	
+	
+
+	
+</html>
