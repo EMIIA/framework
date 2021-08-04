@@ -92,7 +92,7 @@
 
 
 
-@media (-ms-high-contrast:active){.mapboxgl-ctrl-group:not(:empty){box-shadow:0 0 0 1.5px ButtonText}}.mapboxgl-ctrl-group button{width:37px;height:37px;display:block;padding:0;outline:none;border:0;box-sizing:border-box;background-color:transparent;cursor:pointer}.mapboxgl-ctrl-group button+button{border-top:0px solid #ddd}.mapboxgl-ctrl button .mapboxgl-ctrl-icon{display:block;width:100%;height:100%;background-repeat:no-repeat;background-position:50%}
+@media (-ms-high-contrast:active){.mapboxgl-ctrl-group:not(:empty){box-shadow:0 0 0 1.5px ButtonText}}.mapboxgl-ctrl-group button{width:38px;height:38px;display:block;padding:0;outline:none;border:0;box-sizing:border-box;background-color:transparent;cursor:pointer}.mapboxgl-ctrl-group button+button{border-top:0px solid #ddd}.mapboxgl-ctrl button .mapboxgl-ctrl-icon{display:block;width:100%;height:100%;background-repeat:no-repeat;background-position:50%}
 
 
 
@@ -200,12 +200,12 @@ body { margin: 0; padding: 0; }
 
 
 .mapboxgl-ctrl-geocoder {
-  font-size: 18px;
+  font-size: 16px;
   line-height: 12px;
   font-family: "Montserrat, montserrat;
   position: relative;
   background-color: #fffffff3;
-  width: 100%;
+  width: 80%;
   min-width: 240px;
   z-index: 1;
   border-radius: 4px;
@@ -218,7 +218,7 @@ body { margin: 0; padding: 0; }
   border: 0;
   background-color: transparent;
   margin: 0;
-  height: 50px;
+  height: 45px;
   color: #404040; /* fallback */
   color: rgba(0, 0, 0, 0.75);
   padding: 6px 45px;
@@ -232,7 +232,7 @@ body { margin: 0; padding: 0; }
 }
 
 .mapboxgl-ctrl-geocoder--input:focus {
-  color: #404040; /* fallback */
+  color: #404040; /* fallback 3d85c6ff*/
   color: rgba(0, 0, 0, 0.75);
   outline: 0;
   box-shadow: none;
@@ -243,7 +243,7 @@ body { margin: 0; padding: 0; }
   z-index: 2;
   position: absolute;
   right: 8px;
-  top: 7px;
+  top: 6px;
   display: none;
 }
 
@@ -254,8 +254,8 @@ body { margin: 0; padding: 0; }
 
 /* Collapsed */
 .mapboxgl-ctrl-geocoder.mapboxgl-ctrl-geocoder--collapsed {
-  width: 50px;
-  min-width: 50px;
+  width: 40px;
+  min-width: 40px;
   transition: width .25s, min-width .25s;
 }
 
@@ -313,7 +313,7 @@ body { margin: 0; padding: 0; }
   display: inline-block;
   vertical-align: middle;
   speak: none;
-  fill: #757575;
+  fill: #383838;
   top: 15px;
 }
 
@@ -338,7 +338,7 @@ body { margin: 0; padding: 0; }
   width: 20px;
   height: 20px;
   margin-top: 8px;
-  margin-right: 3px;
+  margin-right: 5px;
 }
 
 .mapboxgl-ctrl-geocoder--button:hover .mapboxgl-ctrl-geocoder--icon-close {
