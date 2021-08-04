@@ -39,7 +39,6 @@
 
 
 
-
 <style>
 body { margin: 0; padding: 0; }
 #map { position: absolute; top: 0; bottom: 0; width: 100%; }
@@ -54,15 +53,16 @@ body { margin: 0; padding: 0; }
 <body>
 
 
+
 <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js"></script>
+
+
+
 <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.css" type="text/css">
 
 
 <!-- Promise polyfill script required to use Mapbox GL Geocoder in IE 11 -->
 <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
-
-
-<script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
 
 
 
@@ -77,7 +77,7 @@ margin-right: 10px;
 .geocoder-dropdown-text {
 color: #5a3fc0;
 font-family: Montserrat, montserrat;
-font-size: 10px;
+font-size: larger;
 }
 </style>
  
@@ -212,7 +212,7 @@ var monument2 = [37.24402239557072, 55.97723794736996];
     
 var map = new mapboxgl.Map({
 container: 'map',
-style: 'mapbox://styles/mapbox/streets-v9',
+style: 'mapbox://styles/emiiaai/ckofqwhvv1ujy17p27p0a6cr8',
 center: [-79.4512, 43.6568],
 zoom: 13
 });
