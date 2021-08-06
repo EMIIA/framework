@@ -319,11 +319,11 @@ a.mapboxgl-ctrl-logo{background-image:url("")}}
   <script src="https://framework.emiia.ai/emiia-gl.js"></script>
   
 
+
+
+
+
 <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.js'></script>
-
-
-
-
 
 
 
@@ -432,22 +432,10 @@ outline: none !important
  
  
  
+ <script>
  
- 
- 
- 
+ mapboxgl.accessToken = 'pk.eyJ1IjoiZW1paWFhaSIsImEiOiJja21icnU4bHkyNGRwMnFrbjVvNXdtdGJ0In0.TcfxV21Ov7zOgvWvgPxzlA';
 
-
-
-
-
-<script>
-
-
-
-mapboxgl.accessToken = 'pk.eyJ1IjoiZW1paWFhaSIsImEiOiJja21icnU4bHkyNGRwMnFrbjVvNXdtdGJ0In0.TcfxV21Ov7zOgvWvgPxzlA';
-    
-    
     var monument1 = [37.17402239557072, 55.97723794736996];
 
 var monument2 = [37.24402239557072, 55.97723794736996];
@@ -459,11 +447,33 @@ center: [37.6097, 55.7701],
         zoom: 7.25,
         pitch: 50,
         bearing: 0,
+
 });
 
+var Draw = new MapboxDraw();
 
-blankStyle = {"version":8,"":"","":[0,0],"zoom":-1, "zIndexOffSet": -1, "className": -1, "":{},"sprite":"","":"","1":[{"id":"1","type": "1","1":{}}],};
+// Map#addControl takes an optional second argument to set the position of the control.
+// If no position is specified the control defaults to `top-right`. See the docs 
+// for more details: https://www.mapbox.com/mapbox-gl-js/api/map#addcontrol
 
+map.addControl(Draw, 'top-left');
+
+map.on('load', function() {
+  // ALL YOUR APPLICATION CODE
+});
+ 
+
+var Draw = new MapboxDraw();
+
+// Map#addControl takes an optional second argument to set the position of the control.
+// If no position is specified the control defaults to `top-right`. See the docs 
+// for more details: https://www.mapbox.com/mapbox-gl-js/api/map#addcontrol
+
+map.addControl(Draw, 'top-left');
+
+map.on('load', function() {
+  // ALL YOUR APPLICATION CODE
+});
 
 
 
