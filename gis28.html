@@ -1,0 +1,3033 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Use a custom render function with a geocoder</title>
+
+
+
+
+
+
+
+        	<style>
+@import url('https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap&subset=cyrillic');
+</style>
+
+	<style>
+@import url('https://www.emiia.ru/css.css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap&subset=cyrillic');
+</style>
+
+  <style>  
+@import url('/css.css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap&subset=cyrillic');
+</style>
+
+<link rel="stylesheet" href="https://www.emiia.ru/cssfamily=Montserrat.css">
+<link rel="stylesheet" href="/cssfamily=Montserrat.css">
+
+
+
+
+
+
+
+
+
+
+
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+
+
+
+
+
+
+
+
+<style>
+.mapboxgl-map{font:12px/20px Montserrat, montserrat;overflow:hidden;position:relative;-webkit-tap-highlight-color:rgba(0,0,0,0)}.mapboxgl-canvas{position:absolute;left:0;top:0}.mapboxgl-map:-webkit-full-screen{width:100%;height:100%}.mapboxgl-canary{background-color:salmon}.mapboxgl-canvas-container.mapboxgl-interactive,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.mapboxgl-ctrl-group button.mapboxgl-ctrl-compass{cursor:grab;-webkit-user-select:none;user-select:none}
+
+
+.mapboxgl-canvas-container.mapboxgl-interactive.mapboxgl-track-pointer{cursor:pointer}.mapboxgl-canvas-container.mapboxgl-interactive:active,.mapboxgl-ctrl-group button.mapboxgl-ctrl-compass:active{cursor:grabbing}.mapboxgl-canvas-container.mapboxgl-touch-zoom-rotate,.mapboxgl-canvas-container.mapboxgl-touch-zoom-rotate .mapboxgl-canvas{touch-action:pan-x pan-y}.mapboxgl-canvas-container.mapboxgl-touch-drag-pan,.mapboxgl-canvas-container.mapboxgl-touch-drag-pan .mapboxgl-canvas{touch-action:pinch-zoom}.mapboxgl-canvas-container.mapboxgl-touch-zoom-rotate.mapboxgl-touch-drag-pan,.mapboxgl-canvas-container.mapboxgl-touch-zoom-rotate.mapboxgl-touch-drag-pan .mapboxgl-canvas{touch-action:none}
+
+
+
+
+
+
+
+
+.mapboxgl-ctrl-bottom-left,.mapboxgl-ctrl-bottom-right,.mapboxgl-ctrl-top-left,.mapboxgl-ctrl-top-right{position:absolute;pointer-events:none;z-index:2}.mapboxgl-ctrl-top-left{top:0;left:9px}.mapboxgl-ctrl-top-right{top:0;right:0}.mapboxgl-ctrl-bottom-left{bottom:0;left:0}.mapboxgl-ctrl-bottom-right{right:0;bottom:0}
+
+
+.mapboxgl-ctrl{clear:both;pointer-events:auto;transform:translate(0)}.mapboxgl-ctrl-top-left .mapboxgl-ctrl{   position: fixed;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);float:left}
+
+
+
+.mapboxgl-ctrl-top-right .mapboxgl-ctrl{margin:10px 10px 0 0;float:right}.mapboxgl-ctrl-bottom-left .mapboxgl-ctrl
+
+
+
+
+{margin:0 0 10px 10px;float:left}.mapboxgl-ctrl-bottom-right .mapboxgl-ctrl{margin:0 10px 10px 0;float:right}.mapboxgl-ctrl-group{border-radius:4px;background:#fffffff3}.mapboxgl-ctrl-group:not(:empty){box-shadow:0 0 10px 2px rgba(0,0,0,.1)}
+
+
+
+@media (-ms-high-contrast:active){.mapboxgl-ctrl-group:not(:empty){box-shadow:0 0 0 1.5px ButtonText}}.mapboxgl-ctrl-group button{width:38px;height:38px;display:block;padding:0;outline:none;border:0;box-sizing:border-box;background-color:transparent;cursor:pointer}.mapboxgl-ctrl-group button+button{border-top:0px solid #ddd}.mapboxgl-ctrl button .mapboxgl-ctrl-icon{display:block;width:100%;height:100%;background-repeat:no-repeat;background-position:50%}
+
+
+
+
+
+
+
+@media (-ms-high-contrast:active){.mapboxgl-ctrl-icon{background-color:transparent}.mapboxgl-ctrl-group button+button{border-top:1px solid ButtonText}}.mapboxgl-ctrl-attrib-button:focus,.mapboxgl-ctrl-group button:focus{box-shadow:0 0 2px 2px #0096ff}.mapboxgl-ctrl button:disabled{cursor:not-allowed}.mapboxgl-ctrl button:disabled .mapboxgl-ctrl-icon{opacity:.25}.mapboxgl-ctrl button:not(:disabled):hover{background-color:rgba(0,0,0,.05)}.mapboxgl-ctrl-group button:focus:focus-visible{box-shadow:0 0 2px 2px #0096ff}.mapboxgl-ctrl-group button:focus:not(:focus-visible){box-shadow:none}.mapboxgl-ctrl-group button:focus:first-child{border-radius:4px 4px 0 0}.mapboxgl-ctrl-group button:focus:last-child{border-radius:0 0 4px 4px}.mapboxgl-ctrl-group button:focus:only-child{border-radius:inherit}
+
+
+
+
+
+
+
+
+.mapboxgl-ctrl button.mapboxgl-ctrl-zoom-in .mapboxgl-ctrl-icon{background-image:url("https://analytics.emiia.ai/svg/strelka7.svg")}
+
+
+
+
+
+.mapboxgl-ctrl button.mapboxgl-ctrl-zoom-out .mapboxgl-ctrl-icon{background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg width='29' height='29' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg' fill='%23333'%3E %3Cpath d='M10 4C9 4 9 5 9 5v.1A5 5 0 0 0 5.1 9H5s-1 0-1 1 1 1 1 1h.1A5 5 0 0 0 9 14.9v.1s0 1 1 1 1-1 1-1v-.1a5 5 0 0 0 3.9-3.9h.1s1 0 1-1-1-1-1-1h-.1A5 5 0 0 0 11 5.1V5s0-1-1-1zm0 2.5a3.5 3.5 0 1 1 0 7 3.5 3.5 0 1 1 0-7z'/%3E %3Ccircle id='dot' cx='10' cy='10' r='2'/%3E %3Cpath id='stroke' d='M14 5l1 1-9 9-1-1 9-9z' display='none'/%3E %3C/svg%3E")}
+
+
+
+
+
+@media (-ms-high-contrast:active){.mapboxgl-ctrl button.mapboxgl-ctrl-zoom-out 
+
+
+
+.mapboxgl-ctrl-icon{background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg width='29' height='29' viewBox='0 0 29 29' xmlns='http://www.w3.org/2000/svg' fill='%23fff'%3E %3Cpath d='M10 13c-.75 0-1.5.75-1.5 1.5S9.25 16 10 16h9c.75 0 1.5-.75 1.5-1.5S19.75 13 19 13h-9z'/%3E %3C/svg%3E")}
+
+
+
+
+
+
+
+
+.mapboxgl-ctrl button.mapboxgl-ctrl-zoom-in .mapboxgl-ctrl-icon{background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg width='29' height='29' viewBox='0 0 29 29' xmlns='http://www.w3.org/2000/svg' fill='%23fff'%3E %3Cpath d='M14.5 8.5c-.75 0-1.5.75-1.5 1.5v3h-3c-.75 0-1.5.75-1.5 1.5S9.25 16 10 16h3v3c0 .75.75 1.5 1.5 1.5S16 19.75 16 19v-3h3c.75 0 1.5-.75 1.5-1.5S19.75 13 19 13h-3v-3c0-.75-.75-1.5-1.5-1.5z'/%3E %3C/svg%3E")}}
+
+
+
+
+
+@media (-ms-high-contrast:black-on-white){
+
+
+
+
+
+.mapboxgl-ctrl button.mapboxgl-ctrl-zoom-out .mapboxgl-ctrl-icon{background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg width='29' height='29' viewBox='0 0 29 29' xmlns='http://www.w3.org/2000/svg' fill='%23000'%3E %3Cpath d='M10 13c-.75 0-1.5.75-1.5 1.5S9.25 16 10 16h9c.75 0 1.5-.75 1.5-1.5S19.75 13 19 13h-9z'/%3E %3C/svg%3E")}
+
+
+
+
+.mapboxgl-ctrl button.mapboxgl-ctrl-zoom-in .mapboxgl-ctrl-icon{background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg width='29' height='29' viewBox='0 0 29 29' xmlns='http://www.w3.org/2000/svg' fill='%23000'%3E %3Cpath d='M14.5 8.5c-.75 0-1.5.75-1.5 1.5v3h-3c-.75 0-1.5.75-1.5 1.5S9.25 16 10 16h3v3c0 .75.75 1.5 1.5 1.5S16 19.75 16 19v-3h3c.75 0 1.5-.75 1.5-1.5S19.75 13 19 13h-3v-3c0-.75-.75-1.5-1.5-1.5z'/%3E %3C/svg%3E")}}
+
+
+
+
+
+
+
+
+
+
+.mapboxgl-ctrl button.mapboxgl-ctrl-fullscreen .mapboxgl-ctrl-icon{background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg width='29' height='29' viewBox='0 0 29 29' xmlns='http://www.w3.org/2000/svg' fill='%23333'%3E %3Cpath d='M24 16v5.5c0 1.75-.75 2.5-2.5 2.5H16v-1l3-1.5-4-5.5 1-1 5.5 4 1.5-3h1zM6 16l1.5 3 5.5-4 1 1-4 5.5 3 1.5v1H7.5C5.75 24 5 23.25 5 21.5V16h1zm7-11v1l-3 1.5 4 5.5-1 1-5.5-4L6 13H5V7.5C5 5.75 5.75 5 7.5 5H13zm11 2.5c0-1.75-.75-2.5-2.5-2.5H16v1l3 1.5-4 5.5 1 1 5.5-4 1.5 3h1V7.5z'/%3E %3C/svg%3E")}.mapboxgl-ctrl button.mapboxgl-ctrl-shrink .mapboxgl-ctrl-icon{background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg width='29' height='29' viewBox='0 0 29 29' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath d='M18.5 16c-1.75 0-2.5.75-2.5 2.5V24h1l1.5-3 5.5 4 1-1-4-5.5 3-1.5v-1h-5.5zM13 18.5c0-1.75-.75-2.5-2.5-2.5H5v1l3 1.5L4 24l1 1 5.5-4 1.5 3h1v-5.5zm3-8c0 1.75.75 2.5 2.5 2.5H24v-1l-3-1.5L25 5l-1-1-5.5 4L17 5h-1v5.5zM10.5 13c1.75 0 2.5-.75 2.5-2.5V5h-1l-1.5 3L5 4 4 5l4 5.5L5 12v1h5.5z'/%3E %3C/svg%3E")}@media (-ms-high-contrast:active){.mapboxgl-ctrl button.mapboxgl-ctrl-fullscreen .mapboxgl-ctrl-icon{background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg width='29' height='29' viewBox='0 0 29 29' xmlns='http://www.w3.org/2000/svg' fill='%23fff'%3E %3Cpath d='M24 16v5.5c0 1.75-.75 2.5-2.5 2.5H16v-1l3-1.5-4-5.5 1-1 5.5 4 1.5-3h1zM6 16l1.5 3 5.5-4 1 1-4 5.5 3 1.5v1H7.5C5.75 24 5 23.25 5 21.5V16h1zm7-11v1l-3 1.5 4 5.5-1 1-5.5-4L6 13H5V7.5C5 5.75 5.75 5 7.5 5H13zm11 2.5c0-1.75-.75-2.5-2.5-2.5H16v1l3 1.5-4 5.5 1 1 5.5-4 1.5 3h1V7.5z'/%3E %3C/svg%3E")}.mapboxgl-ctrl button.mapboxgl-ctrl-shrink .mapboxgl-ctrl-icon{background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg width='29' height='29' viewBox='0 0 29 29' xmlns='http://www.w3.org/2000/svg' fill='%23fff'%3E %3Cpath d='M18.5 16c-1.75 0-2.5.75-2.5 2.5V24h1l1.5-3 5.5 4 1-1-4-5.5 3-1.5v-1h-5.5zM13 18.5c0-1.75-.75-2.5-2.5-2.5H5v1l3 1.5L4 24l1 1 5.5-4 1.5 3h1v-5.5zm3-8c0 1.75.75 2.5 2.5 2.5H24v-1l-3-1.5L25 5l-1-1-5.5 4L17 5h-1v5.5zM10.5 13c1.75 0 2.5-.75 2.5-2.5V5h-1l-1.5 3L5 4 4 5l4 5.5L5 12v1h5.5z'/%3E %3C/svg%3E")}}@media (-ms-high-contrast:black-on-white){.mapboxgl-ctrl button.mapboxgl-ctrl-fullscreen .mapboxgl-ctrl-icon{background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg width='29' height='29' viewBox='0 0 29 29' xmlns='http://www.w3.org/2000/svg' fill='%23000'%3E %3Cpath d='M24 16v5.5c0 1.75-.75 2.5-2.5 2.5H16v-1l3-1.5-4-5.5 1-1 5.5 4 1.5-3h1zM6 16l1.5 3 5.5-4 1 1-4 5.5 3 1.5v1H7.5C5.75 24 5 23.25 5 21.5V16h1zm7-11v1l-3 1.5 4 5.5-1 1-5.5-4L6 13H5V7.5C5 5.75 5.75 5 7.5 5H13zm11 2.5c0-1.75-.75-2.5-2.5-2.5H16v1l3 1.5-4 5.5 1 1 5.5-4 1.5 3h1V7.5z'/%3E %3C/svg%3E")}.mapboxgl-ctrl button.mapboxgl-ctrl-shrink .mapboxgl-ctrl-icon{background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg width='29' height='29' viewBox='0 0 29 29' xmlns='http://www.w3.org/2000/svg' fill='%23000'%3E %3Cpath d='M18.5 16c-1.75 0-2.5.75-2.5 2.5V24h1l1.5-3 5.5 4 1-1-4-5.5 3-1.5v-1h-5.5zM13 18.5c0-1.75-.75-2.5-2.5-2.5H5v1l3 1.5L4 24l1 1 5.5-4 1.5 3h1v-5.5zm3-8c0 1.75.75 2.5 2.5 2.5H24v-1l-3-1.5L25 5l-1-1-5.5 4L17 5h-1v5.5zM10.5 13c1.75 0 2.5-.75 2.5-2.5V5h-1l-1.5 3L5 4 4 5l4 5.5L5 12v1h5.5z'/%3E %3C/svg%3E")}}.mapboxgl-ctrl button.mapboxgl-ctrl-compass .mapboxgl-ctrl-icon{background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg width='29' height='29' viewBox='0 0 29 29' xmlns='http://www.w3.org/2000/svg' fill='%23333'%3E %3Cpath d='M10.5 14l4-8 4 8h-8z'/%3E %3Cpath id='south' d='M10.5 16l4 8 4-8h-8z' fill='%23ccc'/%3E %3C/svg%3E")}@media (-ms-high-contrast:active){.mapboxgl-ctrl button.mapboxgl-ctrl-compass .mapboxgl-ctrl-icon{background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg width='29' height='29' viewBox='0 0 29 29' xmlns='http://www.w3.org/2000/svg' fill='%23fff'%3E %3Cpath d='M10.5 14l4-8 4 8h-8z'/%3E %3Cpath id='south' d='M10.5 16l4 8 4-8h-8z' fill='%23999'/%3E %3C/svg%3E")}}@media (-ms-high-contrast:black-on-white){.mapboxgl-ctrl button.mapboxgl-ctrl-compass .mapboxgl-ctrl-icon{background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg width='29' height='29' viewBox='0 0 29 29' xmlns='http://www.w3.org/2000/svg' fill='%23000'%3E %3Cpath d='M10.5 14l4-8 4 8h-8z'/%3E %3Cpath id='south' d='M10.5 16l4 8 4-8h-8z' fill='%23ccc'/%3E %3C/svg%3E")}}
+
+
+
+.mapboxgl-ctrl button.mapboxgl-ctrl-geolocate .mapboxgl-ctrl-icon{background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg width='29' height='29' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg' fill='%23333'%3E %3Cpath d='M10 4C9 4 9 5 9 5v.1A5 5 0 0 0 5.1 9H5s-1 0-1 1 1 1 1 1h.1A5 5 0 0 0 9 14.9v.1s0 1 1 1 1-1 1-1v-.1a5 5 0 0 0 3.9-3.9h.1s1 0 1-1-1-1-1-1h-.1A5 5 0 0 0 11 5.1V5s0-1-1-1zm0 2.5a3.5 3.5 0 1 1 0 7 3.5 3.5 0 1 1 0-7z'/%3E %3Ccircle id='dot' cx='10' cy='10' r='2'/%3E %3Cpath id='stroke' d='M14 5l1 1-9 9-1-1 9-9z' display='none'/%3E %3C/svg%3E")}.mapboxgl-ctrl button.mapboxgl-ctrl-geolocate:disabled .mapboxgl-ctrl-icon{background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg width='29' height='29' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg' fill='%23aaa'%3E %3Cpath d='M10 4C9 4 9 5 9 5v.1A5 5 0 0 0 5.1 9H5s-1 0-1 1 1 1 1 1h.1A5 5 0 0 0 9 14.9v.1s0 1 1 1 1-1 1-1v-.1a5 5 0 0 0 3.9-3.9h.1s1 0 1-1-1-1-1-1h-.1A5 5 0 0 0 11 5.1V5s0-1-1-1zm0 2.5a3.5 3.5 0 1 1 0 7 3.5 3.5 0 1 1 0-7z'/%3E %3Ccircle id='dot' cx='10' cy='10' r='2'/%3E %3Cpath id='stroke' d='M14 5l1 1-9 9-1-1 9-9z' fill='red'/%3E %3C/svg%3E")}.mapboxgl-ctrl button.mapboxgl-ctrl-geolocate.mapboxgl-ctrl-geolocate-active .mapboxgl-ctrl-icon{background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg width='29' height='29' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg' fill='%2333b5e5'%3E %3Cpath d='M10 4C9 4 9 5 9 5v.1A5 5 0 0 0 5.1 9H5s-1 0-1 1 1 1 1 1h.1A5 5 0 0 0 9 14.9v.1s0 1 1 1 1-1 1-1v-.1a5 5 0 0 0 3.9-3.9h.1s1 0 1-1-1-1-1-1h-.1A5 5 0 0 0 11 5.1V5s0-1-1-1zm0 2.5a3.5 3.5 0 1 1 0 7 3.5 3.5 0 1 1 0-7z'/%3E %3Ccircle id='dot' cx='10' cy='10' r='2'/%3E %3Cpath id='stroke' d='M14 5l1 1-9 9-1-1 9-9z' display='none'/%3E %3C/svg%3E")}.mapboxgl-ctrl button.mapboxgl-ctrl-geolocate.mapboxgl-ctrl-geolocate-active-error .mapboxgl-ctrl-icon{background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg width='29' height='29' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg' fill='%23e58978'%3E %3Cpath d='M10 4C9 4 9 5 9 5v.1A5 5 0 0 0 5.1 9H5s-1 0-1 1 1 1 1 1h.1A5 5 0 0 0 9 14.9v.1s0 1 1 1 1-1 1-1v-.1a5 5 0 0 0 3.9-3.9h.1s1 0 1-1-1-1-1-1h-.1A5 5 0 0 0 11 5.1V5s0-1-1-1zm0 2.5a3.5 3.5 0 1 1 0 7 3.5 3.5 0 1 1 0-7z'/%3E %3Ccircle id='dot' cx='10' cy='10' r='2'/%3E %3Cpath id='stroke' d='M14 5l1 1-9 9-1-1 9-9z' display='none'/%3E %3C/svg%3E")}.mapboxgl-ctrl button.mapboxgl-ctrl-geolocate.mapboxgl-ctrl-geolocate-background .mapboxgl-ctrl-icon{background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg width='29' height='29' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg' fill='%2333b5e5'%3E %3Cpath d='M10 4C9 4 9 5 9 5v.1A5 5 0 0 0 5.1 9H5s-1 0-1 1 1 1 1 1h.1A5 5 0 0 0 9 14.9v.1s0 1 1 1 1-1 1-1v-.1a5 5 0 0 0 3.9-3.9h.1s1 0 1-1-1-1-1-1h-.1A5 5 0 0 0 11 5.1V5s0-1-1-1zm0 2.5a3.5 3.5 0 1 1 0 7 3.5 3.5 0 1 1 0-7z'/%3E %3Ccircle id='dot' cx='10' cy='10' r='2' display='none'/%3E %3Cpath id='stroke' d='M14 5l1 1-9 9-1-1 9-9z' display='none'/%3E %3C/svg%3E")}
+
+
+
+
+
+
+
+.mapboxgl-ctrl button.mapboxgl-ctrl-geolocate.mapboxgl-ctrl-geolocate-background-error .mapboxgl-ctrl-icon{background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg width='29' height='29' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg' fill='%23e54e33'%3E %3Cpath d='M10 4C9 4 9 5 9 5v.1A5 5 0 0 0 5.1 9H5s-1 0-1 1 1 1 1 1h.1A5 5 0 0 0 9 14.9v.1s0 1 1 1 1-1 1-1v-.1a5 5 0 0 0 3.9-3.9h.1s1 0 1-1-1-1-1-1h-.1A5 5 0 0 0 11 5.1V5s0-1-1-1zm0 2.5a3.5 3.5 0 1 1 0 7 3.5 3.5 0 1 1 0-7z'/%3E %3Ccircle id='dot' cx='10' cy='10' r='2' display='none'/%3E %3Cpath id='stroke' d='M14 5l1 1-9 9-1-1 9-9z' display='none'/%3E %3C/svg%3E")}.mapboxgl-ctrl button.mapboxgl-ctrl-geolocate.mapboxgl-ctrl-geolocate-waiting .mapboxgl-ctrl-icon{animation:mapboxgl-spin 2s linear infinite}@media (-ms-high-contrast:active){.mapboxgl-ctrl button.mapboxgl-ctrl-geolocate .mapboxgl-ctrl-icon{background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg width='29' height='29' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg' fill='%23fff'%3E %3Cpath d='M10 4C9 4 9 5 9 5v.1A5 5 0 0 0 5.1 9H5s-1 0-1 1 1 1 1 1h.1A5 5 0 0 0 9 14.9v.1s0 1 1 1 1-1 1-1v-.1a5 5 0 0 0 3.9-3.9h.1s1 0 1-1-1-1-1-1h-.1A5 5 0 0 0 11 5.1V5s0-1-1-1zm0 2.5a3.5 3.5 0 1 1 0 7 3.5 3.5 0 1 1 0-7z'/%3E %3Ccircle id='dot' cx='10' cy='10' r='2'/%3E %3Cpath id='stroke' d='M14 5l1 1-9 9-1-1 9-9z' display='none'/%3E %3C/svg%3E")}.mapboxgl-ctrl button.mapboxgl-ctrl-geolocate:disabled .mapboxgl-ctrl-icon{background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg width='29' height='29' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg' fill='%23999'%3E %3Cpath d='M10 4C9 4 9 5 9 5v.1A5 5 0 0 0 5.1 9H5s-1 0-1 1 1 1 1 1h.1A5 5 0 0 0 9 14.9v.1s0 1 1 1 1-1 1-1v-.1a5 5 0 0 0 3.9-3.9h.1s1 0 1-1-1-1-1-1h-.1A5 5 0 0 0 11 5.1V5s0-1-1-1zm0 2.5a3.5 3.5 0 1 1 0 7 3.5 3.5 0 1 1 0-7z'/%3E %3Ccircle id='dot' cx='10' cy='10' r='2'/%3E %3Cpath id='stroke' d='M14 5l1 1-9 9-1-1 9-9z' fill='red'/%3E %3C/svg%3E")}.mapboxgl-ctrl button.mapboxgl-ctrl-geolocate.mapboxgl-ctrl-geolocate-active .mapboxgl-ctrl-icon{background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg width='29' height='29' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg' fill='%2333b5e5'%3E %3Cpath d='M10 4C9 4 9 5 9 5v.1A5 5 0 0 0 5.1 9H5s-1 0-1 1 1 1 1 1h.1A5 5 0 0 0 9 14.9v.1s0 1 1 1 1-1 1-1v-.1a5 5 0 0 0 3.9-3.9h.1s1 0 1-1-1-1-1-1h-.1A5 5 0 0 0 11 5.1V5s0-1-1-1zm0 2.5a3.5 3.5 0 1 1 0 7 3.5 3.5 0 1 1 0-7z'/%3E %3Ccircle id='dot' cx='10' cy='10' r='2'/%3E %3Cpath id='stroke' d='M14 5l1 1-9 9-1-1 9-9z' display='none'/%3E %3C/svg%3E")}
+
+
+
+.mapboxgl-ctrl button.mapboxgl-ctrl-geolocate.mapboxgl-ctrl-geolocate-active-error .mapboxgl-ctrl-icon{background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg width='29' height='29' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg' fill='%23e58978'%3E %3Cpath d='M10 4C9 4 9 5 9 5v.1A5 5 0 0 0 5.1 9H5s-1 0-1 1 1 1 1 1h.1A5 5 0 0 0 9 14.9v.1s0 1 1 1 1-1 1-1v-.1a5 5 0 0 0 3.9-3.9h.1s1 0 1-1-1-1-1-1h-.1A5 5 0 0 0 11 5.1V5s0-1-1-1zm0 2.5a3.5 3.5 0 1 1 0 7 3.5 3.5 0 1 1 0-7z'/%3E %3Ccircle id='dot' cx='10' cy='10' r='2'/%3E %3Cpath id='stroke' d='M14 5l1 1-9 9-1-1 9-9z' display='none'/%3E %3C/svg%3E")}.mapboxgl-ctrl button.mapboxgl-ctrl-geolocate.mapboxgl-ctrl-geolocate-background .mapboxgl-ctrl-icon{background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg width='29' height='29' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg' fill='%2333b5e5'%3E %3Cpath d='M10 4C9 4 9 5 9 5v.1A5 5 0 0 0 5.1 9H5s-1 0-1 1 1 1 1 1h.1A5 5 0 0 0 9 14.9v.1s0 1 1 1 1-1 1-1v-.1a5 5 0 0 0 3.9-3.9h.1s1 0 1-1-1-1-1-1h-.1A5 5 0 0 0 11 5.1V5s0-1-1-1zm0 2.5a3.5 3.5 0 1 1 0 7 3.5 3.5 0 1 1 0-7z'/%3E %3Ccircle id='dot' cx='10' cy='10' r='2' display='none'/%3E %3Cpath id='stroke' d='M14 5l1 1-9 9-1-1 9-9z' display='none'/%3E %3C/svg%3E")}.mapboxgl-ctrl button.mapboxgl-ctrl-geolocate.mapboxgl-ctrl-geolocate-background-error .mapboxgl-ctrl-icon{background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg width='29' height='29' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg' fill='%23e54e33'%3E %3Cpath d='M10 4C9 4 9 5 9 5v.1A5 5 0 0 0 5.1 9H5s-1 0-1 1 1 1 1 1h.1A5 5 0 0 0 9 14.9v.1s0 1 1 1 1-1 1-1v-.1a5 5 0 0 0 3.9-3.9h.1s1 0 1-1-1-1-1-1h-.1A5 5 0 0 0 11 5.1V5s0-1-1-1zm0 2.5a3.5 3.5 0 1 1 0 7 3.5 3.5 0 1 1 0-7z'/%3E %3Ccircle id='dot' cx='10' cy='10' r='2' display='none'/%3E %3Cpath id='stroke' d='M14 5l1 1-9 9-1-1 9-9z' display='none'/%3E %3C/svg%3E")}}
+
+
+
+
+@media (-ms-high-contrast:black-on-white){.mapboxgl-ctrl button.mapboxgl-ctrl-geolocate .mapboxgl-ctrl-icon{background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg width='29' height='29' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg' fill='%23000'%3E %3Cpath d='M10 4C9 4 9 5 9 5v.1A5 5 0 0 0 5.1 9H5s-1 0-1 1 1 1 1 1h.1A5 5 0 0 0 9 14.9v.1s0 1 1 1 1-1 1-1v-.1a5 5 0 0 0 3.9-3.9h.1s1 0 1-1-1-1-1-1h-.1A5 5 0 0 0 11 5.1V5s0-1-1-1zm0 2.5a3.5 3.5 0 1 1 0 7 3.5 3.5 0 1 1 0-7z'/%3E %3Ccircle id='dot' cx='10' cy='10' r='2'/%3E %3Cpath id='stroke' d='M14 5l1 1-9 9-1-1 9-9z' display='none'/%3E %3C/svg%3E")}.mapboxgl-ctrl button.mapboxgl-ctrl-geolocate:disabled .mapboxgl-ctrl-icon{background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg width='29' height='29' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg' fill='%23666'%3E %3Cpath d='M10 4C9 4 9 5 9 5v.1A5 5 0 0 0 5.1 9H5s-1 0-1 1 1 1 1 1h.1A5 5 0 0 0 9 14.9v.1s0 1 1 1 1-1 1-1v-.1a5 5 0 0 0 3.9-3.9h.1s1 0 1-1-1-1-1-1h-.1A5 5 0 0 0 11 5.1V5s0-1-1-1zm0 2.5a3.5 3.5 0 1 1 0 7 3.5 3.5 0 1 1 0-7z'/%3E %3Ccircle id='dot' cx='10' cy='10' r='2'/%3E %3Cpath id='stroke' d='M14 5l1 1-9 9-1-1 9-9z' fill='red'/%3E %3C/svg%3E")}}
+
+
+
+
+@keyframes mapboxgl-spin{0%{transform:rotate(0deg)}to{transform:rotate(1turn)}}
+
+
+
+a.mapboxgl-ctrl-logo{width:0px;height:0px;margin:0 0 -4px -4px;display:block;background-repeat:no-repeat;cursor:pointer;overflow:hidden;background-image:url("")}a.mapboxgl-ctrl-logo.mapboxgl-compact{width:0px}
+
+
+
+@media (-ms-high-contrast:active){a.mapboxgl-ctrl-logo{background-color:transparent;background-image:url("")}}@media (-ms-high-contrast:black-on-white){
+
+
+
+a.mapboxgl-ctrl-logo{background-image:url("")}}
+
+
+.mapboxgl-ctrl.mapboxgl-ctrl-attrib{padding:0 0px;background-color:hsla(0,0%,100%,.0);margin:0}@media screen{
+
+
+
+
+.mapboxgl-ctrl-attrib.mapboxgl-compact{min-height:0px;padding:0px 0px 0px 0;margin:0px;position:relative;background-color:transparent;border-radius:0px}.mapboxgl-ctrl-attrib.mapboxgl-compact-show{padding:0px 0px 0px 0px;visibility:visible}
+
+
+
+.mapboxgl-ctrl-bottom-left>.mapboxgl-ctrl-attrib.mapboxgl-compact-show,.mapboxgl-ctrl-top-left>.mapboxgl-ctrl-attrib.mapboxgl-compact-show{padding:0px 0px 0px 0px;border-radius:0px}.mapboxgl-ctrl-attrib.mapboxgl-compact .mapboxgl-ctrl-attrib-inner{display:none}
+
+
+
+
+
+
+.mapboxgl-ctrl-attrib-button{display:none;cursor:pointer;position:absolute;background-image:url("");background-color:hsla(0,0%,100%,.0);width:0px;height:0px;box-sizing:border-box;border-radius:0px;outline:none;top:0;right:0;border:0}
+
+.mapboxgl-ctrl-bottom-left .mapboxgl-ctrl-attrib-button,.mapboxgl-ctrl-top-left .mapboxgl-ctrl-attrib-button{left:0}
+
+
+.mapboxgl-ctrl-attrib.mapboxgl-compact-show .mapboxgl-ctrl-attrib-inner,.mapboxgl-ctrl-attrib.mapboxgl-compact .mapboxgl-ctrl-attrib-button{display:block}
+
+.mapboxgl-ctrl-attrib.mapboxgl-compact-show .mapboxgl-ctrl-attrib-button{background-color:rgba(0,0,0,.0)}.mapboxgl-ctrl-bottom-right>
+
+
+.mapboxgl-ctrl-attrib.mapboxgl-compact:after{bottom:0;right:0}.mapboxgl-ctrl-top-right>
+
+
+.mapboxgl-ctrl-attrib.mapboxgl-compact:after{top:0;right:0}.mapboxgl-ctrl-top-left>
+
+
+.mapboxgl-ctrl-attrib.mapboxgl-compact:after{top:0;left:0}.mapboxgl-ctrl-bottom-left>
+
+
+.mapboxgl-ctrl-attrib.mapboxgl-compact:after{bottom:0;left:0}}
+
+
+
+@media screen and (-ms-high-contrast:active){.mapboxgl-ctrl-attrib.mapboxgl-compact:after{background-image:url("")}}@media screen and (-ms-high-contrast:black-on-white){
+
+
+.mapboxgl-ctrl-attrib.mapboxgl-compact:after{background-image:url("")}}
+
+
+.mapboxgl-ctrl-attrib a{color:rgba(0,0,0,.0);text-decoration:none}
+
+
+
+.mapboxgl-ctrl-attrib .mapbox-improve-map{font-weight:700;margin-left:2px}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.mapboxgl-attrib-empty{display:none}.mapboxgl-ctrl-scale{background-color:hsla(0,0%,100%,.75);font-size:10px;border:2px solid #333;border-top:#333;padding:0 5px;color:#333;box-sizing:border-box}.mapboxgl-popup{position:absolute;top:0;left:0;display:flex;will-change:transform;pointer-events:none}
+
+
+
+
+
+
+
+
+.mapboxgl-popup-anchor-top,.mapboxgl-popup-anchor-top-left,.mapboxgl-popup-anchor-top-right{flex-direction:column}.mapboxgl-popup-anchor-bottom,.mapboxgl-popup-anchor-bottom-left,.mapboxgl-popup-anchor-bottom-right{flex-direction:column-reverse}.mapboxgl-popup-anchor-left{flex-direction:row}.mapboxgl-popup-anchor-right{flex-direction:row-reverse}.mapboxgl-popup-tip{width:0;height:0;border:10px solid transparent;z-index:1}.mapboxgl-popup-anchor-top 
+
+
+
+.mapboxgl-popup-tip{align-self:center;border-top:none;border-bottom-color:#fff}.mapboxgl-popup-anchor-top-left .mapboxgl-popup-tip{align-self:flex-start;border-top:none;border-left:none;border-bottom-color:#fff}.mapboxgl-popup-anchor-top-right .mapboxgl-popup-tip{align-self:flex-end;border-top:none;border-right:none;border-bottom-color:#fff}.mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip{align-self:center;border-bottom:none;border-top-color:#fff}.mapboxgl-popup-anchor-bottom-left .mapboxgl-popup-tip{align-self:flex-start;border-bottom:none;border-left:none;border-top-color:#fff}.mapboxgl-popup-anchor-bottom-right .mapboxgl-popup-tip{align-self:flex-end;border-bottom:none;border-right:none;border-top-color:#fff}.mapboxgl-popup-anchor-left .mapboxgl-popup-tip{align-self:center;border-left:none;border-right-color:#fff}.mapboxgl-popup-anchor-right .mapboxgl-popup-tip{align-self:center;border-right:none;border-left-color:#fff}
+
+
+
+
+.mapboxgl-popup-close-button{position:absolute;right:0;top:0;border:0;border-radius:0 3px 0 0;cursor:pointer;background-color:transparent}.mapboxgl-popup-close-button:hover{background-color:rgba(0,0,0,.05)}
+
+
+.mapboxgl-popup-content{position:relative;background:#fff;border-radius:3px;box-shadow:0 1px 2px rgba(0,0,0,.1);padding:10px 10px 15px;pointer-events:auto}.mapboxgl-popup-anchor-top-left .mapboxgl-popup-content{border-top-left-radius:0}.mapboxgl-popup-anchor-top-right .mapboxgl-popup-content{border-top-right-radius:0}.mapboxgl-popup-anchor-bottom-left .mapboxgl-popup-content{border-bottom-left-radius:0}.mapboxgl-popup-anchor-bottom-right .mapboxgl-popup-content{border-bottom-right-radius:0}.mapboxgl-popup-track-pointer{display:none}.mapboxgl-popup-track-pointer *{pointer-events:none;user-select:none}.mapboxgl-map:hover .mapboxgl-popup-track-pointer{display:flex}.mapboxgl-map:active .mapboxgl-popup-track-pointer{display:none}.mapboxgl-marker{position:absolute;top:0;left:0;will-change:transform;opacity:1;transition:opacity .2s}.mapboxgl-user-location-dot,.mapboxgl-user-location-dot:before{background-color:#1da1f2;width:15px;height:15px;border-radius:50%}.mapboxgl-user-location-dot:before{content:"";position:absolute;animation:mapboxgl-user-location-dot-pulse 2s infinite}.mapboxgl-user-location-dot:after{border-radius:50%;border:2px solid #fff;content:"";height:19px;left:-2px;position:absolute;top:-2px;width:19px;box-sizing:border-box;box-shadow:0 0 3px rgba(0,0,0,.35)}@keyframes mapboxgl-user-location-dot-pulse{0%{transform:scale(1);opacity:1}70%{transform:scale(3);opacity:0}to{transform:scale(1);opacity:0}}.mapboxgl-user-location-dot-stale{background-color:#aaa}.mapboxgl-user-location-dot-stale:after{display:none}.mapboxgl-user-location-accuracy-circle{background-color:rgba(29,161,242,.2);width:1px;height:1px;border-radius:100%}.mapboxgl-crosshair,.mapboxgl-crosshair .mapboxgl-interactive,.mapboxgl-crosshair .mapboxgl-interactive:active{cursor:crosshair}.mapboxgl-boxzoom{position:absolute;top:0;left:0;width:0;height:0;background:#fff;border:2px dotted #202020;opacity:.5}@media print{.mapbox-improve-map{display:none}}
+
+
+</style>
+
+
+
+
+<script src="https://framework.emiia.ai/emiia-gl.js"></script>
+
+
+
+
+<style>
+body { margin: 0; padding: 0; }
+#map { position: absolute; top: 0; bottom: 0; width: 100%; background: #f8f9fa; }
+
+
+
+
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+<body>
+
+
+
+
+
+
+
+
+
+<script>
+
+!function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var t;t="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:this,t.MapboxGeocoder=e()}}(function(){var e;return function(){function e(t,n,r){function i(s,a){if(!n[s]){if(!t[s]){var u="function"==typeof require&&require;if(!a&&u)return u(s,!0);if(o)return o(s,!0);var l=new Error("Cannot find module '"+s+"'");throw l.code="MODULE_NOT_FOUND",l}var c=n[s]={exports:{}};t[s][0].call(c.exports,function(e){return i(t[s][1][e]||e)},c,c.exports,e,t,n,r)}return n[s].exports}for(var o="function"==typeof require&&require,s=0;s<r.length;s++)i(r[s]);return i}return e}()({1:[function(e,t,n){"use strict";function r(e){this.origin=e.origin||"https://api.mapbox.com",this.endpoint="events/v2",this.access_token=e.accessToken,this.version="0.2.0",this.sessionID=this.generateSessionID(),this.userAgent=this.getUserAgent(),this.options=e,this.send=this.send.bind(this),this.countries=e.countries?e.countries.split(","):null,this.types=e.types?e.types.split(","):null,this.bbox=e.bbox?e.bbox:null,this.language=e.language?e.language.split(","):null,this.limit=e.limit?+e.limit:null,this.locale=navigator.language||null,this.enableEventLogging=this.shouldEnableLogging(e),this.eventQueue=new Array,this.flushInterval=e.flushInterval||1e3,this.maxQueueSize=e.maxQueueSize||100,this.timer=this.flushInterval?setTimeout(this.flush.bind(this),this.flushInterval):null,this.lastSentInput="",this.lastSentIndex=0}var i=e("nanoid");r.prototype={select:function(e,t){var n=this.getSelectedIndex(e,t),r=this.getEventPayload("search.select",t);if(r.resultIndex=n,r.resultPlaceName=e.place_name,r.resultId=e.id,(n!==this.lastSentIndex||r.queryString!==this.lastSentInput)&&-1!=n&&(this.lastSentIndex=n,this.lastSentInput=r.queryString,r.queryString))return this.push(r)},start:function(e){var t=this.getEventPayload("search.start",e);if(t.queryString)return this.push(t)},keyevent:function(e,t){if(e.key&&!e.metaKey&&-1===[9,27,37,39,13,38,40].indexOf(e.keyCode)){var n=this.getEventPayload("search.keystroke",t);if(n.lastAction=e.key,n.queryString)return this.push(n)}},send:function(e,t){if(this.enableEventLogging){var n=this.getRequestOptions(e);this.request(n,function(e){return e?this.handleError(e,t):t?t():void 0}.bind(this))}else if(t)return t()},getRequestOptions:function(e){return Array.isArray(e)||(e=[e]),{method:"POST",host:this.origin,path:this.endpoint+"?access_token="+this.access_token,headers:{"Content-Type":"application/json"},body:JSON.stringify(e)}},getEventPayload:function(e,t){var n;n=t.options.proximity?[t.options.proximity.longitude,t.options.proximity.latitude]:null;var r=t._map?t._map.getZoom():void 0,i={event:e,created:+new Date,sessionIdentifier:this.sessionID,country:this.countries,userAgent:this.userAgent,language:this.language,bbox:this.bbox,types:this.types,endpoint:"mapbox.places",proximity:n,limit:t.options.limit,mapZoom:r,keyboardLocale:this.locale};return"search.select"===e?i.queryString=t.inputString:"search.select"!=e&&t._inputEl?i.queryString=t._inputEl.value:i.queryString=t.inputString,i},request:function(e,t){var n=new XMLHttpRequest;n.onreadystatechange=function(){if(4==this.readyState)return t(204==this.status?null:this.statusText)},n.open(e.method,e.host+"/"+e.path,!0);for(var r in e.headers){var i=e.headers[r];n.setRequestHeader(r,i)}n.send(e.body)},handleError:function(e,t){if(t)return t(e)},generateSessionID:function(){return i()},getUserAgent:function(){return"mapbox-gl-geocoder."+this.version+"."+navigator.userAgent},getSelectedIndex:function(e,t){if(t._typeahead){var n=t._typeahead.data,r=e.id;return n.map(function(e){return e.id}).indexOf(r)}},shouldEnableLogging:function(e){return!1!==e.enableEventLogging&&((!e.origin||-1!=e.origin.indexOf("api.mapbox.com"))&&(!e.localGeocoder&&!e.filter))},flush:function(){this.eventQueue.length>0&&(this.send(this.eventQueue),this.eventQueue=new Array),this.timer&&clearTimeout(this.timer),this.flushInterval&&(this.timer=setTimeout(this.flush.bind(this),this.flushInterval))},push:function(e,t){this.eventQueue.push(e),(this.eventQueue.length>=this.maxQueueSize||t)&&this.flush()},remove:function(){this.flush()}},t.exports=r},{nanoid:30}],2:[function(e,t,n){t.exports={fr:{name:"France",bbox:[[-4.59235,41.380007],[9.560016,51.148506]]},us:{name:"United States",bbox:[[-171.791111,18.91619],[-66.96466,71.357764]]},ru:{name:"Russia",bbox:[[19.66064,41.151416],[190.10042,81.2504]]},ca:{name:"Canada",bbox:[[-140.99778,41.675105],[-52.648099,83.23324]]}}},{}],3:[function(e,t,n){"use strict";function r(e){this._eventEmitter=new a,this.options=s({},this.options,e),this.inputString="",this.fresh=!0,this.lastSelected=null}var i=e("suggestions"),o=e("lodash.debounce"),s=e("xtend"),a=e("events").EventEmitter,u=e("./exceptions"),l=e("@mapbox/mapbox-sdk"),c=e("@mapbox/mapbox-sdk/services/geocoding"),h=e("./events"),p=e("./localization"),f=e("subtag");const d={FORWARD:0,LOCAL:1,REVERSE:2};r.prototype={options:{zoom:16,flyTo:!0,trackProximity:!0,minLength:2,reverseGeocode:!1,limit:5,origin:"https://api.mapbox.com",enableEventLogging:!0,marker:!0,mapboxgl:null,collapsed:!1,clearAndBlurOnEsc:!1,clearOnBlur:!1,getItemValue:function(e){return e.place_name},render:function(e){var t=e.place_name.split(",");return'<div class="mapboxgl-ctrl-geocoder--suggestion"><div class="mapboxgl-ctrl-geocoder--suggestion-title">'+t[0]+'</div><div class="mapboxgl-ctrl-geocoder--suggestion-address">'+t.splice(1,t.length).join(",")+"</div></div>"}},addTo:function(e){function t(e,t){if(!document.body.contains(t))throw new Error("Element provided to #addTo() exists, but is not in the DOM");const n=e.onAdd();t.appendChild(n)}if(e._controlContainer)e.addControl(this);else if(e instanceof HTMLElement)t(this,e);else{if("string"!=typeof e)throw new Error("Error: addTo must be a mapbox-gl-js map, an html element, or a CSS selector query for a single html element");const n=document.querySelectorAll(e);if(0===n.length)throw new Error("Element ",e,"not found.");if(n.length>1)throw new Error("Geocoder can only be added to a single html element");t(this,n[0])}},onAdd:function(e){if(e&&"string"!=typeof e&&(this._map=e),this.setLanguage(),this.options.localGeocoderOnly||(this.geocoderService=c(l({accessToken:this.options.accessToken,origin:this.options.origin}))),this.options.localGeocoderOnly&&!this.options.localGeocoder)throw new Error("A localGeocoder function must be specified to use localGeocoderOnly mode");this.eventManager=new h(this.options),this._onChange=this._onChange.bind(this),this._onKeyDown=this._onKeyDown.bind(this),this._onPaste=this._onPaste.bind(this),this._onBlur=this._onBlur.bind(this),this._showButton=this._showButton.bind(this),this._hideButton=this._hideButton.bind(this),this._onQueryResult=this._onQueryResult.bind(this),this.clear=this.clear.bind(this),this._updateProximity=this._updateProximity.bind(this),this._collapse=this._collapse.bind(this),this._unCollapse=this._unCollapse.bind(this),this._clear=this._clear.bind(this),this._clearOnBlur=this._clearOnBlur.bind(this);var t=this.container=document.createElement("div");t.className="mapboxgl-ctrl-geocoder mapboxgl-ctrl";var n=this.createIcon("search",'<path d="M7.4 2.5c-2.7 0-4.9 2.2-4.9 4.9s2.2 4.9 4.9 4.9c1 0 1.8-.2 2.5-.8l3.7 3.7c.2.2.4.3.8.3.7 0 1.1-.4 1.1-1.1 0-.3-.1-.5-.3-.8L11.4 10c.4-.8.8-1.6.8-2.5.1-2.8-2.1-5-4.8-5zm0 1.6c1.8 0 3.2 1.4 3.2 3.2s-1.4 3.2-3.2 3.2-3.3-1.3-3.3-3.1 1.4-3.3 3.3-3.3z"/>');this._inputEl=document.createElement("input"),this._inputEl.type="text",this._inputEl.className="mapboxgl-ctrl-geocoder--input",this.setPlaceholder(),this.options.collapsed&&(this._collapse(),this.container.addEventListener("mouseenter",this._unCollapse),this.container.addEventListener("mouseleave",this._collapse),this._inputEl.addEventListener("focus",this._unCollapse)),(this.options.collapsed||this.options.clearOnBlur)&&this._inputEl.addEventListener("blur",this._onBlur),this._inputEl.addEventListener("keydown",o(this._onKeyDown,200)),this._inputEl.addEventListener("paste",this._onPaste),this._inputEl.addEventListener("change",this._onChange),this.container.addEventListener("mouseenter",this._showButton),this.container.addEventListener("mouseleave",this._hideButton),this._inputEl.addEventListener("keyup",function(e){this.eventManager.keyevent(e,this)}.bind(this));var r=document.createElement("div");r.classList.add("mapboxgl-ctrl-geocoder--pin-right"),this._clearEl=document.createElement("button"),this._clearEl.setAttribute("aria-label","Clear"),this._clearEl.addEventListener("click",this.clear),this._clearEl.className="mapboxgl-ctrl-geocoder--button";var s=this.createIcon("close",'<path d="M3.8 2.5c-.6 0-1.3.7-1.3 1.3 0 .3.2.7.5.8L7.2 9 3 13.2c-.3.3-.5.7-.5 1 0 .6.7 1.3 1.3 1.3.3 0 .7-.2 1-.5L9 10.8l4.2 4.2c.2.3.7.3 1 .3.6 0 1.3-.7 1.3-1.3 0-.3-.2-.7-.3-1l-4.4-4L15 4.6c.3-.2.5-.5.5-.8 0-.7-.7-1.3-1.3-1.3-.3 0-.7.2-1 .3L9 7.1 4.8 2.8c-.3-.1-.7-.3-1-.3z"/>');return this._clearEl.appendChild(s),this._loadingEl=this.createIcon("loading",'<path fill="#333" d="M4.4 4.4l.8.8c2.1-2.1 5.5-2.1 7.6 0l.8-.8c-2.5-2.5-6.7-2.5-9.2 0z"/><path opacity=".1" d="M12.8 12.9c-2.1 2.1-5.5 2.1-7.6 0-2.1-2.1-2.1-5.5 0-7.7l-.8-.8c-2.5 2.5-2.5 6.7 0 9.2s6.6 2.5 9.2 0 2.5-6.6 0-9.2l-.8.8c2.2 2.1 2.2 5.6 0 7.7z"/>'),r.appendChild(this._clearEl),r.appendChild(this._loadingEl),t.appendChild(n),t.appendChild(this._inputEl),t.appendChild(r),this._typeahead=new i(this._inputEl,[],{filter:!1,minLength:this.options.minLength,limit:this.options.limit}),this.setRenderFunction(this.options.render),this._typeahead.getItemValue=this.options.getItemValue,this.mapMarker=null,this._handleMarker=this._handleMarker.bind(this),this._map&&(this.options.trackProximity&&(this._updateProximity(),this._map.on("moveend",this._updateProximity)),this._mapboxgl=this.options.mapboxgl,!this._mapboxgl&&this.options.marker&&(console.error("No mapboxgl detected in options. Map markers are disabled. Please set options.mapboxgl."),this.options.marker=!1)),t},createIcon:function(e,t){var n=document.createElementNS("http://www.w3.org/2000/svg","svg");if(n.setAttribute("class","mapboxgl-ctrl-geocoder--icon mapboxgl-ctrl-geocoder--icon-"+e),n.setAttribute("viewBox","0 0 18 18"),n.setAttribute("xml:space","preserve"),n.setAttribute("width",18),n.setAttribute("height",18),"innerHTML"in n)n.innerHTML=t;else{var r=document.createElement("div");r.innerHTML="<svg>"+t.valueOf().toString()+"</svg>";var i=r.firstChild,o=i.firstChild;n.appendChild(o)}return n},onRemove:function(){return this.container.parentNode.removeChild(this.container),this.options.trackProximity&&this._map&&this._map.off("moveend",this._updateProximity),this._removeMarker(),this._map=null,this},_onPaste:function(e){var t=(e.clipboardData||window.clipboardData).getData("text");t.length>=this.options.minLength&&this._geocode(t)},_onKeyDown:function(e){if(27===e.keyCode&&this.options.clearAndBlurOnEsc)return this._clear(e),this._inputEl.blur();var t=e.target&&e.target.shadowRoot?e.target.shadowRoot.activeElement:e.target;if(!(t?t.value:""))return this.fresh=!0,9!==e.keyCode&&this.clear(e),this._clearEl.style.display="none";e.metaKey||-1!==[9,27,37,39,13,38,40].indexOf(e.keyCode)||t.value.length>=this.options.minLength&&this._geocode(t.value)},_showButton:function(){this._typeahead.selected&&(this._clearEl.style.display="block")},_hideButton:function(){this._typeahead.selected&&(this._clearEl.style.display="none")},_onBlur:function(e){this.options.clearOnBlur&&this._clearOnBlur(e),this.options.collapsed&&this._collapse()},_onChange:function(){var e=this._typeahead.selected;if(e&&JSON.stringify(e)!==this.lastSelected){if(this._clearEl.style.display="none",this.options.flyTo){var t;if(e.properties&&u[e.properties.short_code])t=s({},this.options.flyTo),this._map&&this._map.fitBounds(u[e.properties.short_code].bbox,t);else if(e.bbox){var n=e.bbox;t=s({},this.options.flyTo),this._map&&this._map.fitBounds([[n[0],n[1]],[n[2],n[3]]],t)}else{var r={zoom:this.options.zoom};t=s({},r,this.options.flyTo),e.center?t.center=e.center:e.geometry&&e.geometry.type&&"Point"===e.geometry.type&&e.geometry.coordinates&&(t.center=e.geometry.coordinates),this._map&&this._map.flyTo(t)}}this.options.marker&&this._mapboxgl&&this._handleMarker(e),this._inputEl.focus(),this._inputEl.scrollLeft=0,this._inputEl.setSelectionRange(0,0),this.lastSelected=JSON.stringify(e),this._eventEmitter.emit("result",{result:e}),this.eventManager.select(e,this)}},_requestType:function(e,t){const n=/^[ ]*(-?\d+\.?\d*)[, ]+(-?\d+\.?\d*)[ ]*$/;return e.localGeocoderOnly?d.LOCAL:e.reverseGeocode&&n.test(t)?d.REVERSE:d.FORWARD},_setupConfig:function(e,t){const n=["bbox","limit","proximity","countries","types","language","reverseMode","mode"],r=/[\s,]+/;var i=this,o=n.reduce(function(e,t){if(!i.options[t])return e;["countries","types","language"].indexOf(t)>-1?e[t]=i.options[t].split(r):e[t]=i.options[t];const n="number"==typeof i.options[t].longitude&&"number"==typeof i.options[t].latitude;if("proximity"===t&&n){const o=i.options[t].longitude,s=i.options[t].latitude;e[t]=[o,s]}return e},{});switch(e){case d.REVERSE:var a=t.split(r).map(function(e){return parseFloat(e,10)}).reverse();o.types&&o.types[0],o=s(o,{query:a,limit:1}),"proximity"in o&&delete o.proximity;break;case d.FORWARD:/^[ ]*(-?\d+\.?\d*)[, ]+(-?\d+\.?\d*)*[ ]*$/.test(t)&&(t=t.replace(/,/g," ")),o=s(o,{query:t})}return o},_geocode:function(e){this.inputString=e,this._loadingEl.style.display="block",this._eventEmitter.emit("loading",{query:e});const t=this._requestType(this.options,e),n=this._setupConfig(t,e);var r;switch(t){case d.LOCAL:r=Promise.resolve();break;case d.FORWARD:r=this.geocoderService.forwardGeocode(n).send();break;case d.REVERSE:r=this.geocoderService.reverseGeocode(n).send()}var i=this.options.localGeocoder?this.options.localGeocoder(e)||[]:[],o=[],s=null;return r.catch(function(e){s=e}.bind(this)).then(function(t){this._loadingEl.style.display="none";var r={};return t?"200"==t.statusCode&&(r=t.body,r.request=t.request,r.headers=t.headers):r={type:"FeatureCollection",features:[]},r.config=n,this.fresh&&(this.eventManager.start(this),this.fresh=!1),r.features=r.features?i.concat(r.features):i,this.options.externalGeocoder?(o=this.options.externalGeocoder(e,r.features)||[],o.then(function(e){return r.features=r.features?e.concat(r.features):e,r},function(){return r})):r}.bind(this)).then(function(e){if(s)throw s;this.options.filter&&e.features.length&&(e.features=e.features.filter(this.options.filter)),e.features.length?(this._clearEl.style.display="block",this._eventEmitter.emit("results",e),this._typeahead.update(e.features)):(this._clearEl.style.display="none",this._typeahead.selected=null,this._renderNoResults(),this._eventEmitter.emit("results",e))}.bind(this)).catch(function(e){this._loadingEl.style.display="none",i.length&&this.options.localGeocoder||o.length&&this.options.externalGeocoder?(this._clearEl.style.display="block",this._typeahead.update(i)):(this._clearEl.style.display="none",this._typeahead.selected=null,this._renderError()),this._eventEmitter.emit("results",{features:i}),this._eventEmitter.emit("error",{error:e})}.bind(this)),r},_clear:function(e){e&&e.preventDefault(),this._inputEl.value="",this._typeahead.selected=null,this._typeahead.clear(),this._onChange(),this._clearEl.style.display="none",this._removeMarker(),this.lastSelected=null,this._eventEmitter.emit("clear"),this.fresh=!0},clear:function(e){this._clear(e),this._inputEl.focus()},_clearOnBlur:function(e){var t=this;e.relatedTarget&&t._clear(e)},_onQueryResult:function(e){var t=e.body;if(t.features.length){var n=t.features[0];this._typeahead.selected=n,this._inputEl.value=n.place_name,this._onChange()}},_updateProximity:function(){if(this._map)if(this._map.getZoom()>9){var e=this._map.getCenter().wrap();this.setProximity({longitude:e.lng,latitude:e.lat})}else this.setProximity(null)},_collapse:function(){this._inputEl.value||this._inputEl===document.activeElement||this.container.classList.add("mapboxgl-ctrl-geocoder--collapsed")},_unCollapse:function(){this.container.classList.remove("mapboxgl-ctrl-geocoder--collapsed")},query:function(e){return this._geocode(e).then(this._onQueryResult),this},_renderError:function(){this._renderMessage("<div class='mapbox-gl-geocoder--error'>There was an error reaching the server</div>")},_renderNoResults:function(){this._renderMessage("<div class='mapbox-gl-geocoder--error mapbox-gl-geocoder--no-results'>No results found</div>")},_renderMessage:function(e){this._typeahead.update([]),this._typeahead.selected=null,this._typeahead.clear(),this._typeahead.renderError(e)},_getPlaceholderText:function(){if(this.options.placeholder)return this.options.placeholder;if(this.options.language){var e=this.options.language.split(",")[0],t=f.language(e),n=p.placeholder[t];if(n)return n}return"Search"},setInput:function(e){return this._inputEl.value=e,this._typeahead.selected=null,this._typeahead.clear(),e.length>=this.options.minLength&&this._geocode(e),this},setProximity:function(e){return this.options.proximity=e,this},getProximity:function(){return this.options.proximity},setRenderFunction:function(e){return e&&"function"==typeof e&&(this._typeahead.render=e),this},getRenderFunction:function(){return this._typeahead.render},setLanguage:function(e){var t=navigator.language||navigator.userLanguage||navigator.browserLanguage;return this.options.language=e||this.options.language||t,this},getLanguage:function(){return this.options.language},getZoom:function(){return this.options.zoom},setZoom:function(e){return this.options.zoom=e,this},getFlyTo:function(){return this.options.flyTo},setFlyTo:function(e){return this.options.flyTo=e,this},getPlaceholder:function(){return this.options.placeholder},setPlaceholder:function(e){return this.placeholder=e||this._getPlaceholderText(),this._inputEl.placeholder=this.placeholder,this._inputEl.setAttribute("aria-label",this.placeholder),this},getBbox:function(){return this.options.bbox},setBbox:function(e){return this.options.bbox=e,this},getCountries:function(){return this.options.countries},setCountries:function(e){return this.options.countries=e,this},getTypes:function(){return this.options.types},setTypes:function(e){return this.options.types=e,this},getMinLength:function(){return this.options.minLength},setMinLength:function(e){return this.options.minLength=e,this._typeahead&&(this._typeahead.options.minLength=e),this},getLimit:function(){return this.options.limit},setLimit:function(e){return this.options.limit=e,this._typeahead&&(this._typeahead.options.limit=e),this},getFilter:function(){return this.options.filter},setFilter:function(e){return this.options.filter=e,this},setOrigin:function(e){return this.options.origin=e,this.geocoderService=c(l({accessToken:this.options.accessToken,origin:this.options.origin})),this},getOrigin:function(){return this.options.origin},_handleMarker:function(e){if(this._map){this._removeMarker();var t={color:"#4668F2"},n=s({},t,this.options.marker);return this.mapMarker=new this._mapboxgl.Marker(n),e.center?this.mapMarker.setLngLat(e.center).addTo(this._map):e.geometry&&e.geometry.type&&"Point"===e.geometry.type&&e.geometry.coordinates&&this.mapMarker.setLngLat(e.geometry.coordinates).addTo(this._map),this}},_removeMarker:function(){this.mapMarker&&(this.mapMarker.remove(),this.mapMarker=null)},on:function(e,t){return this._eventEmitter.on(e,t),this},off:function(e,t){return this._eventEmitter.removeListener(e,t),this.eventManager.remove(),this}},t.exports=r},{"./events":1,"./exceptions":2,"./localization":4,"@mapbox/mapbox-sdk":6,"@mapbox/mapbox-sdk/services/geocoding":17,events:25,"lodash.debounce":29,subtag:32,suggestions:33,xtend:36}],4:[function(e,t,n){"use strict";var r={de:"Suche",it:"Ricerca",en:"Search",nl:"Zoeken",fr:"Chercher",ca:"Cerca",he:"לחפש",ja:"サーチ",lv:"Meklēt",pt:"Procurar",sr:"Претрага",zh:"搜索",cs:"Vyhledávání",hu:"Keresés",ka:"ძიება",nb:"Søke",sk:"Vyhľadávanie",th:"ค้นหา",fi:"Hae",is:"Leita",ko:"수색",pl:"Szukaj",sl:"Iskanje",fa:"جستجو",ru:"Поиск"};t.exports={placeholder:r}},{}],5:[function(e,t,n){"use strict";function r(e){var t=Array.isArray(e),n=function(n){return t?e[n]:e};return function(r){var o=i(m.plainArray,r);if(o)return o;if(t&&r.length!==e.length)return"an array with "+e.length+" items";for(var s=0;s<r.length;s++)if(o=i(n(s),r[s]))return[s].concat(o)}}function i(e,t){if(null!=t||e.hasOwnProperty("__required")){var n=e(t);return n?Array.isArray(n)?n:[n]:void 0}}function o(e,t){var n=e.length,r=e[n-1],i=e.slice(0,n-1);return 0===i.length&&(i=[d]),t=f(t,{path:i}),"function"==typeof r?r(t):l(t,a(r))}function s(e){return e.length<2?e[0]:2===e.length?e.join(" or "):e.slice(0,-1).join(", ")+", or "+e.slice(-1)}function a(e){return"must be "+u(e)+"."}function u(e){return/^an? /.test(e)?e:/^[aeiou]/i.test(e)?"an "+e:/^[a-z]/i.test(e)?"a "+e:e}function l(e,t){var n=c(e.path),r=e.path.join(".")+" "+t;return(n?"Item at position ":"")+r}function c(e){return"number"==typeof e[e.length-1]||"number"==typeof e[0]}function h(e){return Object.keys(e||{}).map(function(t){return{key:t,value:e[t]}})}var p=e("is-plain-obj"),f=e("xtend"),d="value",m={};m.assert=function(e,t){return t=t||{},function(n){var r=i(e,n);if(r){var s=o(r,t);throw t.apiName&&(s=t.apiName+": "+s),new Error(s)}}},m.shape=function(e){var t=h(e);return function(e){var n=i(m.plainObject,e);if(n)return n;for(var r,s,a=[],u=0;u<t.length;u++)r=t[u].key,s=t[u].value,(n=i(s,e[r]))&&a.push([r].concat(n));return a.length<2?a[0]:function(e){a=a.map(function(t){return"- "+t[0]+": "+o(t,e).split("\n").join("\n  ")});var t=e.path.join(".");return"The following properties"+(t===d?"":" of "+t)+" have invalid values:\n  "+a.join("\n  ")}}},m.strictShape=function(e){var t=m.shape(e);return function(n){var r=t(n);if(r)return r;var i=Object.keys(n).reduce(function(t,n){return void 0===e[n]&&t.push(n),t},[]);return 0!==i.length?function(){return"The following keys are invalid: "+i.join(", ")}:void 0}},m.arrayOf=function(e){return r(e)},m.tuple=function(){return r(Array.isArray(arguments[0])?arguments[0]:Array.prototype.slice.call(arguments))},m.required=function(e){function t(t){return null==t?function(e){return l(e,c(e.path)?"cannot be undefined/null.":"is required.")}:e.apply(this,arguments)}return t.__required=!0,t},m.oneOfType=function(){var e=Array.isArray(arguments[0])?arguments[0]:Array.prototype.slice.call(arguments);return function(t){var n=e.map(function(e){return i(e,t)}).filter(Boolean);if(n.length===e.length)return n.every(function(e){return 1===e.length&&"string"==typeof e[0]})?s(n.map(function(e){return e[0]})):n.reduce(function(e,t){return t.length>e.length?t:e})}},m.equal=function(e){return function(t){if(t!==e)return JSON.stringify(e)}},m.oneOf=function(){var e=Array.isArray(arguments[0])?arguments[0]:Array.prototype.slice.call(arguments),t=e.map(function(e){return m.equal(e)});return m.oneOfType.apply(this,t)},m.range=function(e){var t=e[0],n=e[1];return function(e){if(i(m.number,e)||e<t||e>n)return"number between "+t+" & "+n+" (inclusive)"}},m.any=function(){},m.boolean=function(e){if("boolean"!=typeof e)return"boolean"},m.number=function(e){if("number"!=typeof e)return"number"},m.plainArray=function(e){if(!Array.isArray(e))return"array"},m.plainObject=function(e){if(!p(e))return"object"},m.string=function(e){if("string"!=typeof e)return"string"},m.func=function(e){if("function"!=typeof e)return"function"},m.validate=i,m.processMessage=o,t.exports=m},{"is-plain-obj":28,xtend:36}],6:[function(e,t,n){"use strict";var r=e("./lib/client");t.exports=r},{"./lib/client":7}],7:[function(e,t,n){"use strict";function r(e){s.call(this,e)}function i(e){return new r(e)}var o=e("./browser-layer"),s=e("../classes/mapi-client");r.prototype=Object.create(s.prototype),r.prototype.constructor=r,r.prototype.sendRequest=o.browserSend,r.prototype.abortRequest=o.browserAbort,t.exports=i},{"../classes/mapi-client":9,"./browser-layer":8}],8:[function(e,t,n){"use strict";function r(e){var t=f[e.id];t&&(t.abort(),delete f[e.id])}function i(e,t){return new l(e,{body:t.response,headers:p(t.getAllResponseHeaders()),statusCode:t.status})}function o(e){var t=e.total,n=e.loaded;return{total:t,transferred:n,percent:100*n/t}}function s(e,t){return new Promise(function(n,r){t.onprogress=function(t){e.emitter.emit(h.EVENT_PROGRESS_DOWNLOAD,o(t))};var i=e.file;i&&(t.upload.onprogress=function(t){e.emitter.emit(h.EVENT_PROGRESS_UPLOAD,o(t))}),t.onerror=function(e){r(e)},t.onabort=function(){var t=new c({request:e,type:h.ERROR_REQUEST_ABORTED});r(t)},t.onload=function(){if(delete f[e.id],t.status<200||t.status>=400){var i=new c({request:e,body:t.response,statusCode:t.status});return void r(i)}n(t)};var s=e.body;"string"==typeof s?t.send(s):s?t.send(JSON.stringify(s)):i?t.send(i):t.send(),f[e.id]=t}).then(function(t){return i(e,t)})}function a(e,t){var n=e.url(t),r=new window.XMLHttpRequest;return r.open(e.method,n),Object.keys(e.headers).forEach(function(t){r.setRequestHeader(t,e.headers[t])}),r}function u(e){return Promise.resolve().then(function(){var t=a(e,e.client.accessToken);return s(e,t)})}var l=e("../classes/mapi-response"),c=e("../classes/mapi-error"),h=e("../constants"),p=e("../helpers/parse-headers"),f={};t.exports={browserAbort:r,sendRequestXhr:s,browserSend:u,createRequestXhr:a}},{"../classes/mapi-error":10,"../classes/mapi-response":12,"../constants":13,"../helpers/parse-headers":14}],9:[function(e,t,n){"use strict";function r(e){if(!e||!e.accessToken)throw new Error("Cannot create a client without an access token");i(e.accessToken),this.accessToken=e.accessToken,this.origin=e.origin||s.API_ORIGIN}var i=e("@mapbox/parse-mapbox-token"),o=e("./mapi-request"),s=e("../constants");r.prototype.createRequest=function(e){return new o(this,e)},t.exports=r},{"../constants":13,"./mapi-request":11,"@mapbox/parse-mapbox-token":23}],10:[function(e,t,n){"use strict";function r(e){var t,n=e.type||i.ERROR_HTTP;if(e.body)try{t=JSON.parse(e.body)}catch(n){t=e.body}else t=null;var r=e.message||null;r||("string"==typeof t?r=t:t&&"string"==typeof t.message?r=t.message:n===i.ERROR_REQUEST_ABORTED&&(r="Request aborted")),this.message=r,this.type=n,this.statusCode=e.statusCode||null,this.request=e.request,this.body=t}var i=e("../constants");t.exports=r},{"../constants":13}],11:[function(e,t,n){"use strict";function r(e,t){if(!e)throw new Error("MapiRequest requires a client");if(!t||!t.path||!t.method)throw new Error("MapiRequest requires an options object with path and method properties");var n={};t.body&&(n["content-type"]="application/json");var r=o(n,t.headers),i=Object.keys(r).reduce(function(e,t){return e[t.toLowerCase()]=r[t],e},{});this.id=l++,this._options=t,this.emitter=new s,this.client=e,this.response=null,this.error=null,this.sent=!1,this.aborted=!1,this.path=t.path,this.method=t.method,this.origin=t.origin||e.origin,this.query=t.query||{},this.params=t.params||{},this.body=t.body||null,this.file=t.file||null,this.encoding=t.encoding||"utf8",this.sendFileAs=t.sendFileAs||null,this.headers=i}var i=e("@mapbox/parse-mapbox-token"),o=e("xtend"),s=e("eventemitter3"),a=e("../helpers/url-utils"),u=e("../constants"),l=1;r.prototype.url=function(e){var t=a.prependOrigin(this.path,this.origin);t=a.appendQueryObject(t,this.query);var n=this.params,r=null==e?this.client.accessToken:e;if(r){t=a.appendQueryParam(t,"access_token",r);var s=i(r).user;n=o({ownerId:s},n)}return t=a.interpolateRouteParams(t,n),t},r.prototype.send=function(){var e=this;if(e.sent)throw new Error("This request has already been sent. Check the response and error properties. Create a new request with clone().");return e.sent=!0,e.client.sendRequest(e).then(function(t){return e.response=t,e.emitter.emit(u.EVENT_RESPONSE,t),t},function(t){throw e.error=t,e.emitter.emit(u.EVENT_ERROR,t),t})},r.prototype.abort=function(){this._nextPageRequest&&(this._nextPageRequest.abort(),delete this._nextPageRequest),this.response||this.error||this.aborted||(this.aborted=!0,this.client.abortRequest(this))},r.prototype.eachPage=function(e){function t(t){function n(){delete i._nextPageRequest;var e=t.nextPage();e&&(i._nextPageRequest=e,r(e))}e(null,t,n)}function n(t){e(t,null,function(){})}function r(e){e.send().then(t,n)}var i=this;r(this)},r.prototype.clone=function(){return this._extend()},r.prototype._extend=function(e){var t=o(this._options,e);return new r(this.client,t)},t.exports=r},{"../constants":13,"../helpers/url-utils":16,"@mapbox/parse-mapbox-token":23,eventemitter3:26,xtend:36}],12:[function(e,t,n){"use strict";function r(e,t){this.request=e,this.headers=t.headers,this.rawBody=t.body,this.statusCode=t.statusCode;try{this.body=JSON.parse(t.body||"{}")}catch(e){this.body=t.body}this.links=i(this.headers.link)}var i=e("../helpers/parse-link-header");r.prototype.hasNextPage=function(){return!!this.links.next},r.prototype.nextPage=function(){return this.hasNextPage()?this.request._extend({path:this.links.next.url}):null},t.exports=r},{"../helpers/parse-link-header":15}],13:[function(e,t,n){"use strict";t.exports={API_ORIGIN:"https://api.mapbox.com",EVENT_PROGRESS_DOWNLOAD:"downloadProgress",EVENT_PROGRESS_UPLOAD:"uploadProgress",EVENT_ERROR:"error",EVENT_RESPONSE:"response",ERROR_HTTP:"HttpError",ERROR_REQUEST_ABORTED:"RequestAbortedError"}},{}],14:[function(e,t,n){"use strict";function r(e){var t=e.indexOf(":");return{name:e.substring(0,t).trim().toLowerCase(),value:e.substring(t+1).trim()}}function i(e){var t={};return e?(e.trim().split(/[\r|\n]+/).forEach(function(e){var n=r(e);t[n.name]=n.value}),t):t}t.exports=i},{}],15:[function(e,t,n){"use strict";function r(e){var t=e.match(/\s*(.+)\s*=\s*"?([^"]+)"?/);return t?{key:t[1],value:t[2]}:null}function i(e){var t=e.match(/<?([^>]*)>(.*)/);if(!t)return null;var n=t[1],i=t[2].split(";"),o=null,s=i.reduce(function(e,t){var n=r(t);return n?"rel"===n.key?(o||(o=n.value),e):(e[n.key]=n.value,e):e},{});return o?{url:n,rel:o,params:s}:null}function o(e){return e?e.split(/,\s*</).reduce(function(e,t){var n=i(t);return n?(n.rel.split(/\s+/).forEach(function(t){e[t]||(e[t]={url:n.url,params:n.params})}),e):e},{}):{}}t.exports=o},{}],16:[function(e,t,n){"use strict";function r(e){return e.map(encodeURIComponent).join(",")}function i(e){return Array.isArray(e)?r(e):encodeURIComponent(String(e))}function o(e,t,n){if(!1===n||null===n)return e;var r=/\?/.test(e)?"&":"?",o=encodeURIComponent(t);return void 0!==n&&""!==n&&!0!==n&&(o+="="+i(n)),""+e+r+o}function s(e,t){if(!t)return e;var n=e;return Object.keys(t).forEach(function(e){var r=t[e];void 0!==r&&(Array.isArray(r)&&(r=r.filter(function(e){return null!==e&&void 0!==e}).join(",")),n=o(n,e,r))}),n}function a(e,t){if(!t)return e;if("http"===e.slice(0,4))return e;var n="/"===e[0]?"":"/";return""+t.replace(/\/$/,"")+n+e}function u(e,t){return t?e.replace(/\/:([a-zA-Z0-9]+)/g,function(e,n){var r=t[n];if(void 0===r)throw new Error("Unspecified route parameter "+n);return"/"+i(r)}):e}t.exports={appendQueryObject:s,appendQueryParam:o,prependOrigin:a,interpolateRouteParams:u}},{}],17:[function(e,t,n){"use strict";var r=e("xtend"),i=e("./service-helpers/validator"),o=e("./service-helpers/pick"),s=e("./service-helpers/stringify-booleans"),a=e("./service-helpers/create-service-factory"),u={},l=["country","region","postcode","district","place","locality","neighborhood","address","poi","poi.landmark"];u.forwardGeocode=function(e){i.assertShape({query:i.required(i.string),mode:i.oneOf("mapbox.places","mapbox.places-permanent"),countries:i.arrayOf(i.string),proximity:i.coordinates,types:i.arrayOf(i.oneOf(l)),autocomplete:i.boolean,bbox:i.arrayOf(i.number),limit:i.number,language:i.arrayOf(i.string),routing:i.boolean})(e),e.mode=e.mode||"mapbox.places";var t=s(r({country:e.countries},o(e,["proximity","types","autocomplete","bbox","limit","language","routing"])))
+;return this.client.createRequest({method:"GET",path:"/geocoding/v5/:mode/:query.json",params:o(e,["mode","query"]),query:t})},u.reverseGeocode=function(e){i.assertShape({query:i.required(i.coordinates),mode:i.oneOf("mapbox.places","mapbox.places-permanent"),countries:i.arrayOf(i.string),types:i.arrayOf(i.oneOf(l)),bbox:i.arrayOf(i.number),limit:i.number,language:i.arrayOf(i.string),reverseMode:i.oneOf("distance","score"),routing:i.boolean})(e),e.mode=e.mode||"mapbox.places";var t=s(r({country:e.countries},o(e,["country","types","bbox","limit","language","reverseMode","routing"])));return this.client.createRequest({method:"GET",path:"/geocoding/v5/:mode/:query.json",params:o(e,["mode","query"]),query:t})},t.exports=a(u)},{"./service-helpers/create-service-factory":18,"./service-helpers/pick":20,"./service-helpers/stringify-booleans":21,"./service-helpers/validator":22,xtend:36}],18:[function(e,t,n){"use strict";function r(e){return function(t){var n;n=i.prototype.isPrototypeOf(t)?t:o(t);var r=Object.create(e);return r.client=n,r}}var i=e("../../lib/classes/mapi-client"),o=e("../../lib/client");t.exports=r},{"../../lib/classes/mapi-client":9,"../../lib/client":7}],19:[function(e,t,n){"use strict";function r(e,t){return Object.keys(e).reduce(function(n,r){return n[r]=t(r,e[r]),n},{})}t.exports=r},{}],20:[function(e,t,n){"use strict";function r(e,t){var n=function(e,n){return-1!==t.indexOf(e)&&void 0!==n};return"function"==typeof t&&(n=t),Object.keys(e).filter(function(t){return n(t,e[t])}).reduce(function(t,n){return t[n]=e[n],t},{})}t.exports=r},{}],21:[function(e,t,n){"use strict";function r(e){return i(e,function(e,t){return"boolean"==typeof t?JSON.stringify(t):t})}var i=e("./object-map");t.exports=r},{"./object-map":19}],22:[function(e,t,n){(function(n){"use strict";function r(e){if("undefined"!=typeof window){if(e instanceof n.Blob||e instanceof n.ArrayBuffer)return;return"Blob or ArrayBuffer"}if("string"!=typeof e&&void 0===e.pipe)return"Filename or Readable stream"}function i(e,t){return u.assert(u.strictShape(e),t)}function o(e){if("boolean"==typeof e)return"date";try{var t=new Date(e);if(t.getTime&&isNaN(t.getTime()))return"date"}catch(e){return"date"}}function s(e){return u.tuple(u.number,u.number)(e)}var a=e("xtend"),u=e("@mapbox/fusspot");t.exports=a(u,{file:r,date:o,coordinates:s,assertShape:i})}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{"@mapbox/fusspot":5,xtend:36}],23:[function(e,t,n){"use strict";function r(e){if(a[e])return a[e];var t=e.split("."),n=t[0],r=t[1];if(!r)throw new Error("Invalid token");var s=i(r),u={usage:n,user:s.u};return o(s,"a")&&(u.authorization=s.a),o(s,"exp")&&(u.expires=1e3*s.exp),o(s,"iat")&&(u.created=1e3*s.iat),o(s,"scopes")&&(u.scopes=s.scopes),o(s,"client")&&(u.client=s.client),o(s,"ll")&&(u.lastLogin=s.ll),o(s,"iu")&&(u.impersonator=s.iu),a[e]=u,u}function i(e){try{return JSON.parse(s.decode(e))}catch(e){throw new Error("Invalid token")}}function o(e,t){return Object.prototype.hasOwnProperty.call(e,t)}var s=e("base-64"),a={};t.exports=r},{"base-64":24}],24:[function(t,n,r){(function(t){!function(i){var o="object"==typeof r&&r,s="object"==typeof n&&n&&n.exports==o&&n,a="object"==typeof t&&t;a.global!==a&&a.window!==a||(i=a);var u=function(e){this.message=e};u.prototype=new Error,u.prototype.name="InvalidCharacterError";var l=function(e){throw new u(e)},c="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/",h=/[\t\n\f\r ]/g,p=function(e){e=String(e).replace(h,"");var t=e.length;t%4==0&&(e=e.replace(/==?$/,""),t=e.length),(t%4==1||/[^+a-zA-Z0-9/]/.test(e))&&l("Invalid character: the string to be decoded is not correctly encoded.");for(var n,r,i=0,o="",s=-1;++s<t;)r=c.indexOf(e.charAt(s)),n=i%4?64*n+r:r,i++%4&&(o+=String.fromCharCode(255&n>>(-2*i&6)));return o},f=function(e){e=String(e),/[^\0-\xFF]/.test(e)&&l("The string to be encoded contains characters outside of the Latin1 range.");for(var t,n,r,i,o=e.length%3,s="",a=-1,u=e.length-o;++a<u;)t=e.charCodeAt(a)<<16,n=e.charCodeAt(++a)<<8,r=e.charCodeAt(++a),i=t+n+r,s+=c.charAt(i>>18&63)+c.charAt(i>>12&63)+c.charAt(i>>6&63)+c.charAt(63&i);return 2==o?(t=e.charCodeAt(a)<<8,n=e.charCodeAt(++a),i=t+n,s+=c.charAt(i>>10)+c.charAt(i>>4&63)+c.charAt(i<<2&63)+"="):1==o&&(i=e.charCodeAt(a),s+=c.charAt(i>>2)+c.charAt(i<<4&63)+"=="),s},d={encode:f,decode:p,version:"0.1.0"};if("function"==typeof e&&"object"==typeof e.amd&&e.amd)e(function(){return d});else if(o&&!o.nodeType)if(s)s.exports=d;else for(var m in d)d.hasOwnProperty(m)&&(o[m]=d[m]);else i.base64=d}(this)}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{}],25:[function(e,t,n){function r(){this._events&&Object.prototype.hasOwnProperty.call(this,"_events")||(this._events=x(null),this._eventsCount=0),this._maxListeners=this._maxListeners||void 0}function i(e){return void 0===e._maxListeners?r.defaultMaxListeners:e._maxListeners}function o(e,t,n){if(t)e.call(n);else for(var r=e.length,i=g(e,r),o=0;o<r;++o)i[o].call(n)}function s(e,t,n,r){if(t)e.call(n,r);else for(var i=e.length,o=g(e,i),s=0;s<i;++s)o[s].call(n,r)}function a(e,t,n,r,i){if(t)e.call(n,r,i);else for(var o=e.length,s=g(e,o),a=0;a<o;++a)s[a].call(n,r,i)}function u(e,t,n,r,i,o){if(t)e.call(n,r,i,o);else for(var s=e.length,a=g(e,s),u=0;u<s;++u)a[u].call(n,r,i,o)}function l(e,t,n,r){if(t)e.apply(n,r);else for(var i=e.length,o=g(e,i),s=0;s<i;++s)o[s].apply(n,r)}function c(e,t,n,r){var o,s,a;if("function"!=typeof n)throw new TypeError('"listener" argument must be a function');if(s=e._events,s?(s.newListener&&(e.emit("newListener",t,n.listener?n.listener:n),s=e._events),a=s[t]):(s=e._events=x(null),e._eventsCount=0),a){if("function"==typeof a?a=s[t]=r?[n,a]:[a,n]:r?a.unshift(n):a.push(n),!a.warned&&(o=i(e))&&o>0&&a.length>o){a.warned=!0;var u=new Error("Possible EventEmitter memory leak detected. "+a.length+' "'+String(t)+'" listeners added. Use emitter.setMaxListeners() to increase limit.');u.name="MaxListenersExceededWarning",u.emitter=e,u.type=t,u.count=a.length,"object"==typeof console&&console.warn&&console.warn("%s: %s",u.name,u.message)}}else a=s[t]=n,++e._eventsCount;return e}function h(){if(!this.fired)switch(this.target.removeListener(this.type,this.wrapFn),this.fired=!0,arguments.length){case 0:return this.listener.call(this.target);case 1:return this.listener.call(this.target,arguments[0]);case 2:return this.listener.call(this.target,arguments[0],arguments[1]);case 3:return this.listener.call(this.target,arguments[0],arguments[1],arguments[2]);default:for(var e=new Array(arguments.length),t=0;t<e.length;++t)e[t]=arguments[t];this.listener.apply(this.target,e)}}function p(e,t,n){var r={fired:!1,wrapFn:void 0,target:e,type:t,listener:n},i=w.call(h,r);return i.listener=n,r.wrapFn=i,i}function f(e,t,n){var r=e._events;if(!r)return[];var i=r[t];return i?"function"==typeof i?n?[i.listener||i]:[i]:n?y(i):g(i,i.length):[]}function d(e){var t=this._events;if(t){var n=t[e];if("function"==typeof n)return 1;if(n)return n.length}return 0}function m(e,t){for(var n=t,r=n+1,i=e.length;r<i;n+=1,r+=1)e[n]=e[r];e.pop()}function g(e,t){for(var n=new Array(t),r=0;r<t;++r)n[r]=e[r];return n}function y(e){for(var t=new Array(e.length),n=0;n<t.length;++n)t[n]=e[n].listener||e[n];return t}function v(e){var t=function(){};return t.prototype=e,new t}function b(e){var t=[];for(var n in e)Object.prototype.hasOwnProperty.call(e,n)&&t.push(n);return n}function _(e){var t=this;return function(){return t.apply(e,arguments)}}var x=Object.create||v,E=Object.keys||b,w=Function.prototype.bind||_;t.exports=r,r.EventEmitter=r,r.prototype._events=void 0,r.prototype._maxListeners=void 0;var O,L=10;try{var k={};Object.defineProperty&&Object.defineProperty(k,"x",{value:0}),O=0===k.x}catch(e){O=!1}O?Object.defineProperty(r,"defaultMaxListeners",{enumerable:!0,get:function(){return L},set:function(e){if("number"!=typeof e||e<0||e!==e)throw new TypeError('"defaultMaxListeners" must be a positive number');L=e}}):r.defaultMaxListeners=L,r.prototype.setMaxListeners=function(e){if("number"!=typeof e||e<0||isNaN(e))throw new TypeError('"n" argument must be a positive number');return this._maxListeners=e,this},r.prototype.getMaxListeners=function(){return i(this)},r.prototype.emit=function(e){var t,n,r,i,c,h,p="error"===e;if(h=this._events)p=p&&null==h.error;else if(!p)return!1;if(p){if(arguments.length>1&&(t=arguments[1]),t instanceof Error)throw t;var f=new Error('Unhandled "error" event. ('+t+")");throw f.context=t,f}if(!(n=h[e]))return!1;var d="function"==typeof n;switch(r=arguments.length){case 1:o(n,d,this);break;case 2:s(n,d,this,arguments[1]);break;case 3:a(n,d,this,arguments[1],arguments[2]);break;case 4:u(n,d,this,arguments[1],arguments[2],arguments[3]);break;default:for(i=new Array(r-1),c=1;c<r;c++)i[c-1]=arguments[c];l(n,d,this,i)}return!0},r.prototype.addListener=function(e,t){return c(this,e,t,!1)},r.prototype.on=r.prototype.addListener,r.prototype.prependListener=function(e,t){return c(this,e,t,!0)},r.prototype.once=function(e,t){if("function"!=typeof t)throw new TypeError('"listener" argument must be a function');return this.on(e,p(this,e,t)),this},r.prototype.prependOnceListener=function(e,t){if("function"!=typeof t)throw new TypeError('"listener" argument must be a function');return this.prependListener(e,p(this,e,t)),this},r.prototype.removeListener=function(e,t){var n,r,i,o,s;if("function"!=typeof t)throw new TypeError('"listener" argument must be a function');if(!(r=this._events))return this;if(!(n=r[e]))return this;if(n===t||n.listener===t)0==--this._eventsCount?this._events=x(null):(delete r[e],r.removeListener&&this.emit("removeListener",e,n.listener||t));else if("function"!=typeof n){for(i=-1,o=n.length-1;o>=0;o--)if(n[o]===t||n[o].listener===t){s=n[o].listener,i=o;break}if(i<0)return this;0===i?n.shift():m(n,i),1===n.length&&(r[e]=n[0]),r.removeListener&&this.emit("removeListener",e,s||t)}return this},r.prototype.removeAllListeners=function(e){var t,n,r;if(!(n=this._events))return this;if(!n.removeListener)return 0===arguments.length?(this._events=x(null),this._eventsCount=0):n[e]&&(0==--this._eventsCount?this._events=x(null):delete n[e]),this;if(0===arguments.length){var i,o=E(n);for(r=0;r<o.length;++r)"removeListener"!==(i=o[r])&&this.removeAllListeners(i);return this.removeAllListeners("removeListener"),this._events=x(null),this._eventsCount=0,this}if("function"==typeof(t=n[e]))this.removeListener(e,t);else if(t)for(r=t.length-1;r>=0;r--)this.removeListener(e,t[r]);return this},r.prototype.listeners=function(e){return f(this,e,!0)},r.prototype.rawListeners=function(e){return f(this,e,!1)},r.listenerCount=function(e,t){return"function"==typeof e.listenerCount?e.listenerCount(t):d.call(e,t)},r.prototype.listenerCount=d,r.prototype.eventNames=function(){return this._eventsCount>0?Reflect.ownKeys(this._events):[]}},{}],26:[function(e,t,n){"use strict";function r(){}function i(e,t,n){this.fn=e,this.context=t,this.once=n||!1}function o(e,t,n,r,o){if("function"!=typeof n)throw new TypeError("The listener must be a function");var s=new i(n,r||e,o),a=l?l+t:t;return e._events[a]?e._events[a].fn?e._events[a]=[e._events[a],s]:e._events[a].push(s):(e._events[a]=s,e._eventsCount++),e}function s(e,t){0==--e._eventsCount?e._events=new r:delete e._events[t]}function a(){this._events=new r,this._eventsCount=0}var u=Object.prototype.hasOwnProperty,l="~";Object.create&&(r.prototype=Object.create(null),(new r).__proto__||(l=!1)),a.prototype.eventNames=function(){var e,t,n=[];if(0===this._eventsCount)return n;for(t in e=this._events)u.call(e,t)&&n.push(l?t.slice(1):t);return Object.getOwnPropertySymbols?n.concat(Object.getOwnPropertySymbols(e)):n},a.prototype.listeners=function(e){var t=l?l+e:e,n=this._events[t];if(!n)return[];if(n.fn)return[n.fn];for(var r=0,i=n.length,o=new Array(i);r<i;r++)o[r]=n[r].fn;return o},a.prototype.listenerCount=function(e){var t=l?l+e:e,n=this._events[t];return n?n.fn?1:n.length:0},a.prototype.emit=function(e,t,n,r,i,o){var s=l?l+e:e;if(!this._events[s])return!1;var a,u,c=this._events[s],h=arguments.length;if(c.fn){switch(c.once&&this.removeListener(e,c.fn,void 0,!0),h){case 1:return c.fn.call(c.context),!0;case 2:return c.fn.call(c.context,t),!0;case 3:return c.fn.call(c.context,t,n),!0;case 4:return c.fn.call(c.context,t,n,r),!0;case 5:return c.fn.call(c.context,t,n,r,i),!0;case 6:return c.fn.call(c.context,t,n,r,i,o),!0}for(u=1,a=new Array(h-1);u<h;u++)a[u-1]=arguments[u];c.fn.apply(c.context,a)}else{var p,f=c.length;for(u=0;u<f;u++)switch(c[u].once&&this.removeListener(e,c[u].fn,void 0,!0),h){case 1:c[u].fn.call(c[u].context);break;case 2:c[u].fn.call(c[u].context,t);break;case 3:c[u].fn.call(c[u].context,t,n);break;case 4:c[u].fn.call(c[u].context,t,n,r);break;default:if(!a)for(p=1,a=new Array(h-1);p<h;p++)a[p-1]=arguments[p];c[u].fn.apply(c[u].context,a)}}return!0},a.prototype.on=function(e,t,n){return o(this,e,t,n,!1)},a.prototype.once=function(e,t,n){return o(this,e,t,n,!0)},a.prototype.removeListener=function(e,t,n,r){var i=l?l+e:e;if(!this._events[i])return this;if(!t)return s(this,i),this;var o=this._events[i];if(o.fn)o.fn!==t||r&&!o.once||n&&o.context!==n||s(this,i);else{for(var a=0,u=[],c=o.length;a<c;a++)(o[a].fn!==t||r&&!o[a].once||n&&o[a].context!==n)&&u.push(o[a]);u.length?this._events[i]=1===u.length?u[0]:u:s(this,i)}return this},a.prototype.removeAllListeners=function(e){var t;return e?(t=l?l+e:e,this._events[t]&&s(this,t)):(this._events=new r,this._eventsCount=0),this},a.prototype.off=a.prototype.removeListener,a.prototype.addListener=a.prototype.on,a.prefixed=l,a.EventEmitter=a,void 0!==t&&(t.exports=a)},{}],27:[function(e,t,n){!function(){var e=this,r={};void 0!==n?t.exports=r:e.fuzzy=r,r.simpleFilter=function(e,t){return t.filter(function(t){return r.test(e,t)})},r.test=function(e,t){return null!==r.match(e,t)},r.match=function(e,t,n){n=n||{};var r,i=0,o=[],s=t.length,a=0,u=0,l=n.pre||"",c=n.post||"",h=n.caseSensitive&&t||t.toLowerCase();e=n.caseSensitive&&e||e.toLowerCase();for(var p=0;p<s;p++)r=t[p],h[p]===e[i]?(r=l+r+c,i+=1,u+=1+u):u=0,a+=u,o[o.length]=r;return i===e.length?(a=h===e?1/0:a,{rendered:o.join(""),score:a}):null},r.filter=function(e,t,n){return t&&0!==t.length?"string"!=typeof e?t:(n=n||{},t.reduce(function(t,i,o,s){var a=i;n.extract&&(a=n.extract(i));var u=r.match(e,a,n);return null!=u&&(t[t.length]={string:u.rendered,score:u.score,index:o,original:i}),t},[]).sort(function(e,t){var n=t.score-e.score;return n||e.index-t.index})):[]}}()},{}],28:[function(e,t,n){"use strict";var r=Object.prototype.toString;t.exports=function(e){var t;return"[object Object]"===r.call(e)&&(null===(t=Object.getPrototypeOf(e))||t===Object.getPrototypeOf({}))}},{}],29:[function(e,t,n){(function(e){function n(e,t,n){function i(t){var n=m,r=g;return m=g=void 0,O=t,v=e.apply(r,n)}function o(e){return O=e,b=setTimeout(c,t),L?i(e):v}function u(e){var n=e-w,r=e-O,i=t-n;return k?x(i,y-r):i}function l(e){var n=e-w,r=e-O;return void 0===w||n>=t||n<0||k&&r>=y}function c(){var e=E();if(l(e))return h(e);b=setTimeout(c,u(e))}function h(e){return b=void 0,T&&m?i(e):(m=g=void 0,v)}function p(){void 0!==b&&clearTimeout(b),O=0,m=w=g=b=void 0}function f(){return void 0===b?v:h(E())}function d(){var e=E(),n=l(e);if(m=arguments,g=this,w=e,n){if(void 0===b)return o(w);if(k)return b=setTimeout(c,t),i(w)}return void 0===b&&(b=setTimeout(c,t)),v}var m,g,y,v,b,w,O=0,L=!1,k=!1,T=!0;if("function"!=typeof e)throw new TypeError(a);return t=s(t)||0,r(n)&&(L=!!n.leading,k="maxWait"in n,y=k?_(s(n.maxWait)||0,t):y,T="trailing"in n?!!n.trailing:T),d.cancel=p,d.flush=f,d}function r(e){var t=typeof e;return!!e&&("object"==t||"function"==t)}function i(e){return!!e&&"object"==typeof e}function o(e){return"symbol"==typeof e||i(e)&&b.call(e)==l}function s(e){if("number"==typeof e)return e;if(o(e))return u;if(r(e)){var t="function"==typeof e.valueOf?e.valueOf():e;e=r(t)?t+"":t}if("string"!=typeof e)return 0===e?e:+e;e=e.replace(c,"");var n=p.test(e);return n||f.test(e)?d(e.slice(2),n?2:8):h.test(e)?u:+e}var a="Expected a function",u=NaN,l="[object Symbol]",c=/^\s+|\s+$/g,h=/^[-+]0x[0-9a-f]+$/i,p=/^0b[01]+$/i,f=/^0o[0-7]+$/i,d=parseInt,m="object"==typeof e&&e&&e.Object===Object&&e,g="object"==typeof self&&self&&self.Object===Object&&self,y=m||g||Function("return this")(),v=Object.prototype,b=v.toString,_=Math.max,x=Math.min,E=function(){return y.Date.now()};t.exports=n}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{}],30:[function(e,t,n){(function(e){if("production"!==e.env.NODE_ENV&&("undefined"==typeof self||!self.crypto&&!self.msCrypto))throw new Error("Your browser does not have secure random generator. If you don’t need unpredictable IDs, you can use nanoid/non-secure.");var n=self.crypto||self.msCrypto;t.exports=function(e){e=e||21;for(var t="",r=n.getRandomValues(new Uint8Array(e));0<e--;)t+="Uint8ArdomValuesObj012345679BCDEFGHIJKLMNPQRSTWXYZ_cfghkpqvwxyz-"[63&r[e]];return t}}).call(this,e("_process"))},{_process:31}],31:[function(e,t,n){function r(){throw new Error("setTimeout has not been defined")}function i(){throw new Error("clearTimeout has not been defined")}function o(e){if(h===setTimeout)return setTimeout(e,0);if((h===r||!h)&&setTimeout)return h=setTimeout,setTimeout(e,0);try{return h(e,0)}catch(t){try{return h.call(null,e,0)}catch(t){return h.call(this,e,0)}}}function s(e){if(p===clearTimeout)return clearTimeout(e);if((p===i||!p)&&clearTimeout)return p=clearTimeout,clearTimeout(e);try{return p(e)}catch(t){try{return p.call(null,e)}catch(t){return p.call(this,e)}}}function a(){g&&d&&(g=!1,d.length?m=d.concat(m):y=-1,m.length&&u())}function u(){if(!g){var e=o(a);g=!0;for(var t=m.length;t;){for(d=m,m=[];++y<t;)d&&d[y].run();y=-1,t=m.length}d=null,g=!1,s(e)}}function l(e,t){this.fun=e,this.array=t}function c(){}var h,p,f=t.exports={};!function(){try{h="function"==typeof setTimeout?setTimeout:r}catch(e){h=r}try{p="function"==typeof clearTimeout?clearTimeout:i}catch(e){p=i}}();var d,m=[],g=!1,y=-1;f.nextTick=function(e){var t=new Array(arguments.length-1);if(arguments.length>1)for(var n=1;n<arguments.length;n++)t[n-1]=arguments[n];m.push(new l(e,t)),1!==m.length||g||o(u)},l.prototype.run=function(){this.fun.apply(null,this.array)},f.title="browser",f.browser=!0,f.env={},f.argv=[],f.version="",f.versions={},f.on=c,f.addListener=c,f.once=c,f.off=c,f.removeListener=c,f.removeAllListeners=c,f.emit=c,f.prependListener=c,f.prependOnceListener=c,f.listeners=function(e){return[]},f.binding=function(e){throw new Error("process.binding is not supported")},f.cwd=function(){return"/"},f.chdir=function(e){throw new Error("process.chdir is not supported")},f.umask=function(){return 0}},{}],32:[function(e,t,n){!function(e,n,r){void 0!==t&&t.exports?t.exports=r():e.subtag=r()}(this,0,function(){function e(e){return e.match(s)||[]}function t(t){return e(t).filter(function(e,t){return e&&t})}function n(t){return t=e(t),{language:t[1]||o,extlang:t[2]||o,script:t[3]||o,region:t[4]||o}}function r(e,t,n){Object.defineProperty(e,t,{value:n,enumerable:!0})}function i(t,i,s){function a(n){return e(n)[t]||o}r(a,"pattern",i),r(n,s,a)}var o="",s=/^([a-zA-Z]{2,3})(?:[_-]+([a-zA-Z]{3})(?=$|[_-]+))?(?:[_-]+([a-zA-Z]{4})(?=$|[_-]+))?(?:[_-]+([a-zA-Z]{2}|[0-9]{3})(?=$|[_-]+))?/;return i(1,/^[a-zA-Z]{2,3}$/,"language"),i(2,/^[a-zA-Z]{3}$/,"extlang"),i(3,/^[a-zA-Z]{4}$/,"script"),i(4,/^[a-zA-Z]{2}$|^[0-9]{3}$/,"region"),r(n,"split",t),n})},{}],33:[function(e,t,n){"use strict";var r=e("./src/suggestions");window.Suggestions=t.exports=r},{"./src/suggestions":35}],34:[function(e,t,n){"Use strict";var r=function(e){return this.component=e,this.items=[],this.active=0,this.wrapper=document.createElement("div"),this.wrapper.className="suggestions-wrapper",this.element=document.createElement("ul"),this.element.className="suggestions",this.wrapper.appendChild(this.element),this.selectingListItem=!1,e.el.parentNode.insertBefore(this.wrapper,e.el.nextSibling),this};r.prototype.show=function(){this.element.style.display="block"},r.prototype.hide=function(){this.element.style.display="none"},r.prototype.add=function(e){this.items.push(e)},r.prototype.clear=function(){this.items=[],this.active=0},r.prototype.isEmpty=function(){return!this.items.length},r.prototype.isVisible=function(){return"block"===this.element.style.display},r.prototype.draw=function(){if(this.element.innerHTML="",0===this.items.length)return void this.hide();for(var e=0;e<this.items.length;e++)this.drawItem(this.items[e],this.active===e);this.show()},r.prototype.drawItem=function(e,t){var n=document.createElement("li"),r=document.createElement("a");t&&(n.className+=" active"),r.innerHTML=e.string,n.appendChild(r),this.element.appendChild(n),n.addEventListener("mousedown",function(){this.selectingListItem=!0}.bind(this)),n.addEventListener("mouseup",function(){this.handleMouseUp.call(this,e)}.bind(this))},r.prototype.handleMouseUp=function(e){this.selectingListItem=!1,this.component.value(e.original),this.clear(),this.draw()},r.prototype.move=function(e){this.active=e,this.draw()},r.prototype.previous=function(){this.move(0===this.active?this.items.length-1:this.active-1)},r.prototype.next=function(){this.move(this.active===this.items.length-1?0:this.active+1)},r.prototype.drawError=function(e){var t=document.createElement("li");t.innerHTML=e,this.element.appendChild(t),this.show()},t.exports=r},{}],35:[function(e,t,n){"use strict";var r=e("xtend"),i=e("fuzzy"),o=e("./list"),s=function(e,t,n){return n=n||{},this.options=r({minLength:2,limit:5,filter:!0},n),this.el=e,this.data=t||[],this.list=new o(this),this.query="",this.selected=null,this.list.draw(),this.el.addEventListener("keyup",function(e){this.handleKeyUp(e.keyCode)}.bind(this),!1),this.el.addEventListener("keydown",function(e){this.handleKeyDown(e)}.bind(this)),this.el.addEventListener("focus",function(){this.handleFocus()}.bind(this)),this.el.addEventListener("blur",function(){this.handleBlur()}.bind(this)),this.el.addEventListener("paste",function(e){this.handlePaste(e)}.bind(this)),this.render=this.options.render?this.options.render.bind(this):this.render.bind(this),this.getItemValue=this.options.getItemValue?this.options.getItemValue.bind(this):this.getItemValue.bind(this),this};s.prototype.handleKeyUp=function(e){40!==e&&38!==e&&27!==e&&13!==e&&9!==e&&this.handleInputChange(this.el.value)},s.prototype.handleKeyDown=function(e){switch(e.keyCode){case 13:case 9:this.list.isEmpty()||(this.list.isVisible()&&e.preventDefault(),this.value(this.list.items[this.list.active].original),this.list.hide());break;case 27:this.list.isEmpty()||this.list.hide();break;case 38:this.list.previous();break;case 40:this.list.next()}},s.prototype.handleBlur=function(){this.list.selectingListItem||this.list.hide()},s.prototype.handlePaste=function(e){if(e.clipboardData)this.handleInputChange(e.clipboardData.getData("Text"));else{var t=this;setTimeout(function(){t.handleInputChange(e.target.value)},100)}},s.prototype.handleInputChange=function(e){if(this.query=this.normalize(e),this.list.clear(),this.query.length<this.options.minLength)return void this.list.draw();this.getCandidates(function(e){for(var t=0;t<e.length&&(this.list.add(e[t]),t!==this.options.limit-1);t++);this.list.draw()}.bind(this))},s.prototype.handleFocus=function(){this.list.isEmpty()||this.list.show(),this.list.selectingListItem=!1},s.prototype.update=function(e){this.data=e,this.handleKeyUp()},s.prototype.clear=function(){this.data=[],this.list.clear()},s.prototype.normalize=function(e){return e=e.toLowerCase()},s.prototype.match=function(e,t){return e.indexOf(t)>-1},s.prototype.value=function(e){if(this.selected=e,this.el.value=this.getItemValue(e),document.createEvent){var t=document.createEvent("HTMLEvents");t.initEvent("change",!0,!1),this.el.dispatchEvent(t)}else this.el.fireEvent("onchange")},s.prototype.getCandidates=function(e){var t,n={pre:"<strong>",post:"</strong>",extract:function(e){return this.getItemValue(e)}.bind(this)};this.options.filter?(t=i.filter(this.query,this.data,n),t=t.map(function(e){return{original:e.original,string:this.render(e.original,e.string)}}.bind(this))):t=this.data.map(function(e){return{original:e,string:this.render(e)}}.bind(this)),e(t)},s.prototype.getItemValue=function(e){return e},s.prototype.render=function(e,t){if(t)return t;for(var n=e.original?this.getItemValue(e.original):this.getItemValue(e),r=this.normalize(n),i=r.lastIndexOf(this.query);i>-1;){var o=i+this.query.length;n=n.slice(0,i)+"<strong>"+n.slice(i,o)+"</strong>"+n.slice(o),i=r.slice(0,i).lastIndexOf(this.query)}return n},s.prototype.renderError=function(e){this.list.drawError(e)},t.exports=s},{"./list":34,fuzzy:27,xtend:36}],36:[function(e,t,n){function r(){for(var e={},t=0;t<arguments.length;t++){var n=arguments[t];for(var r in n)i.call(n,r)&&(e[r]=n[r])}return e}t.exports=r;var i=Object.prototype.hasOwnProperty},{}]},{},[3])(3)});
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>
+
+/* Basics */
+.mapboxgl-ctrl-geocoder,
+.mapboxgl-ctrl-geocoder *,
+.mapboxgl-ctrl-geocoder *:after,
+.mapboxgl-ctrl-geocoder *:before {
+  box-sizing: border-box;
+}
+
+
+.mapboxgl-ctrl-geocoder {
+  font-size: 16px;
+  line-height: 12px;
+  font-family: "Montserrat, montserrat;
+  position: relative;
+  background-color: #fffffff3;
+  width: 80%;
+  min-width: 240px;
+  z-index: 1;
+  border-radius: 4px;
+  transition: width .25s, min-width .25s;
+}
+
+.mapboxgl-ctrl-geocoder--input {
+  font: inherit;
+  width: 100%;
+  border: 0;
+  background-color: transparent;
+  margin: 0;
+  height: 45px;
+  color: #404040; /* fallback */
+  color: rgba(0, 0, 0, 0.75);
+  padding: 6px 45px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.mapboxgl-ctrl-geocoder--input::-ms-clear {
+  display: none; /* hide input clear button in IE */
+}
+
+.mapboxgl-ctrl-geocoder--input:focus {
+  color: #404040; /* fallback 3d85c6ff*/
+  color: rgba(0, 0, 0, 0.75);
+  outline: 0;
+  box-shadow: none;
+  outline: thin dotted;
+}
+
+.mapboxgl-ctrl-geocoder .mapboxgl-ctrl-geocoder--pin-right > * {
+  z-index: 2;
+  position: absolute;
+  right: 8px;
+  top: 6px;
+  display: none;
+}
+
+.mapboxgl-ctrl-geocoder,
+.mapboxgl-ctrl-geocoder .suggestions {
+  box-shadow: 0 0 10px 2px rgba(0,0,0,.1);
+}
+
+/* Collapsed */
+.mapboxgl-ctrl-geocoder.mapboxgl-ctrl-geocoder--collapsed {
+  width: 40px;
+  min-width: 40px;
+  transition: width .25s, min-width .25s;
+}
+
+/* Suggestions */
+.mapboxgl-ctrl-geocoder .suggestions {
+  background-color: #fff;
+  border-radius: 4px;
+  left: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  width: 100%;
+  top: 110%; /* fallback */
+  top: calc(100% + 6px);
+  z-index: 1000;
+  overflow: hidden;
+  font-size: 15px;
+}
+
+.mapboxgl-ctrl-bottom-left .suggestions,
+.mapboxgl-ctrl-bottom-right .suggestions {
+  top: auto;
+  bottom: 100%;
+}
+
+.mapboxgl-ctrl-geocoder .suggestions > li > a {
+  cursor: default;
+  display: block;
+  padding: 6px 12px;
+  color: #404040;
+}
+
+.mapboxgl-ctrl-geocoder .suggestions > .active > a,
+.mapboxgl-ctrl-geocoder .suggestions > li > a:hover {
+  color: #404040;
+  background-color: #f3f3f3;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.mapboxgl-ctrl-geocoder--suggestion-title {
+  font-weight: bold;
+}
+
+.mapboxgl-ctrl-geocoder--suggestion-title,
+.mapboxgl-ctrl-geocoder--suggestion-address {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* Icons */
+.mapboxgl-ctrl-geocoder--icon {
+  display: inline-block;
+  vertical-align: middle;
+  speak: none;
+  fill: #383838;
+  top: 15px;
+}
+
+.mapboxgl-ctrl-geocoder--icon-search {
+  position: absolute;
+  top: 13px;
+  left: 12px;
+  width: 23px;
+  height: 23px;
+}
+
+.mapboxgl-ctrl-geocoder--button {
+  padding: 0;
+  margin: 0;
+  border: none;
+  cursor: pointer;
+  background: #fff;
+  line-height: 1;
+}
+
+.mapboxgl-ctrl-geocoder--icon-close {
+  width: 20px;
+  height: 20px;
+  margin-top: 8px;
+  margin-right: 5px;
+}
+
+.mapboxgl-ctrl-geocoder--button:hover .mapboxgl-ctrl-geocoder--icon-close {
+  fill: #909090;
+}
+
+.mapboxgl-ctrl-geocoder--icon-loading {
+  width: 26px;
+  height: 26px;
+  margin-top: 5px;
+  margin-right: 0px;
+  -moz-animation: rotate 0.8s infinite cubic-bezier(0.45, 0.05, 0.55, 0.95);
+  -webkit-animation: rotate 0.8s infinite cubic-bezier(0.45, 0.05, 0.55, 0.95);
+  animation: rotate 0.8s infinite cubic-bezier(0.45, 0.05, 0.55, 0.95);
+}
+
+/* Animation */
+@-webkit-keyframes rotate {
+  from {
+    -webkit-transform: rotate(0);
+    transform: rotate(0);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rotate {
+  from {
+    -webkit-transform: rotate(0);
+    transform: rotate(0);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+/* Media queries*/
+@media screen and (min-width: 640px) {
+
+  .mapboxgl-ctrl-geocoder.mapboxgl-ctrl-geocoder--collapsed {
+    width: 36px;
+    min-width: 36px;
+  }
+
+  .mapboxgl-ctrl-geocoder {
+    width: 33.3333%;
+    font-size: 15px;
+    line-height: 20px;
+    max-width: 360px;
+  }
+  .mapboxgl-ctrl-geocoder .suggestions {
+    font-size: 13px;
+  }
+
+  .mapboxgl-ctrl-geocoder--icon {
+    top: 8px;
+  }
+
+  .mapboxgl-ctrl-geocoder--icon-close {
+    width: 16px;
+    height: 16px;
+    margin-top: 3px;
+    margin-right: 0;
+  }
+
+  .mapboxgl-ctrl-geocoder--icon-search {
+    left: 7px;
+    width: 20px;
+    height: 20px;
+  }
+
+  .mapboxgl-ctrl-geocoder--input {
+    height: 36px;
+    padding: 6px 35px;
+  }
+
+  .mapboxgl-ctrl-geocoder--icon-loading {
+    width: 26px;
+    height: 26px;
+    margin-top: -2px;
+    margin-right: -5px;
+  }
+
+  .mapbox-gl-geocoder--error{
+    color:#909090;
+    padding: 6px 12px;
+    font-size: 16px;
+    text-align: center
+  }
+
+}
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Promise polyfill script required to use Mapbox GL Geocoder in IE 11 -->
+<script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
+
+
+
+ 
+<style>
+.geocoder-dropdown-item {
+padding: 5px;
+}
+.geocoder-dropdown-icon {
+margin-right: 10px;
+}
+.geocoder-dropdown-text {
+color: #3d85c6ff;
+font-family: Montserrat, montserrat;
+font-size: larger;
+}
+</style>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+  
+  
+  
+  
+  
+  
+  
+  
+ 
+
+ 
+ <style>
+  
+*{margin:0;padding:0}body{font-family:-apple-system,Montserrat, montserrat;font-size:14px;font-weight:400;line-height:1.5}.is-loading{position:fixed;right:0;bottom:0;height:100%;text-align:center;color:#536580;padding-top:22%;text-shadow:0 2px 3px hsla(0,0%,100%,.4);background:hsla(0,0%,100%,.6);font-size:1.5rem;z-index:99999}.app-info,.is-loading{top:0;left:0;width:100%}.app-info{display:block;position:absolute;margin:0;padding:.5rem .75rem;background-color:transparent;color:#2b3441;z-index:1!important;box-sizing:border-box}.app-info *{text-shadow:0 2px 3px hsla(0,0%,100%,.6),0 -2px 3px hsla(0,0%,100%,.6)}.app-info h1{font-size:1rem;margin:.2rem 0;font-weight:400}.app-info h1 .lang-en{display:block;font-size:.875rem}.app-info p{font-size:.75rem;color:#545d6a}.app-info a{color:#536580;text-decoration:none}.app-info a:focus,.app-info a:hover{color:#495971;text-decoration:underline}.language-toggle-button{position:absolute;right:.75rem;top:.5rem;-webkit-appearance:none;padding:.5rem .75rem;color:#536580;background:hsla(0,0%,100%,.8);border:0;border-radius:4px;text-shadow:none;font-size:.75rem}.language-toggle-button:focus,.language-toggle-button:hover{color:#495971;background-color:#fff}.wrapper[lang*=zh-] [lang=en],.wrapper[lang=en] [lang*=zh-]{display:none}.mapContainer{position:absolute;top:0;left:0;right:0;bottom:0;width:100vw;height:100vh}.marker{background-image:url(/images/pin.svg);background-size:auto 100%;width:32px;height:32px;cursor:pointer}.mapboxgl-popup-content{font-size:1rem;border-radius:4px;padding:1rem 1.25rem;min-width:240px}[lang=en] .mapboxgl-popup-content{min-width:280px}.mapboxgl-popup .tag{font-size:.875rem;color:#545d6a;line-height:1.2}.mapboxgl-popup .tag[lang=en]{font-size:.75rem}.mapboxgl-popup h3{color:#2b3441;margin:.5rem 0;text-transform:capitalize;line-height:1.2}.mapboxgl-popup h3[lang=en]{font-size:.875rem}.mapboxgl-popup p{font-size:.875rem;color:#545d6a;margin-bottom:.25rem}.mapboxgl-popup p[lang=en]{font-size:.875rem}.mapboxgl-popup .divider{color:#efefef}.mapboxgl-popup a{color:#536580;text-decoration:none}.mapboxgl-popup a:focus,.mapboxgl-popup a:hover{color:#495971;text-decoration:underline}.mapboxgl-popup-close-button{font-size:1.25rem;padding:0 .5rem}
+/*# sourceMappingURL=main.9498309c.chunk.css.map */
+  
+  
+ </style> 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ <style>
+body { margin: 0; padding: 0; }
+#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+
+button1 {
+   position: absolute;
+}
+
+    #marker1 {
+        background-image: url('https://www.emiia.ai/emiia143.1.1.svg');
+        background-size: cover;
+        width: 76px;
+        height: 93px;
+        border-radius: 0%;
+        cursor: pointer;
+    }
+
+    .mapboxgl-popup {
+        max-width: 200px;
+    }
+    
+    
+    
+    
+
+
+
+
+  </style>
+  
+  
+  
+  	  <style>
+body { margin: 0; padding: 0; }
+#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+
+
+button1 {
+   position: absolute;
+}
+
+button:focus {
+outline: none !important
+}
+
+*{
+outline: none !important
+}
+
+    #marker2 {
+        background-image: url('');
+        background-size: cover;
+        width: 45px;
+        height: 75px;
+        border-radius: 0%;
+        cursor: pointer;
+    }
+
+    .mapboxgl-popup {
+        max-width: 200px;
+    }
+
+
+  </style>
+  
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+<div id="map"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+<script>
+	mapboxgl.accessToken = 'pk.eyJ1IjoiZW1paWFhaSIsImEiOiJja21icnU4bHkyNGRwMnFrbjVvNXdtdGJ0In0.TcfxV21Ov7zOgvWvgPxzlA';
+    
+    
+    var monument1 = [37.17402239557072, 55.97723794736996];
+
+var monument2 = [37.24402239557072, 55.97723794736996];
+    
+var map = new mapboxgl.Map({
+container: 'map',
+style: 'mapbox://styles/emiiaai/ckokdowlw0w6g18mwekerixhn',
+center: [37.6097, 55.7701],
+        zoom: 7.25,
+        pitch: 50,
+        bearing: 0
+});
+ 
+ 
+ // Original ES6 Class— https://github.com/tobinbradley/mapbox-gl-pitch-toggle-control
+// export default class PitchToggle {
+class PitchToggle {
+  constructor({ bearing = -20, pitch = 70, minpitchzoom = null }) {
+    this._bearing = bearing;
+    this._pitch = pitch;
+    this._minpitchzoom = minpitchzoom;
+  }
+
+  onAdd(map) {
+    this._map = map;
+    let _this = this;
+
+    this._btn = document.createElement("button");
+    this._btn.className = "mapboxgl-ctrl-icon mapboxgl-ctrl-pitchtoggle-3d";
+    this._btn.type = "button";
+    this._btn["aria-label"] = "Toggle Pitch";
+    this._btn.onclick = function() {
+      if (map.getPitch() === 0) {
+        let options = { pitch: _this._pitch, bearing: _this._bearing };
+        if (_this._minpitchzoom && map.getZoom() > _this._minpitchzoom) {
+          options.zoom = _this._minpitchzoom;
+        }
+        map.easeTo(options);
+        _this._btn.className =
+          "mapboxgl-ctrl-icon mapboxgl-ctrl-pitchtoggle-2d";
+      } else {
+        map.easeTo({ pitch: 0, bearing: 0 });
+        _this._btn.className =
+          "mapboxgl-ctrl-icon mapboxgl-ctrl-pitchtoggle-3d";
+      }
+    };
+
+    this._container = document.createElement("div");
+    this._container.className = "mapboxgl-ctrl-group mapboxgl-ctrl";
+    this._container.appendChild(this._btn);
+
+    return this._container;
+  }
+
+  onRemove() {
+    this._container.parentNode.removeChild(this._container);
+    this._map = undefined;
+  }
+}
+
+/* Idea from Stack Overflow https://stackoverflow.com/a/51683226  */
+class MapboxGLButtonControl {
+  constructor({
+    className = "",
+    title = "",
+    eventHandler = evtHndlr
+  }) {
+    this._className = className;
+    this._title = title;
+    this._eventHandler = eventHandler;
+  }
+
+  onAdd(map) {
+    this._btn = document.createElement("button");
+    this._btn.className = "mapboxgl-ctrl-icon" + " " + this._className;
+    this._btn.type = "button";
+    this._btn.title = this._title;
+    this._btn.onclick = this._eventHandler;
+
+    this._container = document.createElement("div");
+    this._container.className = "mapboxgl-ctrl-group mapboxgl-ctrl";
+    this._container.appendChild(this._btn);
+
+    return this._container;
+  }
+
+  onRemove() {
+    this._container.parentNode.removeChild(this._container);
+    this._map = undefined;
+  }
+}
+
+/* Event Handlers */
+function one(event) {
+  alert("Event handler when clicking on \r\n" + event.target.className);
+  console.log("event number 1", event);
+}
+
+function two(event) {
+  alert("Event handler when clicking on \r\n" + event.target.className);
+  console.log("event number 2", event);
+}
+
+function three(event) {
+  alert("Event handler when clicking on \r\n" + event.target.className);
+  console.log("event number 3", event);
+}
+
+/* Instantiate new controls with custom event handlers */
+const ctrlPoint = new MapboxGLButtonControl({
+  className: "mapbox-gl-draw_point",
+  title: "Draw Point",
+  eventHandler: one
+});
+
+const ctrlLine = new MapboxGLButtonControl({
+  className: "mapbox-gl-draw_line",
+  title: "Draw Line",
+  eventHandler: two
+});
+
+const ctrlPolygon = new MapboxGLButtonControl({
+  className: "mapbox-gl-draw_polygon",
+  title: "Draw Polygon",
+  eventHandler: three
+});
+
+/* Add Controls to the Map */
+map.addControl(new mapboxgl.NavigationControl(), "top-left");
+map.addControl(new PitchToggle({ minpitchzoom: 11 }), "top-left");
+map.addControl(ctrlPoint, "bottom-left");
+map.addControl(ctrlLine, "bottom-right");
+
+map.addControl(ctrlPolygon, "top-right");
+map.addControl(ctrlPolygon, "top-right");
+map.addControl(ctrlPolygon, "top-right");
+ 
+ 
+ 
+ 
+ var geocoder = new MapboxGeocoder({
+accessToken: mapboxgl.accessToken,
+types: 'poi',
+// see https://docs.mapbox.com/api/search/#geocoding-response-object for information about the schema of each response feature
+render: function (item) {
+
+// extract the item's maki icon or use a default
+var maki = item.properties.maki || 'marker';
+return (
+"<div class='geocoder-dropdown-item'><img class='geocoder-dropdown-icon' src='https://unpkg.com/@mapbox/maki@6.1.0/icons/" +
+maki +
+"-15.svg'><span class='geocoder-dropdown-text'>" +
+item.text +
+'</span></div>'
+);
+
+},
+
+
+mapboxgl: mapboxgl
+});
+map.addControl(geocoder);
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ // Add zoom and rotation controls to the map.
+var nav = new mapboxgl.NavigationControl();
+map.addControl(nav, 'top-left');
+
+  popup = new mapboxgl.Popup({
+      closeOnClick: false,
+      closeButton: false,
+      anchor: 'bottom-left',
+    });
+
+
+
+        
+           // create the popup
+    var popup = new mapboxgl.Popup({ offset: 25 }).setText(
+        'EMIIA.AI MACHINE RADIO VISION'
+    );
+
+    // create DOM element for the marker
+    var el = document.createElement('div');
+    el.id = 'marker1';
+
+    // create the marker
+    new mapboxgl.Marker(el)
+        .setLngLat(monument1)
+        .setPopup(popup) // sets a popup on this marker
+        .addTo(map); 
+        
+    
+    
+    
+        
+                   // create the popup
+    var popup = new mapboxgl.Popup({ offset: 25 }).setText(
+        'EMIIA.AI MACHINE RADIO VISION'
+    );
+
+    // create DOM element for the marker
+    var el = document.createElement('div');
+    el.id = 'marker2';
+
+    // create the marker
+    new mapboxgl.Marker(el)
+        .setLngLat(monument2)
+        .setPopup(popup) // sets a popup on this marker
+        .addTo(map); 
+        
+        
+        
+        
+        
+        
+    
+    
+    
+    
+    
+
+    map.on('load', function () {
+        // Insert the layer beneath any symbol layer.
+        var layers = map.getStyle().layers;
+        var labelLayerId;
+        for (var i = 0; i < layers.length; i++) {
+            if (layers[i].type === 'symbol' && layers[i].layout['text-field']) {
+                labelLayerId = layers[i].id;
+                break;
+            }
+        }
+
+        // The 'building' layer in the Mapbox Streets
+        // vector tileset contains building height data
+        // from OpenStreetMap.
+        map.addLayer(
+            {
+                'id': 'add-3d-buildings',
+                'source': 'composite',
+                'source-layer': 'building',
+                'filter': ['==', 'extrude', 'true'],
+                'type': 'fill-extrusion',
+                'minzoom': 15,
+                'paint': {
+                    'fill-extrusion-color': '#d4d4d4',
+
+                    // Use an 'interpolate' expression to
+                    // add a smooth transition effect to
+                    // the buildings as the user zooms in.
+                    'fill-extrusion-height': [
+                        'interpolate',
+                        ['linear'],
+                        ['zoom'],
+                        15,
+                        0,
+                        15.05,
+                        ['get', 'height']
+                    ],
+                    'fill-extrusion-base': [
+                        'interpolate',
+                        ['linear'],
+                        ['zoom'],
+                        15,
+                        0,
+                        15.05,
+                        ['get', 'min_height']
+                    ],
+                    'fill-extrusion-opacity': 0.5
+                }
+            },
+
+            labelLayerId
+        );
+    });
+    
+    
+    
+    
+    
+    
+    
+  
+  
+  
+  
+  
+  
+  
+
+
+
+
+
+
+  var size = 100;
+
+    // This implements `StyleImageInterface`
+    // to draw a pulsing dot icon on the map.
+    var pulsingDot1 = {
+        width: size,
+        height: size,
+        data: new Uint8Array(size * size * 4),
+
+        // When the layer is added to the map,
+        // get the rendering context for the map canvas.
+        onAdd: function () {
+            var canvas = document.createElement('canvas');
+            canvas.width = this.width;
+            canvas.height = this.height;
+            this.context = canvas.getContext('2d');
+        },
+
+        // Call once before every frame where the icon will be used.
+        render: function () {
+            var duration = 1000;
+            var t = (performance.now() % duration) / duration;
+
+            var radius = (size / 2) * 0.3;
+            var outerRadius = (size / 2) * 0.7 * t + radius;
+            var context = this.context;
+
+            // Draw the outer circle.
+            context.clearRect(0, 0, this.width, this.height);
+            context.beginPath();
+            context.arc(
+                this.width / 2,
+                this.height / 2,
+                outerRadius,
+                0,
+                Math.PI * 2
+            );
+            context.fillStyle = 'rgba(61, 133, 198,' + (0 - t) + ')';
+            context.fill();
+
+            // Draw the inner circle.
+            context.beginPath();
+            context.arc(
+                this.width / 2,
+                this.height / 2,
+                radius,
+                0,
+                Math.PI * 2
+            );
+            context.fillStyle = '#3d85c6';
+            context.strokeStyle = 'white';
+            context.lineWidth = 2 + 4 * (1 - t);
+            context.fill();
+            context.stroke();
+
+            // Update this image's data with data from the canvas.
+            this.data = context.getImageData(
+                0,
+                0,
+                this.width,
+                this.height
+            ).data;
+
+            // Continuously repaint the map, resulting
+            // in the smooth animation of the dot.
+            map.triggerRepaint();
+
+            // Return `true` to let the map know that the image was updated.
+            return true;
+        }
+    };
+
+    map.on('load', function () {
+        map.addImage('pulsing-dot1', pulsingDot1, { pixelRatio: 2 });
+
+        map.addSource('dot-point1', {
+            'type': 'geojson',
+            'data': { "id": "layer-with-pulsing-dot1",
+                'type': 'FeatureCollection',
+                'features': [
+                    {
+                        'type': 'Feature1',
+                        'geometry': {
+                            'type': 'Point',
+                           
+                   
+                            'coordinates' : [37.17408380155007, 55.97734541443717], // icon position [lng, lat]
+                        }
+                        
+                        
+                        
+                        
+                    }
+                ]
+            }
+        });
+        
+
+        
+        map.addLayer({
+            'id': 'layer-with-pulsing-dot1',
+            'type': 'symbol',
+            'source': 'dot-point1',
+            'layout': {
+                'icon-image': 'pulsing-dot1'
+            }
+        });
+    });
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+var size = 100;
+
+    // This implements `StyleImageInterface`
+    // to draw a pulsing dot icon on the map.
+    var pulsingDot2 = {
+        width: size,
+        height: size,
+        data: new Uint8Array(size * size * 4),
+
+        // When the layer is added to the map,
+        // get the rendering context for the map canvas.
+        onAdd: function () {
+            var canvas = document.createElement('canvas');
+            canvas.width = this.width;
+            canvas.height = this.height;
+            this.context = canvas.getContext('2d');
+        },
+
+        // Call once before every frame where the icon will be used.
+        render: function () {
+            var duration = 1500;
+            var t = (performance.now() % duration) / duration;
+
+            var radius = (size / 2) * 0.3;
+            var outerRadius = (size / 2) * 0.7 * t + radius;
+            var context = this.context;
+
+            // Draw the outer circle.
+            context.clearRect(0, 0, this.width, this.height);
+            context.beginPath();
+            context.arc(
+                this.width / 2,
+                this.height / 2,
+                outerRadius,
+                0,
+                Math.PI * 2
+            );
+            context.fillStyle = 'rgba(61, 133, 198,' + (0 - t) + ')';
+            context.fill();
+
+            // Draw the inner circle.
+            context.beginPath();
+            context.arc(
+                this.width / 2,
+                this.height / 2,
+                radius,
+                0,
+                Math.PI * 2
+            );
+            context.fillStyle = '#3d85c6';
+            context.strokeStyle = 'white';
+            context.lineWidth = 2 + 4 * (1 - t);
+            context.fill();
+            context.stroke();
+
+            // Update this image's data with data from the canvas.
+            this.data = context.getImageData(
+                0,
+                0,
+                this.width,
+                this.height
+            ).data;
+
+            // Continuously repaint the map, resulting
+            // in the smooth animation of the dot.
+            map.triggerRepaint();
+
+            // Return `true` to let the map know that the image was updated.
+            return true;
+        }
+    };
+
+    map.on('load', function () {
+        map.addImage('pulsing-dot2', pulsingDot2, { pixelRatio: 2 });
+
+        map.addSource('dot-point2', {
+            'type': 'geojson',
+            'data': { "id": "layer-with-pulsing-dot2",
+                'type': 'FeatureCollection',
+                'features': [
+                    {
+                        'type': 'Feature2',
+                        'geometry': {
+                            'type': 'Point',
+                           
+                   
+                            'coordinates' : [37.174090608623146, 55.977438727435384], // icon position [lng, lat]
+                        }
+                        
+                        
+                        
+                        
+                    }
+                ]
+            }
+        });
+        
+
+        
+        map.addLayer({
+            'id': 'layer-with-pulsing-dot2',
+            'type': 'symbol',
+            'source': 'dot-point2',
+            'layout': {
+                'icon-image': 'pulsing-dot2'
+            }
+        });
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  var size = 100;
+
+    // This implements `StyleImageInterface`
+    // to draw a pulsing dot icon on the map.
+    var pulsingDot3 = {
+        width: size,
+        height: size,
+        data: new Uint8Array(size * size * 4),
+
+        // When the layer is added to the map,
+        // get the rendering context for the map canvas.
+        onAdd: function () {
+            var canvas = document.createElement('canvas');
+            canvas.width = this.width;
+            canvas.height = this.height;
+            this.context = canvas.getContext('2d');
+        },
+
+        // Call once before every frame where the icon will be used.
+        render: function () {
+            var duration = 2000;
+            var t = (performance.now() % duration) / duration;
+
+            var radius = (size / 2) * 0.3;
+            var outerRadius = (size / 2) * 0.7 * t + radius;
+            var context = this.context;
+
+            // Draw the outer circle.
+            context.clearRect(0, 0, this.width, this.height);
+            context.beginPath();
+            context.arc(
+                this.width / 2,
+                this.height / 2,
+                outerRadius,
+                0,
+                Math.PI * 2
+            );
+            context.fillStyle = 'rgba(61, 133, 198,' + (0 - t) + ')';
+            context.fill();
+
+            // Draw the inner circle.
+            context.beginPath();
+            context.arc(
+                this.width / 2,
+                this.height / 2,
+                radius,
+                0,
+                Math.PI * 2
+            );
+            context.fillStyle = '#3d85c6';
+            context.strokeStyle = 'white';
+            context.lineWidth = 2 + 4 * (1- t);
+            context.fill();
+            context.stroke();
+
+            // Update this image's data with data from the canvas.
+            this.data = context.getImageData(
+                0,
+                0,
+                this.width,
+                this.height
+            ).data;
+
+            // Continuously repaint the map, resulting
+            // in the smooth animation of the dot.
+            map.triggerRepaint();
+
+            // Return `true` to let the map know that the image was updated.
+            return true;
+        }
+    };
+
+    map.on('load', function () {
+        map.addImage('pulsing-dot3', pulsingDot3, { pixelRatio: 2 });
+
+        map.addSource('dot-point3', {
+            'type': 'geojson',
+            'data': { "id": "layer-with-pulsing-dot3",
+                'type': 'FeatureCollection',
+                'features': [
+                    {
+                        'type': 'Feature3',
+                        'geometry': {
+                            'type': 'Point',
+                           
+                   
+                            'coordinates' : [37.17402253788583, 55.97738540574963], // icon position [lng, lat]
+                        }
+                        
+                        
+                        
+                        
+                    }
+                ]
+            }
+        });
+        
+
+        
+        map.addLayer({
+            'id': 'layer-with-pulsing-dot3',
+            'type': 'symbol',
+            'source': 'dot-point3',
+            'layout': {
+                'icon-image': 'pulsing-dot3'
+            }
+        });
+    });
+
+
+
+
+
+ 
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+	
+
+
+
+  
+     var size = 100;
+
+    // This implements `StyleImageInterface`
+    // to draw a pulsing dot icon on the map.
+    var pulsingDot88 = {
+width: size,
+        height: size,
+        data: new Uint8Array(size * size * 4),
+
+        // When the layer is added to the map,
+        // get the rendering context for the map canvas.
+        onAdd: function () {
+            var canvas = document.createElement('canvas');
+            canvas.width = this.width;
+            canvas.height = this.height;
+            this.context = canvas.getContext('2d');
+        },
+
+        // Call once before every frame where the icon will be used.
+        render: function () {
+            var duration = 1000;
+            var t = (performance.now() % duration) / duration;
+
+            var radius = (size / 2) * 0.3;
+            var outerRadius = (size / 2) * 0.7 * t + radius;
+            var context = this.context;
+
+            // Draw the outer circle.
+            context.clearRect(0, 0, this.width, this.height);
+            context.beginPath();
+            context.arc(
+                this.width / 2,
+                this.height / 2,
+                outerRadius,
+                0,
+                Math.PI * 2
+            );
+            context.fillStyle = 'rgba(255, 200, 200,' + (1.1 - t) + ')';
+            context.fill();
+
+            // Draw the inner circle.
+            context.beginPath();
+            context.arc(
+                this.width / 2,
+                this.height / 2,
+                radius,
+                0,
+                Math.PI * 2
+            );
+            context.fillStyle = '#3d85c6';
+            context.strokeStyle = 'white';
+            context.lineWidth = 2 + 4 * (1 - t);
+            context.fill();
+            context.stroke();
+
+            // Update this image's data with data from the canvas.
+            this.data = context.getImageData(
+                0,
+                0,
+                this.width,
+                this.height
+            ).data;
+
+            // Continuously repaint the map, resulting
+            // in the smooth animation of the dot.
+            map.triggerRepaint();
+
+            // Return `true` to let the map know that the image was updated.
+            return true;
+        }
+    };
+    
+    
+    
+    
+
+    map.on('load', function () {
+        map.addImage('pulsing-dot88', pulsingDot88, { pixelRatio: 2 });
+
+        map.addSource('dot-point88', {
+            'type': 'geojson',
+            'data': { "id": "layer-with-pulsing-dot88",
+                'type': 'FeatureCollection',
+                'features': [
+                    {
+                        'type': 'Feature88',
+                        'geometry': {
+                            'type': 'Point',
+                           
+                   
+                            'coordinates' : [37.179822509803984, 55.97115799334276], // icon position [lng, lat]
+                        }
+                        
+                        
+                        
+                        
+                    }
+                ]
+            }
+        });
+        
+    
+ 
+        
+        
+        map.addLayer({
+            'id': 'layer-with-pulsing-dot88',
+            'type': 'symbol',
+            'source': 'dot-point88',
+            'layout': {
+                'icon-image': 'pulsing-dot88'
+            }
+        });
+
+
+
+});
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+
+
+//DATA OF UNIVERSITIES
+let geojson = {
+    "id": "alldata",
+    "type": "FeatureCollection",
+    "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Umeå Universitet",
+        "country": "Sweden",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://www.umu.se/en/education/student-services--support/student-guide/"
+      },
+      "geometry": {
+        "coordinates": [
+          20.300855,
+          63.820938
+        ],
+        "type": "Point"
+      },
+      "id": "09e708d842e65f3c5ac9fc40a2c90b22"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Tsinghua University\t",
+        "country": "China",
+        "study": "BWL and Economics",
+        "agreement": "Faculty Agreement",
+        "url": "https://www.tsinghua.edu.cn/en/Admissions/Non_Degree_Programs.htm"
+      },
+      "geometry": {
+        "coordinates": [
+          116.320882,
+          39.998497
+        ],
+        "type": "Point"
+      },
+      "id": "11175afb458129eaa68a185f44f2197a"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Chulalongkorn University",
+        "country": "Thailand",
+        "study": "BWL and Economics",
+        "agreement": "Faculty Agreement",
+        "url": "https://www.chula.ac.th/en/admissions/exchange-student/inbound-exchange-student/"
+      },
+      "geometry": {
+        "coordinates": [
+          100.532886,
+          13.743144
+        ],
+        "type": "Point"
+      },
+      "id": "1f5d1a4d5ecaa3a440b749829e42b49a"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Università degli Studi di Perugia",
+        "country": "Italy",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://www.unipg.it/en/international-students/incoming-exchange-students"
+      },
+      "geometry": {
+        "coordinates": [
+          12.385345,
+          43.115865
+        ],
+        "type": "Point"
+      },
+      "id": "22d08d0a14e6756e2782b53b2274901e"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Universidad de las Palmas de Gran Canaria",
+        "country": "Spain",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://internacional.ulpgc.es/en/movilidad-incoming/estudiantes-incoming/study-at-the-ulpgc-incoming/espanol-programas-de-movilidad/"
+      },
+      "geometry": {
+        "coordinates": [
+          -15.419919,
+          28.099106
+        ],
+        "type": "Point"
+      },
+      "id": "24a0b84989d3de4b1209f0fb4c71dfe8"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Università degli Studi di Milano",
+        "country": "Italy",
+        "study": "Informatics",
+        "agreement": "SEMP",
+        "url": "https://www.unimi.it/en/international"
+      },
+      "geometry": {
+        "coordinates": [
+          9.194627,
+          45.460068
+        ],
+        "type": "Point"
+      },
+      "id": "2db49da1224f4ed73b595838ff52ddb6"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Università Ca' Foscari di Venezia",
+        "country": "Italy",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://www.unive.it/pag/12573/"
+      },
+      "geometry": {
+        "coordinates": [
+          12.326441,
+          45.434492
+        ],
+        "type": "Point"
+      },
+      "id": "2e083bcbe4d97f84db5ae4cb4dafe38a"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "University of Limerick",
+        "country": "Ireland",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://www.ul.ie/international/"
+      },
+      "geometry": {
+        "coordinates": [
+          -8.570966,
+          52.673748
+        ],
+        "type": "Point"
+      },
+      "id": "3104c9b3b08f233067808267c048c829"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Københavns Universitet\t",
+        "agreement": "SEMP",
+        "study": "BWL and Economics",
+        "url": "studies.ku.dk/visiting/",
+        "country": "Denmark"
+      },
+      "geometry": {
+        "coordinates": [
+          12.572319,
+          55.68015
+        ],
+        "type": "Point"
+      },
+      "id": "322e146fef794538864ec08ad53f5488"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Linköpings Universitet",
+        "country": "Sweden",
+        "agreement": "SEMP",
+        "study": "BWL",
+        "url": "https://liu.se/en/education/exchange-studies"
+      },
+      "geometry": {
+        "coordinates": [
+          15.575403,
+          58.39779
+        ],
+        "type": "Point"
+      },
+      "id": "3f87b2f5ef9f91f8291a8bf289612915"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Universite Claude Bernard - Lyon 1",
+        "country": "France",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://www.univ-lyon1.fr/en/foreign-student/foreign-students-in-exchange-programs"
+      },
+      "geometry": {
+        "coordinates": [
+          4.868177,
+          45.781561
+        ],
+        "type": "Point"
+      },
+      "id": "40c9209024ff0821c137a9a1ac48f53f"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Ludwig-Maximilians-Universität München",
+        "country": "Germany",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://www.lmu.de/en/study/all-degrees-and-programs/programs-for-international-visiting-students/index.html"
+      },
+      "geometry": {
+        "coordinates": [
+          11.594295,
+          48.150027
+        ],
+        "type": "Point"
+      },
+      "id": "48a0923a4ad05b5059e7075fced1a6ef"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Technische Universität Darmstadt",
+        "country": "Germany",
+        "study": "Informatics",
+        "agreement": "SEMP",
+        "url": "https://www.tu-darmstadt.de/studieren/studierende_tu/internationale_studierende_1/index.en.jsp"
+      },
+      "geometry": {
+        "coordinates": [
+          8.656805,
+          49.876397
+        ],
+        "type": "Point"
+      },
+      "id": "4b5533835c492a08cf93074ffc3d05a5"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Westfälische Wilhelms-Universität Münster",
+        "country": "Germany",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://www.uni-muenster.de/InternationalOffice/"
+      },
+      "geometry": {
+        "coordinates": [
+          7.61311,
+          51.963833
+        ],
+        "type": "Point"
+      },
+      "id": "4e8af4aa7713eeada82ba4e4bfea70a4"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Högskolan i Skövde",
+        "country": "Sweden",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://www.his.se/en/education/exchange-student/"
+      },
+      "geometry": {
+        "coordinates": [
+          13.854841,
+          58.394164
+        ],
+        "type": "Point"
+      },
+      "id": "4ece07c5ad055ac6904eb4a55c776a54"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Universidad Rey Juan Carlos",
+        "country": "Spain",
+        "study": "BWL, Economics, Informatics",
+        "agreement": "SEMP",
+        "url": "https://www.urjc.es/en/international/internatinal-students/content/international-students"
+      },
+      "geometry": {
+        "coordinates": [
+          -3.819571,
+          40.282609
+        ],
+        "type": "Point"
+      },
+      "id": "52a55a477a954dae4b6c7ace70ad3cf8"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "NEOMA Business School - Reims Campus",
+        "country": "France",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://neoma-bs.com/about-neoma/international/international-students/"
+      },
+      "geometry": {
+        "coordinates": [
+          4.003151,
+          49.238941
+        ],
+        "type": "Point"
+      },
+      "id": "54c0a36ff1b24ffac62ad1492b34eaa0"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Fudan University",
+        "agreement": "Faculty Agreement",
+        "study": "BWL and Economics",
+        "country": "China",
+        "url": "https://iso.fudan.edu.cn/isoenglish/main.htm"
+      },
+      "geometry": {
+        "coordinates": [
+          121.500477,
+          31.301049
+        ],
+        "type": "Point"
+      },
+      "id": "5552c6af25de98cdfb7ad284071a2058"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Jiaotong University\t",
+        "country": "China",
+        "study": "BWL, Economics, Informatics",
+        "agreement": "Faculty Agreement",
+        "url": "isc.sjtu.edu.cn/EN/content.aspx?info_lb=12&flag=1"
+      },
+      "geometry": {
+        "coordinates": [
+          121.432217,
+          31.02778
+        ],
+        "type": "Point"
+      },
+      "id": "5b02b806a266bfe2b14d4e46e401484c"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Universität Wien",
+        "url": "https://international.univie.ac.at/en/student-mobility/incoming-students/",
+        "country": "Austria",
+        "study": "BWL, Economics, Informatics",
+        "agreement": "SEMP"
+      },
+      "geometry": {
+        "coordinates": [
+          16.360078,
+          48.213171
+        ],
+        "type": "Point"
+      },
+      "id": "5b394121ccb49b648d7988c5ce16f377"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Johann Wolfgang Göthe-Universität",
+        "country": "Germany",
+        "url": "https://www.uni-frankfurt.de/38294581/An_die_Goethe_Uni",
+        "study": "BWL and Economics",
+        "agreement": "SEMP"
+      },
+      "geometry": {
+        "coordinates": [
+          8.667401,
+          50.126796
+        ],
+        "type": "Point"
+      },
+      "id": "5f8f6dd9d8ed9b70e60ae7071bd21d91"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Stockholms Universitet",
+        "country": "Sweden",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://www.su.se/english/education/2.24322"
+      },
+      "geometry": {
+        "coordinates": [
+          18.058786,
+          59.363356
+        ],
+        "type": "Point"
+      },
+      "id": "696665d3b68ff9a7c19296b32e102661"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Korea University Business School",
+        "country": "South Korea",
+        "study": "BWL",
+        "agreement": "Faculty Agreement",
+        "url": "https://biz.korea.ac.kr/eng/undergraduate/inbound"
+      },
+      "geometry": {
+        "coordinates": [
+          127.032526,
+          37.589305
+        ],
+        "type": "Point"
+      },
+      "id": "6a6e807bc3da0ded2386eecf314b74af"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Katholieke Universiteit Leuven",
+        "agreement": "SEMP",
+        "study": "BWL and Economics",
+        "country": "Belgium",
+        "url": "https://www.kuleuven.be/english/admissions/exchange"
+      },
+      "geometry": {
+        "coordinates": [
+          4.700373,
+          50.877977
+        ],
+        "type": "Point"
+      },
+      "id": "6bf8659399599f43ffb0eef06a0c8094"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Università degli Studi di Firenze",
+        "country": "Italy",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://www.unifi.it/index.php?module=CMpro&func=viewpage&pageid=10591&newlang=eng"
+      },
+      "geometry": {
+        "coordinates": [
+          11.242081,
+          43.806858
+        ],
+        "type": "Point"
+      },
+      "id": "703e7a3d99f1e655195d87d101a3e52c"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "École de management de Normandie",
+        "country": "France",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://www.em-normandie.com/en/international-students"
+      },
+      "geometry": {
+        "coordinates": [
+          0.10355,
+          49.489022
+        ],
+        "type": "Point"
+      },
+      "id": "769c78aac7779385e56b9e5662dae24f"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Humboldt-Universität zu Berlin",
+        "country": "Germany",
+        "agreement": "SEMP",
+        "study": "BWL and Economics",
+        "url": "https://www.international.hu-berlin.de/de/studierende/aus-dem-ausland"
+      },
+      "geometry": {
+        "coordinates": [
+          13.39355,
+          52.51875
+        ],
+        "type": "Point"
+      },
+      "id": "7ae88782e819ec3d5d82f8cf24a6decc"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Università degli Studi di Salerno",
+        "country": "Italy",
+        "agreement": "SEMP",
+        "study": "Informatics",
+        "url": "https://web.unisa.it/unisa-rescue-page/dettaglio/id/685/module/196/row/21"
+      },
+      "geometry": {
+        "coordinates": [
+          14.791166,
+          40.772038
+        ],
+        "type": "Point"
+      },
+      "id": "7b266b27d6918a02afe3432dc0f2dbc7"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Technische Universität München",
+        "country": "Germany",
+        "agreement": "SEMP",
+        "study": "BWL and Economics",
+        "url": "https://www.tum.de/studium/internationale-studierende/"
+      },
+      "geometry": {
+        "coordinates": [
+          11.567739,
+          48.149557
+        ],
+        "type": "Point"
+      },
+      "id": "7bed9edffac88aa9b6957553cc2635e3"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Rijksuniversiteit Groningen",
+        "country": "Netherlands",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://www.rug.nl/education/exchange/"
+      },
+      "geometry": {
+        "coordinates": [
+          6.562545,
+          53.219538
+        ],
+        "type": "Point"
+      },
+      "id": "84dedbcf217e305f016ffbe93633a49e"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Radboud Universiteit Nijmegen",
+        "country": "Netherlands",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://www.ru.nl/io/english/students/incoming-exchange-0/"
+      },
+      "geometry": {
+        "coordinates": [
+          5.86521,
+          51.819693
+        ],
+        "type": "Point"
+      },
+      "id": "85952e25904bc12d1dbd21ea22d7378e"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Universität Karlsruhe (TH)",
+        "country": "Germany",
+        "study": "Informatics",
+        "url": "https://www.intl.kit.edu/istudies/",
+        "agreement": "SEMP"
+      },
+      "geometry": {
+        "coordinates": [
+          8.416899,
+          49.012379
+        ],
+        "type": "Point"
+      },
+      "id": "91295f9c15ebc226128696c5acde4914"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Uppsala Universitet",
+        "study": "BWL, Economics, Informatics",
+        "agreement": "SEMP",
+        "url": "https://www.uu.se/en/admissions/exchange/",
+        "country": "Sweden"
+      },
+      "geometry": {
+        "coordinates": [
+          17.626643,
+          59.853701
+        ],
+        "type": "Point"
+      },
+      "id": "92fab91146360a349c3c93ae31ddc1a7"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "ESC Rennes School of Business",
+        "country": "France",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://www.rennes-sb.com/programmes/exchange-programme/"
+      },
+      "geometry": {
+        "coordinates": [
+          -1.692348,
+          48.127834
+        ],
+        "type": "Point"
+      },
+      "id": "94e99c0c04cd0c507bc2996846200cc7"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Institut d'études Politiques de Paris (Sciences Po)",
+        "country": "France",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://www.sciencespo.fr/international/en/content/exchange-programme.html"
+      },
+      "geometry": {
+        "coordinates": [
+          2.329003,
+          48.853898
+        ],
+        "type": "Point"
+      },
+      "id": "9764c8dc172758e35acb13e050ca51f0"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "tile": "Hanken Svenska Handelshögskolan",
+        "country": "Finland",
+        "url": "https://www.hanken.fi/en/apply/international-opportunities/incoming-exchange-students",
+        "study": "BWL and Economics",
+        "agreement": "SEMP"
+      },
+      "geometry": {
+        "coordinates": [
+          24.924495,
+          60.170851
+        ],
+        "type": "Point"
+      },
+      "id": "97eea7d1fa41900cee3d01a147edaa37"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "ESCEM",
+        "country": "France",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://www.escem.fr/escem-business-school/international/student-life/"
+      },
+      "geometry": {
+        "coordinates": [
+          0.704807,
+          47.365095
+        ],
+        "type": "Point"
+      },
+      "id": "9a80b7b1715a1332109b340bf87ea533"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "University of Victoria",
+        "agreement": "Faculty Agreement",
+        "country": "Canada",
+        "url": "https://www.uvic.ca/international/inbound-students/exchange/index.php",
+        "study": "BWL and Economics"
+      },
+      "geometry": {
+        "coordinates": [
+          -123.311731,
+          48.465128
+        ],
+        "type": "Point"
+      },
+      "id": "a33b50144bb772cae9228a9edef832a0"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Erasmus Universiteit Rotterdam",
+        "country": "Netherlands",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://www.eur.nl/en/education/exchange/come-rotterdam-exchange"
+      },
+      "geometry": {
+        "coordinates": [
+          4.52598,
+          51.917627
+        ],
+        "type": "Point"
+      },
+      "id": "a50540eba9125ff12bed064636f3d0c4"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Singapore Management University",
+        "country": "Singapore",
+        "study": "BWL and Economics",
+        "agreement": "Faculty Agreement",
+        "url": "https://www.smu.edu.sg/global/study-in-smu"
+      },
+      "geometry": {
+        "coordinates": [
+          103.850276,
+          1.296466
+        ],
+        "type": "Point"
+      },
+      "id": "a70a661da3defa1c4ed374b4a3cb8a2b"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Örebro Universitet",
+        "country": "Sweden",
+        "agreement": "SEMP",
+        "url": "https://www.oru.se/english/study/exchange-students/",
+        "study": "BWL, Economics, Informatics"
+      },
+      "geometry": {
+        "coordinates": [
+          15.249113,
+          59.25473
+        ],
+        "type": "Point"
+      },
+      "id": "a76db46b44998922ed3d38a7d9d74607"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Handelshøyskolen BI",
+        "country": "Norway",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://www.bi.edu/programmes-and-individual-courses/exchange-programme/"
+      },
+      "geometry": {
+        "coordinates": [
+          10.768531,
+          59.948363
+        ],
+        "type": "Point"
+      },
+      "id": "ab7f0321a98e00efcf2fe37495695e71"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Libera Università di Bolzano",
+        "country": "Italy",
+        "study": "Informatics",
+        "agreement": "SEMP",
+        "url": "https://www.unibz.it/en/applicants/international/incoming-exchange-students/"
+      },
+      "geometry": {
+        "coordinates": [
+          11.350055,
+          46.498315
+        ],
+        "type": "Point"
+      },
+      "id": "b856a9fb639ec51f52885a2f5ae76a09"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "University of Lincoln",
+        "agreement": "SEMP",
+        "study": "BWL and Economics",
+        "country": "United Kingdom",
+        "url": "https://www.lincoln.ac.uk/home/studywithus/internationalstudents/"
+      },
+      "geometry": {
+        "coordinates": [
+          -0.548748,
+          53.228544
+        ],
+        "type": "Point"
+      },
+      "id": "bc5a69667aaabdab3ad85bff94ec8875"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Hong Kong Polytechnic University",
+        "country": "China",
+        "url": "https://www.polyu.edu.hk/geo/exchange-and-study-abroad/incoming-students/",
+        "study": "BWL and Economics",
+        "agreement": "Faculty Agreement"
+      },
+      "geometry": {
+        "coordinates": [
+          114.179756,
+          22.304572
+        ],
+        "type": "Point"
+      },
+      "id": "c355a47327baf05181730f9a8044eca3"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "ESSEC Business School",
+        "country": "France",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://sites.google.com/a/essec.edu/bba-incoming-international-exchange/home"
+      },
+      "geometry": {
+        "coordinates": [
+          2.077174,
+          49.033481
+        ],
+        "type": "Point"
+      },
+      "id": "c37ba930d6830201cf2745a8c0a8fab8"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Syddansk Universitet",
+        "agreement": "SEMP",
+        "study": "BWL and Economics",
+        "country": "Denmark",
+        "url": "https://www.sdu.dk/en/uddannelse/exchange_programmes/exchange_facultyofbss"
+      },
+      "geometry": {
+        "coordinates": [
+          10.428135,
+          55.367904
+        ],
+        "type": "Point"
+      },
+      "id": "c7541f2284116bd947863ec2be364c30"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Universität Mannheim",
+        "country": "Germany",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://www.uni-mannheim.de/studium/vom-ausland-nach-mannheim/"
+      },
+      "geometry": {
+        "coordinates": [
+          8.46456,
+          49.483244
+        ],
+        "type": "Point"
+      },
+      "id": "ca484381e1124ddd8aae9e7362038cc4"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Università Commerciale Luigi Bocconi",
+        "country": "Italy",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://www.unibocconi.eu/wps/wcm/connect/Bocconi/SitoPubblico_EN/Navigation+Tree/Home/programs/current+students/Services/International+Relations/International+Students/International+Student+Desk/"
+      },
+      "geometry": {
+        "coordinates": [
+          9.188678,
+          45.449714
+        ],
+        "type": "Point"
+      },
+      "id": "caea424d84380cecbbf02a7159d010e3"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Universitat Internacional de Catalunya",
+        "country": "Spain",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://www.uic.es/en/international/study-uic-barcelona/international-mobility/admission-and-enrolment-exchange-students"
+      },
+      "geometry": {
+        "coordinates": [
+          2.123529,
+          41.405719
+        ],
+        "type": "Point"
+      },
+      "id": "cdc6fe97e3322afa3e051ea0b41b21f2"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Universidad Autonoma de Madrid",
+        "country": "Spain",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "http://www.uam.es/UAM/incoming-students?language=en&nodepath=Incoming%20Students"
+      },
+      "geometry": {
+        "coordinates": [
+          -3.694989,
+          40.545565
+        ],
+        "type": "Point"
+      },
+      "id": "cec932d9aa01b042d895e4b561990573"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Queen Mary University of London",
+        "country": "United Kingdom",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://www.qmul.ac.uk/international-students/"
+      },
+      "geometry": {
+        "coordinates": [
+          -0.039322,
+          51.52472
+        ],
+        "type": "Point"
+      },
+      "id": "d42fbf91a29c79c723a2a5b2a91be125"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Univerza v Ljubljani",
+        "country": "Slovenia",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://www.uni-lj.si/study/information/exchange/"
+      },
+      "geometry": {
+        "coordinates": [
+          14.504128,
+          46.048982
+        ],
+        "type": "Point"
+      },
+      "id": "d45dec053ce7e973f739c7a6143aa3d2"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Aalto-Yliopisto",
+        "country": "Finland",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://into.aalto.fi/display/enopisk/International+students"
+      },
+      "geometry": {
+        "coordinates": [
+          24.828341,
+          60.186547
+        ],
+        "type": "Point"
+      },
+      "id": "ddbd29a0de4a66a580e1e075ddf15648"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "København Handelshøjskolen",
+        "country": "Denmark",
+        "url": "https://www.cbs.dk/en/international-opportunities/international-students",
+        "study": "BWL and Economics",
+        "agreement": "SEMP"
+      },
+      "geometry": {
+        "coordinates": [
+          12.52475,
+          55.680862
+        ],
+        "type": "Point"
+      },
+      "id": "e62c3b8b7013777710e5474ea83871ab"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Queen's University",
+        "country": "Canada",
+        "study": "BWL and Economics",
+        "agreement": "Faculty Agreement",
+        "url": "https://www.queensu.ca/artsci/think-and-apply/undergrad/international-students"
+      },
+      "geometry": {
+        "coordinates": [
+          -76.495213,
+          44.22624
+        ],
+        "type": "Point"
+      },
+      "id": "e6b71f97a600b6140722d9b73ce59474"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "EDHEC Business School",
+        "country": "France",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://bba.edhec.edu/en/exchange-students"
+      },
+      "geometry": {
+        "coordinates": [
+          3.166072,
+          50.672982
+        ],
+        "type": "Point"
+      },
+      "id": "e9343f935476600bb04fc6d6dfcd8014"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "The University of Tokyo",
+        "country": "Japan",
+        "study": "Informatics",
+        "agreement": "Faculty Agreement",
+        "url": "https://www.u-tokyo.ac.jp/adm/inbound/en/programs-ex.html"
+      },
+      "geometry": {
+        "coordinates": [
+          139.76374,
+          35.711707
+        ],
+        "type": "Point"
+      },
+      "id": "eb63dc7d9e202b2a399e0a00106da374"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Renmin University of China\t",
+        "country": "China",
+        "study": "BWL and Economics",
+        "agreement": "Faculty Agreement",
+        "url": "https://www.ruc.edu.cn/forinternationalstudents-en"
+      },
+      "geometry": {
+        "coordinates": [
+          116.307088,
+          39.969776
+        ],
+        "type": "Point"
+      },
+      "id": "ed02293c242d6252f7d18b71639cbcdf"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Universidade de Sao Paulo",
+        "agreement": "Faculty Agreement",
+        "study": "BWL and Economics",
+        "url": "http://www.usp.br/internationaloffice/en/index.php/admissions/studentexchange",
+        "country": "Brasil"
+      },
+      "geometry": {
+        "coordinates": [
+          -46.723775,
+          -23.55907
+        ],
+        "type": "Point"
+      },
+      "id": "f76cf597d3e8b7817e6580e5539c05fd"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Göteborgs Universitet",
+        "country": "Sweden",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://www.gu.se/en/study-in-gothenburg/exchange-student"
+      },
+      "geometry": {
+        "coordinates": [
+          11.971299,
+          57.698551
+        ],
+        "type": "Point"
+      },
+      "id": "faf7ebed35a56e4fed50c313f9690ede"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Universitat Pompeu Fabra",
+        "country": "Spain",
+        "study": "BWL and Economics",
+        "agreement": "SEMP",
+        "url": "https://www.upf.edu/web/incoming"
+      },
+      "geometry": {
+        "coordinates": [
+          2.179736,
+          41.378997
+        ],
+        "type": "Point"
+      },
+      "id": "fc5bb5e29b1bed1abcdd15576a074496"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Wirtschaftsuniversität Wien",
+        "country": "Austria",
+        "study": "BWL and Economics",
+        "url": "https://www.wu.ac.at/en/programs/incoming-students",
+        "agreement": "SEMP"
+      },
+      "geometry": {
+        "coordinates": [
+          16.408251,
+          48.213675
+        ],
+        "type": "Point"
+      },
+      "id": "ff05535b4b357e212a2e2cecf138bf24"
+    }
+  ],
+  "type": "FeatureCollection"
+};
+
+
+
+
+
+//MAP DATA, DESIGN, ACCESS TOKEN
+
+    
+
+    
+
+    map.on('load', function () {
+        // Add a new source from our GeoJSON data and
+        // set the 'cluster' option to true. GL-JS will
+        // add the point_count property to your source data.
+        map.addSource('alldata', {
+            type: 'geojson',
+            data:  geojson,
+            cluster: true,
+            clusterMaxZoom: 14, // Max zoom to cluster points on
+            clusterRadius: 50 // Radius of each cluster when clustering points (defaults to 50)
+        });
+//CLUSTER AND ADDING LAYERS
+          map.addLayer({
+            id: 'BWL / Economics',
+            type: 'circle',
+            source: 'alldata',
+            filter: ["any", ['==', ['get', 'study'], 'BWL'],
+          ['==', ['get', 'study'], 'BWL and Economics'],['==', ['get', 'study'], 'BWL, Economics, Informatics']],
+            paint: {
+                'circle-color': '#3d85c6',
+                'circle-radius': 8,
+                'circle-stroke-width': 2,
+                'circle-stroke-color': 'white'
+            }
+        });
+       //layer informatics universities
+   map.addLayer({
+            id: 'Informatics',
+            type: 'circle',
+            source: 'alldata',
+            filter: ["any", ['==', ['get', 'study'], 'Informatics'],
+          ['==', ['get', 'study'], 'BWL, Economics, Informatics']],
+            paint: {
+                'circle-color': '#3d85c6',
+                'circle-radius': 8,
+                'circle-stroke-width': 2,
+                'circle-stroke-color': 'white'
+            }
+        });
+       map.addLayer({
+            id: 'clusters',
+            type: 'circle',
+            source: 'alldata',
+            filter: ['has', 'point_count'],
+            paint: {
+                // Use step expressions (https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-step)
+                // with three steps to implement three types of circles:
+                //   * Blue, 20px circles when point count is less than 100
+                //   * Yellow, 30px circles when point count is between 100 and 750
+                //   * Pink, 40px circles when point count is greater than or equal to 750
+                'circle-color': [
+                    'step',
+                    ['get', 'point_count'],
+                    '#3d85c6',
+                    100,
+                    '#3d85c6',
+                    
+                ],
+                'circle-radius': [
+                    'step',
+                    ['get', 'point_count'],
+                    17,
+                    100,
+                    20,
+                    750,
+                    20
+                ]
+            }
+        });
+
+        map.addLayer({
+            id: 'cluster-count',
+            type: 'symbol',
+            source: 'alldata',
+            filter: ['has', 'point_count'],
+            layout: {
+                'text-field': '{point_count_abbreviated}',
+                'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+                'text-size': 12              
+            },
+          paint: {
+  "text-color": "#ffffff"
+}
+        });
+//don't need this anymore
+      /* map.addLayer({
+            id: 'unclustered-point',
+            type: 'circle',
+            source: 'alldata',
+            filter: ['!', ['has', 'point_count']],
+            paint: {
+                'circle-color': '#0028a5',
+                'circle-radius': 8,
+                'circle-stroke-width': 0,
+                'circle-stroke-color': '#fff'
+            }
+        }); */ 
+      //layer bwl and vwl universities
+
+        // inspect a cluster on click, zoom in if you click on cluster
+        map.on('click', 'clusters', function (e) {
+            var features = map.queryRenderedFeatures(e.point, {
+                layers: ['clusters']
+            });
+            var clusterId = features[0].properties.cluster_id;
+            map.getSource('alldata').getClusterExpansionZoom(
+                clusterId,
+                function (err, zoom) {
+                    if (err) return;
+
+                    map.easeTo({
+                        center: features[0].geometry.coordinates,
+                        zoom: zoom
+                    });
+                }
+            );
+        });
+
+        // When a click event occurs on a feature in
+        // the unclustered-point layer, open a popup at
+        // the location of the feature, with
+//POP UP
+        map.on('click', function(e) {
+  var features = map.queryRenderedFeatures(e.point, {
+    layers: ['BWL / Economics', 'Informatics'] // replace this with the name of the layer
+  });
+            
+       if (!features.length) {return;}
+       var feature = features[0];
+
+            // Ensure that if the map is zoomed out such that
+            // multiple copies of the feature are visible, the
+            // popup appears over the copy being pointed to.
+            
+
+            var popup = new mapboxgl.Popup({ offset: [0, 0] })
+    .setLngLat(feature.geometry.coordinates)
+    .setHTML('<h4>' + feature.properties.country + '</h4><h2>' + feature.properties.title + '</h2><p><a href="' + feature.properties.url + '" target="_blank">Website</a></p><p>Agreement: ' + feature.properties.agreement + '<br>Study: ' + feature.properties.study +'</p>')
+    .addTo(map);
+      });
+       
+    });
+
+//changes design of cursor when it moves over cluster, makes it a pointy finger
+map.on('mouseenter', 'clusters', function () {
+            map.getCanvas().style.cursor = 'pointer';
+        });
+        map.on('mouseleave', 'clusters', function () {
+            map.getCanvas().style.cursor = '';
+        });
+
+//FILTER
+ // enumerate ids of the layers
+    var toggleableLayerIds = ['BWL / Economics', 'Informatics'];
+
+    // set up the corresponding toggle button for each layer
+    for (var i = 0; i < toggleableLayerIds.length; i++) {
+        var id = toggleableLayerIds[i];
+
+        var link = document.createElement('a');
+        link.href = '#';
+        link.className = 'active';
+        link.textContent = id;
+
+        link.onclick = function (e) {
+            var clickedLayer = this.textContent;
+            e.preventDefault();
+            e.stopPropagation();
+
+            var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+
+            // toggle layer visibility by changing the layout object's visibility property
+            if (visibility === 'visible') {
+                map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+                this.className = '';
+            } else {
+                this.className = 'active';
+                map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+            }
+        };
+
+        var layers = document.getElementById('menu');
+        layers.appendChild(link); 
+    }
+    
+    
+    
+    </script>
+
+
+
+
+
+ 
+</body>
+</html>
