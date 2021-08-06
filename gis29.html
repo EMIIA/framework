@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - Mapbox - GL Draw + Raster Layer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel='stylesheet' href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.css'>
+<link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.css'>
+
+
+<style>
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#map {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+</style>
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<div id='map'></div>
+<!-- partial -->
+  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.js'></script>
+<script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.js'></script>
+
+
+
+
+<script>
+
+
+
+mapboxgl.accessToken = 'pk.eyJ1IjoiZW1paWFhaSIsImEiOiJja21icnU4bHkyNGRwMnFrbjVvNXdtdGJ0In0.TcfxV21Ov7zOgvWvgPxzlA';
+    
+    
+    var monument1 = [37.17402239557072, 55.97723794736996];
+
+var monument2 = [37.24402239557072, 55.97723794736996];
+    
+var map = new mapboxgl.Map({
+container: 'map',
+style: 'mapbox://styles/emiiaai/ckofqwhvv1ujy17p27p0a6cr8',
+center: [37.6097, 55.7701],
+        zoom: 7.25,
+        pitch: 50,
+        bearing: 0
+});
+
+
+blankStyle = {"version":8,"name":"Blank","center":[0,0],"zoom":0,"sources":{},"sprite":"file://roblabs.com/sprite","glyphs":"","layers":[{"id":"background","type":"background","paint":{"background-color":"#78797a"}}],"id":"blank"};
+
+
+
+
+
+
+
+
+
+// Add zoom and rotation controls to the map.
+var nav = new mapboxgl.NavigationControl();
+map.addControl(nav, 'top-left');
+
+  popup = new mapboxgl.Popup({
+      closeOnClick: false,
+      closeButton: false,
+      anchor: 'bottom-left',
+    });
+
+
+var draw = new MapboxDraw();
+map.addControl(draw, 'top-left');
+
+// Data
+nullIsland = {"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[0,0]},"properties":{}}]} 
+
+// https://github.com/roblabs/make-latitude-longitude-lines
+nullIslandGrid =  {"type":"FeatureCollection","features":[{"type":"Feature","properties":{"wgs84Degrees":"0° 0' 0\" N","wgs84Decimal":"0.000000"},"geometry":{"type":"LineString","coordinates":[[-180,0],[180,0]]}},{"type":"Feature","properties":{"wgs84Degrees":"0° 0' 0\" N","wgs84Decimal":"0.000000"},"geometry":{"type":"LineString","coordinates":[[-180,0],[180,0]]}},{"type":"Feature","properties":{"wgs84Degrees":"0° 0' 0\" E","wgs84Decimal":"0.000000"},"geometry":{"type":"LineString","coordinates":[[0,-85.05115],[0,85.05115]]}},{"type":"Feature","properties":{"wgs84Degrees":"0° 0' 0\" E","wgs84Decimal":"0.000000"},"geometry":{"type":"LineString","coordinates":[[0,-85.05115],[0,85.05115]]}}]}
+
+
+// Draw data
+map.on("load", function() {
+  map.addLayer({
+    id: "circle-id",
+    type: "circle",
+    source: {
+      type: "geojson",
+      data: nullIsland
+    },
+    paint: {
+      "circle-opacity": 0.8,
+      "circle-color": "rgb(255, 0, 0)"
+    }
+  });
+
+  // Null Island grid line
+  map.addLayer({
+    id: "nullislandgrid",
+    type: "line",
+    source: {
+      type: "geojson",
+      data: nullIslandGrid
+    },
+    paint: {
+      "line-color": "black",
+      "line-width": 1
+    }
+  });
+
+  map.addLayer(       
+    {
+      "id": "overlay",
+      "source":{
+            "type": "image",
+            "url": "https://www.mapbox.com/mapbox-gl-js/assets/radar.gif",
+            "coordinates": [
+                [-1, 1],
+                [1, 1],
+                [1, -1],
+                [-1, -1]
+            ]
+        },
+      "type": "raster",
+      "paint": {"raster-opacity": 0.85}
+    });
+});
+
+
+</script>
+
+</body>
+</html>
