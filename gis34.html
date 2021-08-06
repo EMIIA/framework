@@ -33,8 +33,8 @@
   
   
   
-  
-<link rel='stylesheet' href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.css'>
+  <link rel='stylesheet' href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.css'>
+
 <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.css'>
 
 
@@ -52,6 +52,7 @@ body {
   top: 0;
   bottom: 0;
   width: 100%;
+  z-index: 2;
 }
 
 </style>
@@ -60,7 +61,7 @@ body {
 
 <style>
 body { margin: 0; padding: 0; }
-#map { position: absolute; top: 0; bottom: 0; width: 100%; background: #f8f9fa; }
+#map { position: absolute; top: 0; bottom: 0; width: 100%; background: #f8f9fa; z-index: 2; }
 
 
 
