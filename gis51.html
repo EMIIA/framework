@@ -1,0 +1,77 @@
+
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, minimum-scale=1, maximum-scale=1, shrink-to-fit=no">
+  
+  
+  
+  
+
+<head>
+  <meta charset="utf-8">
+  <title>mapbox-gl-draw-geodesic</title>
+
+    <script src="https://api.mapbox.com/mapbox-gl-js/v1.13.1/mapbox-gl.js"></script>
+
+  <link href="https://api.mapbox.com/mapbox-gl-js/v1.13.1/mapbox-gl.css" rel="stylesheet">
+  
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.3.0/mapbox-gl-draw.js"></script>
+
+  <link href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.3.0/mapbox-gl-draw.css" rel="stylesheet">
+
+   <script src="https://unpkg.com/mapbox-gl-draw-geodesic@2.1.1/dist/mapbox-gl-draw-geodesic.js"></script>
+  
+  
+  
+  <!-- <script src="../dist/mapbox-gl-draw-geodesic.js"></script> -->
+ 
+ 
+ <style>
+body { margin: 0; padding: 0; }
+#map { position: absolute; top: 0; bottom: 0; width: 100%; background: #f8f9fa;  }
+
+}
+
+    #mode {
+      position: absolute;
+      top: 10px;
+      left: 49px;
+    }
+  </style>
+</head>
+
+
+
+
+
+
+
+
+  <div id="map"></div>
+
+<body>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const map = new mapboxgl.Map({
+        container: 'map',
+        accessToken: 'pk.eyJ1IjoiZW1paWFhaSIsImEiOiJja21icnU4bHkyNGRwMnFrbjVvNXdtdGJ0In0.TcfxV21Ov7zOgvWvgPxzlA', // mapbox-gl-draw-geodesic token
+        style: 'mapbox://styles/emiiaai/ckofqwhvv1ujy17p27p0a6cr8',
+        center: [30, 0],
+        zoom: 0,
+      });
+      map.setCenter([0, 0]);
+
+      let modes = MapboxDraw.modes;
+      modes = MapboxDrawGeodesic.enable(modes);
+      const draw = new MapboxDraw({ modes });
+      map.addControl(draw, 'top-left');
+
+     });     
+
+  </script>
+
+</body>
+
+</html>
