@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>MAFF Digital Map Demo</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+<script src="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.js"></script>
+<link href="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.css" rel="stylesheet" />
+<style>
+	body { margin: 0; padding: 0; }
+    #map { position: absolute; top: 0; bottom: 0; width: 100%}
+</style>
+</head>
+<body>
+<style>
+
+    .mapboxgl-popup {
+        background-size: initial;
+        min-width: 400px;
+        font: 12px/12px ;
+        line-height: 12px;
+    }
+
+    .mapboxgl-popup-content{
+        padding: 5px 5px 5px;
+        filter: opacity(80%);
+    }
+
+    .rounded-rect {
+        background: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 0 50px -25px black;
+    }
+
+    .flex-center {
+        position: absolute;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .flex-center.right {
+        right: 0px;
+    }
+
+    .sidebar-content {
+        position: relative;
+        width: 95%;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 14px;
+        padding-top: 20px;
+        padding-left: 10px;
+    }
+
+    .sidebar-bottom {
+        line-height: 36px;
+        margin-left: 20px;
+    }    
+
+    .sidebar {
+        transition: transform 1s;
+        z-index: 1;
+        width: 400px;
+        height: 100%;
+        overflow: scroll;
+        -webkit-overflow-scrolling: auto;
+    }
+
+    .right.collapsed {
+        transform: translateX(400px);
+    }
+
+    .buttonr {
+        border: none;
+        background-color: #f44336;
+    } /* Red */ 
+
+    .calculation-box {
+        height: 200px;
+        width: 220px;
+        position: absolute;
+        bottom: 150px;
+        right: 10px;
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 15px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 12px;
+        text-align: left;
+    }
+
+    #fieldtype{
+        position: relative;
+        margin: 2px;
+		padding: 0.5em 0.5em 0.5em 0.5em;
+    }
+
+    #fieldtype option::before{
+		content: "";
+		display: inline-block;
+		height: 15px;
+		width: 15px;
+        margin-right: 5px;        
+	}
+
+    /*1行ごとに色を設定*/
+    /* #fieldtype option:first-child{
+    background:#008000;
+    color:#fff;
+    } */
+
+    #fieldtype option:first-child:before {
+    background:hsla(120, 100%, 25%, 0);
+    border-width: 3px;
+    border: darkmagenta;
+	}
+    #fieldtype option:nth-child(2):before{
+    background:#faf000;
+    }
+    #fieldtype option:nth-child(3):before{
+    background:#0041ff;
+    }
+    #fieldtype option:nth-child(4):before{
+    background:#ff99a0;
+    }
+    #fieldtype option:nth-child(5):before{
+    background:#00cc00;
+    }
+    #fieldtype option:nth-child(6):before{
+    background:#ff8700;
+    }
+    #fieldtype option:nth-child(7):before{
+    background:#66ccff;
+    }
+
+    #close-button {
+    display: block;
+    position: relative;
+    line-height: 36px;
+    cursor: pointer;
+    user-select: none;
+    width: 50px;
+    height: 40px;
+    border: #0041ff;
+    border-radius: 10px;
+    font-size: 12px;
+    text-align: center;
+    background: #fff;
+    }
+
+    #navigation {
+    display: block;
+    position: absolute;
+    left: 10px;
+    bottom: 70px;
+    width: 50px;
+    height: 40px;
+    padding: 10px;
+    border: none;
+    border-radius: 3px;
+    font-size: 12px;
+    text-align: center;
+    background: #fff;
+    }
+
+    #drawing {
+    display: block;
+    position: absolute;
+    left: 10px;
+    bottom: 115px;
+    width: 50px;
+    height: 40px;
+    padding: 10px;
+    border: #0041ff;
+    border-radius: 3px;
+    font-size: 12px;
+    text-align: center;
+    background: #fff;
+    }
+
+    #frame {
+    display: block;
+    position: relative;
+    width: 300px;
+    height: 300px;
+    }
+    
+    #memoarea{
+    width: 300px;
+    height: 150px;        
+    }
+
+    #menu {
+    position: absolute;
+    background: #fff;
+    padding: 10px;
+    font-family: 'Open Sans', sans-serif;
+    }
+
+
+</style>
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.js"></script>
+<link
+rel="stylesheet"
+href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.css"
+type="text/css"
+/>
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.0/mapbox-gl-draw.js"></script>
+<link
+rel="stylesheet"
+href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.0/mapbox-gl-draw.css"
+type="text/css"
+/>
+<script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+
+<div id="map">
+    <div id="right" class="sidebar flex-center right collapsed">
+        <div class="toggle">
+            <span><button id="close-button">戻る</button></span>
+        </div>
+        <div id="param" class="sidebar-content rounded-rect flex-center">
+        </div>
+        <div class="bottom">
+        <span class="sidebar-bottom" ><b>　　</b></span>
+        </div>
+    </div> 
+</div>
+<div id="menu">
+    <input
+    id="satellite-sample"
+    type="radio"
+    name="rtoggle"
+    value="streets"
+    checked="checked"
+    />
+    <label for="satellite-sample">衛星写真</label>
+    <input id="streets-sample" type="radio" name="rtoggle" value="satellite" />
+    <label for="streets-sample">地図</label>
+    </div>
+<div class="calculation-box" id="calculation-box" style="display: none;">
+    <p>1. 種類を選択 > 2. 範囲を指定 <br> > 3.ダブルクリック</p>
+    <div id="calculated-area"></div>
+    <select id="fieldtype_all" ><option value="#008000">選択してください (調査中)</option><option value="#faf000">遊休農地（不耕作）</option><option value="#0041ff">遊休農地（低利用）</option><option value="#ff99a0">遊休農地ではない</option><option value="#00cc00">その他</option><option value="#ff8700">立入困難等外因的理由で調査不可</option><option value="#66ccff">上記以外</option></select><br>
+    <font color="#faf000" style="text-align: left;">&#9607;</font> 遊休農地（不耕作）<br>
+    <font color="#0041ff">&#9607;</font> 遊休農地（低利用）<br>
+    <font color="#ff99a0">&#9607;</font> 遊休農地ではない<br>
+    <font color="#00cc00">&#9607;</font> その他<br>
+    <font color="#ff8700">&#9607;</font> 立入困難等外因的理由で調査不可<br>
+    <font color="#66ccff">&#9607;</font> 上記以外<br><br>
+</div>
+<button id="drawing">一括</button>
+<button id="navigation">ナビ</button>
+<script>
+
+    var streetstyle = 'mapbox://styles/tichimura/ckbw12q2t0ofj1ipot3uxhshn';
+    var satellitestyle = 'mapbox://styles/tichimura/ckdcbaolp2yv71imlerq5njx5';
+
+    var directions = new MapboxDirections({
+        accessToken: 'pk.eyJ1IjoidGljaGltdXJhIiwiYSI6ImNrMnBpN3NxMzA0bGMzbnBpdmhqd2EyazQifQ.5ozS730sMWdKGe5gx32BJA',
+        unit: 'metric',
+        profile: 'mapbox/walking',
+        language: "ja",
+        placeholderOrigin: "出発地",
+        placeholderDestination: "目的地",
+        interactive: true,
+    });
+
+    var draw = new MapboxDraw({
+        displayControlsDefault: false,
+        controls: {
+        polygon: true,
+        trash: true
+        }
+    });
+
+
+	mapboxgl.accessToken = 'pk.eyJ1IjoidGljaGltdXJhIiwiYSI6ImNrMnBpN3NxMzA0bGMzbnBpdmhqd2EyazQifQ.5ozS730sMWdKGe5gx32BJA';
+    var map = new mapboxgl.Map({
+        container: 'map',
+        style: satellitestyle + '/draft',
+        center: [140.0696847,36.07774588],
+        zoom: 17.2
+    });    
+
+
+    // 市街地
+    // mapbox://styles/tichimura/ckbw12q2t0ofj1ipot3uxhshn
+    // 衛星写真
+    // mapbox://styles/tichimura/ckdcbaolp2yv71imlerq5njx5
+
+    var layerList = document.getElementById('menu');
+    var inputs = layerList.getElementsByTagName('input');
+    
+    // スタイルが増えたらここを編集する
+    function switchLayer(layer) {
+        var layerId = layer.target.id;
+        if(layerId === 'streets-sample'){
+            map.setStyle(streetstyle +'/draft');
+        }else if(layerId === 'satellite-sample'){
+            map.setStyle(satellitestyle +'/draft');
+        }
+    }
+    
+    for (var i = 0; i < inputs.length; i++) {
+        inputs[i].onclick = switchLayer;
+    }
+
+    // スケールコントロールを追加
+    map.addControl(new mapboxgl.ScaleControl({
+        maxWidth: 80,
+        unit: 'metric'
+    }));
+
+    // map.addControl(new mapboxgl.FullscreenControl());
+    
+    // ズームと方角のコントロールを追加
+    map.addControl(new mapboxgl.NavigationControl());
+
+    // 現在地情報コントロールの追加
+    map.addControl(new mapboxgl.GeolocateControl({
+        positionOptions: {
+        enableHighAccuracy: true
+        },
+        trackUserLocation: true
+    }));
+
+    //EDIT: need to update this part
+
+    var city_name = 'tsukuba';
+    // fude_points should be registered in Studio
+    var fude_points = city_name + '-fudepoints'; 
+
+    var fude_source = city_name + '-fudesource';
+    var sanjo_target_source = city_name + '-sanjo-target';
+    var fudepolygon_target_layer = city_name + '-target-fudepolygon';
+    var sanjo_circle_layer = city_name + '-target-circle';
+    var sanjo_symbol_layer = city_name + '-target-symbol';
+
+    // ソースの追加
+    function addSources(){
+
+        // need to add the data source for filling polygon data
+        map.addSource(fude_source,{
+                type: 'geojson',
+                generateId: true,
+                data: 'https://gist.githubusercontent.com/tichimura/ca9df3145633ba178a41e68b9a727055/raw/8f34284932a7cad012deb7c8c60a9996a7246b30/tsukuba_fude_polygon.geojson'
+            })
+
+        // need to add the target for San-jo
+        map.addSource(sanjo_target_source,  {
+                type: 'geojson',
+                promoteId: 'targetId',
+                data: {
+                    "features": [                    
+                    { 
+                        "type": "Feature", 
+                        "properties": {                         
+                            "受け人氏名": "田中　太郎",
+                            "受け人住所": "東京都新宿区新宿1丁目1-1",
+                            "受け人職業": "農業",
+                            "申請代理人": "鈴木 花子",
+                            "申請代理人住所": "東京都新宿区新宿1丁目2-2",
+                            "取得形態": "",
+                            "取得資金": "",
+                            "売買賃借料": "",
+                            "物納": "",
+                            "単位": "",
+                            "利用者報告対象": "",
+                            "納税猶予": "",
+                            "発生日": "2020/1/31",
+                            "適用日": "2020/2/1",
+                            "農年処分": "",
+                            "適用日": "",
+                            "受理年月日": "2019/12/15",
+                            "開始年月日": "2020/2/1",
+                            "終了年月日": "",
+                            "備考": "",
+                            "所在・地番": "茨城県つくば市面野井字面野井1500", 
+                            "面積": 1729.0, 
+                            "地目": "田", 
+                            "緯度": 36.07774588, 
+                            "経度": 140.0696847, 
+                            "耕作者": "204eea145e6c5970d4fb7f85d4d0e3c9", 
+                            "農振法区分": "調査中", 
+                            "都市計画法": "市街化調整区域", 
+                            "所有者の農": "非公表", 
+                            "権利の種類": "賃借権等の設定がない", 
+                            "存続期間始": null, 
+                            "存続期間終": null, 
+                            "農地中間管": "農地中間管理権が設定されていない", 
+                            "遊休農地か": "遊休農地ではない", 
+                            "利用状況調": null, 
+                            "所有者等の": "調査中", 
+                            "所有者等を": null, 
+                            "遊休農地の": "調査対象外", 
+                            "利用意向調": null, 
+                            "農地中間_1": null, 
+                            "農地中間_2": null, 
+                            "措置命令日": null, 
+                            "所有者等_1": null, 
+                            "筆ポリ中心": "POINT (140.069713599975 36.077739495793665)",
+                            targetId: 1 
+                        }, 
+                        "bbox": [ 140.069714, 36.077739, 140.069714, 36.077739 ], 
+                        "geometry": { 
+                            "type": "Point", 
+                            "coordinates": [ 140.069714, 36.077739 ] 
+                        },
+                    },
+                    { 
+                        "type": "Feature", "properties": {                         
+                            "受け人氏名": "田中　太郎",
+                            "受け人住所": "東京都新宿区新宿1丁目1-1",
+                            "受け人職業": "農業",
+                            "申請代理人": "鈴木 花子",
+                            "申請代理人住所": "東京都新宿区新宿1丁目2-2",
+                            "取得形態": "",
+                            "取得資金": "",
+                            "売買賃借料": "",
+                            "物納": "",
+                            "単位": "",
+                            "利用者報告対象": "",
+                            "納税猶予": "",
+                            "発生日": "2020/1/31",
+                            "適用日": "2020/2/1",
+                            "農年処分": "",
+                            "適用日": "",
+                            "受理年月日": "2019/12/15",
+                            "開始年月日": "2020/2/1",
+                            "終了年月日": "",
+                            "備考": "",
+                            "所在・地番": "茨城県つくば市面野井字面野井1501", 
+                            "面積": 1260.0, 
+                            "地目": "田", 
+                            "緯度": 36.07774278, 
+                            "経度": 140.0698561, 
+                            "耕作者": "204eea145e6c5970d4fb7f85d4d0e3c9", 
+                            "農振法区分": "調査中", 
+                            "都市計画法": "市街化調整区域", 
+                            "所有者の農": "非公表", 
+                            "権利の種類": "賃借権等の設定がない", 
+                            "存続期間始": null, 
+                            "存続期間終": null, 
+                            "農地中間管": "農地中間管理権が設定されていない", 
+                            "遊休農地か": "遊休農地（不耕作）", 
+                            "利用状況調": null, 
+                            "所有者等の": "調査中", 
+                            "所有者等を": null, 
+                            "遊休農地の": "調査対象外", 
+                            "利用意向調": null, 
+                            "農地中間_1": null, 
+                            "農地中間_2": null, 
+                            "措置命令日": null, 
+                            "所有者等_1": null, 
+                            "筆ポリ中心": "POINT (140.069889758085 36.077734262903718)",
+                            targetId: 2
+                        }, 
+                        "bbox": [ 140.06989, 36.077734, 140.06989, 36.077734 ], 
+                        "geometry": { 
+                            "type": "Point", 
+                            "coordinates": [ 140.06989, 36.077734 ] 
+                        } 
+                    },
+                    {
+                        "type": "Feature", 
+                        "properties": {                         
+                            "受け人氏名": "田中　太郎",
+                            "受け人住所": "東京都新宿区新宿1丁目1-1",
+                            "受け人職業": "農業",
+                            "申請代理人": "鈴木 花子",
+                            "申請代理人住所": "東京都新宿区新宿1丁目2-2",
+                            "取得形態": "",
+                            "取得資金": "",
+                            "売買賃借料": "",
+                            "物納": "",
+                            "単位": "",
+                            "利用者報告対象": "",
+                            "納税猶予": "",
+                            "発生日": "2020/1/31",
+                            "適用日": "2020/2/1",
+                            "農年処分": "",
+                            "適用日": "",
+                            "受理年月日": "2019/12/15",
+                            "開始年月日": "2020/2/1",
+                            "終了年月日": "",
+                            "備考": "",
+                            "所在・地番": "茨城県つくば市面野井字面野井1502", 
+                            "面積": 1056.0, 
+                            "地目": "田", 
+                            "緯度": 36.07736756, 
+                            "経度": 140.0699978, 
+                            "耕作者": "204eea145e6c5970d4fb7f85d4d0e3c9", 
+                            "農振法区分": "調査中", 
+                            "都市計画法": "市街化調整区域", 
+                            "所有者の農": "非公表", 
+                            "権利の種類": "その他の権利", 
+                            "存続期間始": null, 
+                            "存続期間終": null, 
+                            "農地中間管": "農地中間管理権が設定されていない", 
+                            "遊休農地か": "遊休農地ではない", 
+                            "利用状況調": null, 
+                            "所有者等の": "調査中", 
+                            "所有者等を": null, 
+                            "遊休農地の": "調査対象外", 
+                            "利用意向調": null, 
+                            "農地中間_1": null, 
+                            "農地中間_2": null, 
+                            "措置命令日": null, 
+                            "所有者等_1": null, 
+                            "筆ポリ中心": "POINT (140.07003360739222 36.07736361151904)",
+                            targetId: 3
+                        }, 
+                        "bbox": [ 140.070034, 36.077364, 140.070034, 36.077364 ], 
+                        "geometry": { 
+                            "type": "Point", 
+                            "coordinates": [ 140.070034, 36.077364 ] 
+                            } 
+                    }
+                ],
+                    "type": "FeatureCollection"
+                }            
+            });        
+                    
+    }
+
+    //EDIT: need to update this part
+
+    // レイヤの追加
+    function addLayers(){
+
+        map.addLayer({
+            'id': fudepolygon_target_layer,
+            'type': 'fill',
+            'source': fude_source,
+            'layout': {},
+            'paint': {
+                'fill-color': 
+                [
+                "match",
+                ["feature-state", "color"],
+                ["#faf000"],
+                "#faf000",
+                ["#0041ff"],
+                "#0041ff",
+                ["#ff99a0"],
+                "#ff99a0",
+                ["#00cc00"],
+                "#00cc00",
+                ["#ff8700"],
+                "#ff8700",
+                ["#66ccff"],
+                "#66ccff",
+                ["#808080"],
+                "#808080",
+                ["#a9a9a9"],
+                "#a9a9a9",
+                "hsla(0, 0%, 0%, 0)"
+                ],
+                'fill-opacity': 0.5
+            }
+        },fude_points);  
+
+        map.addLayer({
+            id: sanjo_circle_layer,
+            source: sanjo_target_source,
+            type: 'circle',
+            paint:{
+                'circle-color': 
+                [
+                    "match",
+                    ["feature-state", "color"],
+                    ["#faf000"],
+                    "#faf000",
+                    ["#0041ff"],
+                    "#0041ff",
+                    ["#ff99a0"],
+                    "#ff99a0",
+                    ["#00cc00"],
+                    "#00cc00",
+                    ["#ff8700"],
+                    "#ff8700",
+                    ["#66ccff"],
+                    "#66ccff",
+                    ["#808080"],
+                    "#808080",
+                    ["#a9a9a9"],
+                    "#a9a9a9",
+                    "#008000"
+                ],
+                'circle-radius': 12,
+                'circle-stroke-color': "#aaaaaa",
+                'circle-stroke-width': 8
+            }
+        });
+
+        map.addLayer({
+            id: sanjo_symbol_layer,
+            source: sanjo_target_source,
+            type: 'symbol',
+            paint:{
+                'text-color':
+                [
+                    "match",
+                    ["feature-state", "color"],
+                    ["#ffffff"],
+                    "#ffffff",
+                    "#ff0000"
+                ],
+            },
+            layout: {
+                'text-field':
+                ["coalesce", ["get", "地目"]],
+            }
+        });
+
+    }
+
+    // スタイル変更時に呼び出す
+    map.on('styledata', function() {
+
+        if(map.getSource(fude_source) === undefined){
+
+            addSources();
+            addLayers();
+            
+        }
+
+    });
+
+    // 地図初期化時に呼び出す
+
+    map.on('load', function() {
+
+        if(map.getSource(fude_source) === undefined){
+
+            addSources();
+            addLayers();
+
+        }
+
+        // Create a popup, but don't add it to the map yet.
+        var popup = new mapboxgl.Popup({
+            closeButton: true,
+            closeOnClick: true,
+            anchor:　'left',
+            offset: 10
+        });
+
+
+        // 情報ウィンドウの表示(ポイントクリック後)
+        function toggleSidebar(id, fid, data, jtype) {
+
+            var featureid = fid;
+
+            var elem = document.getElementById(id);
+            var classes = elem.className.split(' ');
+            var collapsed = classes.indexOf('collapsed') !== -1;
+
+            document.getElementById("close-button").style.display = "block";
+
+            var popupHtml = document.getElementById('param');
+            popupHtml.style.display = "block";
+            if(jtype === 'three'){
+                popupHtml.innerHTML = data + '<br><button id="buttond" class="buttond">詳細</button>　　<button id="buttonc" class="buttonc">一時保存</button>　　<button id="buttonr" class="buttonr">作業完了</button>';
+            }else if (jtype === 'thirty') {
+                popupHtml.innerHTML = data + '<br><button id="buttonb" class="buttonb">更新</button><br><br>';
+            }else{
+                popupHtml.interactive = '';
+            }
+            popupHtml.style.overflow = "scroll";
+
+
+            var padding = {};
+
+            if (collapsed) {
+                // Remove the 'collapsed' class from the class list of the element, this sets it back to the expanded state.
+                classes.splice(classes.indexOf('collapsed'), 1);
+                
+                padding[id] = 400; // In px, matches the width of the sidebars set in .sidebar CSS class
+                map.easeTo({
+                    padding: padding,
+                    duration: 1000 // In ms, CSS transition duration property for the sidebar matches this value
+                });
+                
+            } else {
+                padding[id] = 0;
+
+                // Add the 'collapsed' class to the class list of the element
+                classes.push('collapsed');
+                
+                map.easeTo({
+                padding: padding,
+                duration: 1000
+                });
+            }
+
+            
+            // Update the class list on the element
+
+            if(jtype === 'three'){
+
+                if ( data != null ){
+                        document.getElementById("details").style.display = "none";
+                }
+
+                document.getElementById("buttonc").addEventListener('click', function(){
+                    changecolor(featureid);  
+                });
+
+                function changecolor(fid) {
+
+                    map.setFeatureState({
+                        source: sanjo_target_source,
+                        id: fid
+                    }, {
+                        color: "#a9a9a9"
+                    });
+                }   
+
+                function changetext(fid) {
+
+                    map.setFeatureState({
+                        source: sanjo_target_source,
+                        id: fid
+                    }, {
+                        color: "#ffffff"
+                    });
+                }   
+
+                document.getElementById("buttond").addEventListener('click', function(){
+                    if(document.getElementById("details").style.display === "block"){
+                        document.getElementById("details").style.display = "none";
+                    }else{
+                        document.getElementById("details").style.display = "block";
+                    }
+                });
+
+                document.getElementById("buttonr").addEventListener('click', function(){
+                    changetext(featureid);
+                    alert("完了しますか？");
+                });
+                
+
+            }else if (jtype === 'thirty') {
+
+            
+                document.getElementById("buttonb").addEventListener('click', function(){
+                    changecolor(featureid);  
+                });
+
+                function changecolor(fid) {
+                    var select = document.querySelector("#fieldtype");
+                    var options = document.querySelectorAll("#fieldtype option");
+
+                    map.setFeatureState({
+                        source: fude_source,
+                        id: fid
+                    }, {
+                        color: options[select.selectedIndex].value
+                    });
+                }
+
+            }
+
+            var camera = document.getElementById('camera');
+            var frame = document.getElementById('frame');
+            camera.addEventListener('change', function(e) {
+                var file = e.target.files[0];
+                frame.src = URL.createObjectURL(file);
+            });
+
+            elem.className = classes.join(' ');
+
+        }        
+
+        map.on('click', sanjo_circle_layer, function(e) {
+
+            map.getCanvas().style.cursor = 'pointer';
+
+            var displayDetailsProperties = [
+                "受け人氏名",
+                "受け人住所",
+                "受け人職業",
+                "申請代理人",
+                "申請代理人住所",
+                "取得形態",
+                "取得資金",
+                "売買賃借料",
+                "物納",
+                "単位",
+                "利用者報告対象",
+                "納税猶予",
+                "発生日",
+                "適用日",
+                "農年処分",
+                "適用日",
+                "受理年月日",
+                "開始年月日",
+                "終了年月日",
+                "備考",               
+                "所有者の農",
+                "所有者等の",
+                "農振法区分",
+                "所有者等を",
+                "遊休農地か",
+                "遊休農地の",
+                "面積",
+                "存続期間終",
+                "所在・地番",
+                "筆ポリ中心",
+                "存続期間始",
+                "利用状況調",
+                "農地中間_1",
+                "農地中間_2",
+                "緯度",
+                "措置命令日",
+                "経度",
+                "都市計画法",
+                "農地中間管",
+                "利用意向調",
+                "地目",
+                "耕作者",
+                "権利の種類",
+                "所有者等_1"                
+            ];
+
+            var jsonFeatures = e.features[0];
+            var fid = jsonFeatures.properties.targetId;
+            
+
+            // nested to array
+            var displayFeatures = [jsonFeatures.properties].map(function(feat){
+                var displayFeat = '';
+                memoAdd = 'メモ: <br><textarea name="memo" id="memoarea"></textarea><br>';
+                imageAdd = '写真: <br><input type="file" accept="image/*" id="camera"><br> \
+                    <br><img id="frame"><br><hr>'
+                detailAdd = '<div id="details">';
+                displayFeat += memoAdd + imageAdd + detailAdd;
+                
+                displayDetailsProperties.forEach(function(prop) {
+                    if(feat[prop] === 'null'){
+                        feat[prop] = "";
+                    }
+                    displayFeat += '<input type="checkbox" id="'+prop+'" name="demo" value="demo"><label for="'+prop+'>"<p>'+prop+': <b>'+feat[prop]+'</b></p></label>';
+                });
+                displayFeat += '</div>' 
+
+                return displayFeat;
+            });
+
+            toggleSidebar('right', fid, displayFeatures, 'three');
+
+        });  
+
+        map.on('click', fude_points, function(e) {
+
+            map.getCanvas().style.cursor = 'pointer';
+
+            var displayBasicProperties = [
+                "所在・地番",
+                "面積",
+                "地目",
+                "遊休農地かどうか"
+            ];
+
+            var jsonFeatures = e.features[0];
+
+        // nested to array
+            var displayFeatures = [jsonFeatures.properties].map(function(feat){
+                var displayFeat = '';
+                displayBasicProperties.forEach(function(prop) {
+                    if(prop === "遊休農地かどうか"){
+                        displayFeat += '<input type="checkbox" id="'+prop+'" name="demo" value="demo">'
+                            +prop+': <select id="fieldtype" ><option value="#008000">選択してください (調査中)</option><option value="#faf000">遊休農地（不耕作）</option><option value="#0041ff">遊休農地（低利用）</option><option value="#ff99a0">遊休農地ではない</option><option value="#00cc00">その他</option><option value="#ff8700">立入困難等外因的理由で調査不可</option><option value="#66ccff">上記以外</option></select><br><br>';
+                    }else{
+                        displayFeat += '<input type="checkbox" id="'+prop+'" name="demo" value="demo"><label for="'+prop+'">'+prop+': <b>'+feat[prop]+'</b></label><br>';                        
+                    }
+                });
+                sampleColorAdd = '<font color="#faf000">&#9607;</font> 遊休農地（不耕作）<br>\
+                    <font color="#0041ff">&#9607;</font> 遊休農地（低利用）<br>\
+                    <font color="#ff99a0">&#9607;</font> 遊休農地ではない<br>\
+                    <font color="#00cc00">&#9607;</font> その他<br>\
+                    <font color="#ff8700">&#9607;</font> 立入困難等外因的理由で調査不可<br>\
+                    <font color="#66ccff">&#9607;</font> 上記以外<br><br>';
+                memoAdd = 'メモ: <br><textarea name="memo" id="memoarea"></textarea><br>';
+                imageAdd = '写真: <br><input type="file" accept="image/*" id="camera"><br> \
+                    <br><img id="frame">'
+                displayFeat += sampleColorAdd + memoAdd + imageAdd;
+
+                return displayFeat;
+            });
+
+
+            // console.log(map.getStyle());
+            // console.log(map.getLayer(fudepolygon_target_layer));
+
+            var features = map.queryRenderedFeatures(
+                e.point,
+                { layers: [fudepolygon_target_layer] }
+            );
+
+            var fid = features[0].id;
+
+            toggleSidebar('right', fid, displayFeatures, 'thirty');
+
+        });
+
+        document.getElementById("close-button").addEventListener('click', function(){
+
+                toggleSidebar('right', null, null, null);
+
+        });
+
+        document.getElementById('navigation').addEventListener('click', function() {
+
+
+            if(!map.getSource('directions')){
+                map.addControl(directions, 'top-left');
+                document.getElementById("right").style.display = "none";
+                document.getElementById('menu').style.display = "none";;
+            }else{
+                map.removeControl(directions);
+                document.getElementById("right").style.display = "block";
+                document.getElementById('menu').style.display = "block";;
+            }
+            
+        });
+
+        document.getElementById('drawing').addEventListener('click', function() {
+
+            if(!map.getSource('mapbox-gl-draw-hot')||!map.getSource('mapbox-gl-draw-cold')){
+                map.addControl(draw, 'bottom-right');
+                // console.log(map.getSource('mapbox-gl-draw-hot'));
+                // console.log(map.getSource('mapbox-gl-draw-cold'));
+                // console.log(draw.getMode());
+
+                document.getElementById('calculation-box').style.display = "block";
+
+                map.on('draw.create', updateArea);
+                map.on('draw.delete', updateArea);
+                map.on('draw.update', updateArea);
+                
+                function updateArea(e) {
+                    var data = draw.getAll();
+
+                    var ptfeatures = map.queryRenderedFeatures({ layers: [fude_points] });
+                    var polyfeatures = map.queryRenderedFeatures({ layers: [fudepolygon_target_layer] });
+
+                    var select_all = document.querySelector("#fieldtype_all");
+                    var options_all = document.querySelectorAll("#fieldtype_all option");
+
+                    // console.log(data);
+
+                    var count = 0
+                    ptfeatures.forEach(function(points) {
+                        var pt_geometry = points.geometry;
+                        var pt_lng = pt_geometry.coordinates[0];
+                        var pt_lat = pt_geometry.coordinates[1];
+                        var pt = turf.point(points.geometry.coordinates);
+                        var poly = turf.polygon(data.features[0].geometry.coordinates);                        
+                        var found = turf.booleanPointInPolygon(pt, poly);
+
+                        if(found){
+                            count++;
+                            console.log("見つかりました");
+                            polyfeatures.forEach(function(polygons) {
+                                var poly_t = turf.polygon(polygons.geometry.coordinates);
+                                var found_target = turf.booleanPointInPolygon(pt, poly_t);
+                                if(found_target){
+                                    // console.log(polygons.properties.筆ポリゴン);
+                                    map.setFeatureState({
+                                        source: fude_source,
+                                        id: polygons.id
+                                    }, {
+                                        color: options_all[select_all.selectedIndex].value
+                                    });
+                                    // console.log(polygons.id);
+                                }
+                            });
+                        }
+                    });
+
+
+                    var answer = document.getElementById('calculated-area');
+                    if (data.features.length > 0) {
+                        answer.innerHTML =
+                        '<p><strong>' +
+                        count + 
+                        ' 件</strong></p>';
+                    } else {
+                        answer.innerHTML = '';
+                        if (e.type !== 'draw.delete')
+                        alert('Use the draw tools to draw a polygon!');
+                    }
+
+                }
+
+            }else{
+                map.removeControl(draw);
+                document.getElementById('calculation-box').style.display = "none";
+
+            }
+
+        });
+
+
+    });    
+
+
+</script>
+
+</body>
+</html>
