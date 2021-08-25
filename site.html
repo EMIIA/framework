@@ -1,37 +1,81 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" >
 
-<meta charset="utf-8">
-  <meta name="viewport" content="initial-scale=1, minimum-scale=1, maximum-scale=1, shrink-to-fit=no">
 
-<blah>
-<head>
-<style type="text/css">
-    body {scrolling:no;
-}
-    iframe {position:absolute;
-    z-index:1;
-    top:0px;
-    left:0px;
-}
-</style>
 
-<style>
-body, html { width:100% ;
-    height:100% ;
-    overflow:hidden ;
-}
+  <title></title>
+  <link rel="stylesheet" href="https://analytics.emiia.ai/iframe/style.css">
 
-iframe { width:100% ;
-        height:100% ;
-    border:none ;
-}
-</style>
+  
+  
+  
+  
+  <style>
+    body {
+      width: 100%;
+      height: 100%;
+      color: transparent;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      font-family: 'Roboto';
+    }
+    section {
+      display: flex;
+      flex-direction: column;
+
+      /* without this positioning, descendent positions may have undefined behvavior in browsers like Safari that need positioning up the entire hierarchy */
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+    main {
+      flex: 1;
+      position: relative;
+      width: 100%;
+      background-color: transparent;
+    }
+    #canvas-container {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      transition: width 500ms, height 500ms; /* CANVAS_RESIZE_ANIMATION_TIME */
+    }
+    canvas:focus {
+      outline: none;
+    }
+  </style>
+  
+  
+  
 
 </head>
 <body>
-    <iframe src="https://emiia.keenetic.pro/webdav/495-223-1-PB.pdf" height="100%" width="100%" frameborder="0"></iframe>
+<!-- partial:index.partial.html -->
+
+
+<div>
+
+        
+    <iframe id='iframe2' src="https://emiia.keenetic.pro/webdav/495-223-1-PB.pdf" frameborder="0" scrolling="no" style="overflow: hidden; height: 103%; width: 100%; position: absolute;"></iframe>
+        
+        
+        
+</div>
+
+
+
+
+
+
+
+<!-- partial -->
+
 </body>
+
+
+
 
 
 </html>
