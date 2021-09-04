@@ -918,7 +918,7 @@ var map = new mapboxgl.Map({
 function rotateCamera(timestamp) {
         // clamp the rotation between 0 -360 degrees
         // Divide timestamp by 100 to slow rotation to ~10 degrees / sec
-        map.rotateTo((timestamp / 100) % 360, { duration: 0 });
+        map.rotateTo((timestamp / 200) % 360, { duration: 0 });
         // Request the next frame of the animation.
         requestAnimationFrame(rotateCamera);
     }
@@ -937,7 +937,7 @@ function rotateCamera(timestamp) {
             'type': 'fill-extrusion',
             'minzoom': 15,
             'paint': {
-                'fill-extrusion-color': '#aaa',
+                'fill-extrusion-color': '#d4d4d4',
 
                 // use an 'interpolate' expression to add a smooth transition effect to the
                 // buildings as the user zooms in
