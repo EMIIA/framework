@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Create and style clusters</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+
+
+
+
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+  
+  
+  
+  <script src='https://api.mapbox.com/mapbox-gl-js/v2.0.1/mapbox-gl.js'></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v2.0.1/mapbox-gl.css' rel='stylesheet' />
+  
+  
+  <script src='https://npmcdn.com/csv2geojson@latest/csv2geojson.js'></script>
+  <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+
+
+
+
+
+
+<style>
+body { margin: 0; padding: 0; }
+#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+</style>
+</head>
+<body>
+<div id="map"></div>
+ 
+
+
+
+
+
+
+
+
+
+
+<script>
+
+
+
+// TO MAKE THE MAP APPEAR YOU MUST
+	// ADD YOUR ACCESS TOKEN FROM
+	// https://account.mapbox.com
+	mapboxgl.accessToken = 'pk.eyJ1IjoiZW1paWFhaSIsImEiOiJja21icnU4bHkyNGRwMnFrbjVvNXdtdGJ0In0.TcfxV21Ov7zOgvWvgPxzlA';
+
+var monument1 = [37.17402239557072, 55.97723794736996];
+
+var monument2 = [30.3583347066685, 59.94113979499576];
+
+var coordinates = document.getElementById('coordinates');
+
+var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/emiiaai/ckofqwhvv1ujy17p27p0a6cr8',
+    center: [37.6097, 55.7701],
+    zoom: 7.25,
+    pitch: 50
+});
+
+
+    const geojson =
+  "https://framework.emiia.ai/MOSSPORT.geojson";
+
+    map.on('load', () => {
+        // Add a new source from our GeoJSON data and
+        // set the 'cluster' option to true. GL-JS will
+        // add the point_count property to your source data.
+    
+
+        
+  map.loadImage(
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Cat_silhouette.svg/100px-Cat_silhouette.svg.png',
+        (error, image) => {
+        map.addImage('hafh', image);
+        map.addSource('hafh', {
+            type: 'geojson',
+            // Point to GeoJSON data. This example visualizes all M1.0+ earthquakes
+            // from 12/22/15 to 1/21/16 as logged by USGS' Earthquake hazards program.
+            data: geojson,
+            cluster: true,
+            clusterMaxZoom: 14, // Max zoom to cluster points on
+            clusterRadius: 50 // Radius of each cluster when clustering points (defaults to 50)
+        });
+
+        map.addLayer({
+            id: 'clusters',
+            type: 'circle',
+            source: 'hafh',
+            filter: ['has', 'point_count'],
+            paint: {
+                // Use step expressions (https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-step)
+                // with three steps to implement three types of circles:
+                //   * Blue, 20px circles when point count is less than 100
+                //   * Yellow, 30px circles when point count is between 100 and 750
+                //   * Pink, 40px circles when point count is greater than or equal to 750
+                'circle-color': [
+                    'step',
+                    ['get', 'point_count'],
+                    '#19C2F8',
+                    5,
+                    '#f1f075',
+                    50,
+                    '#f28cb1'
+                ],
+                'circle-radius': [
+                    'step',
+                    ['get', 'point_count'],
+                    17,
+                    5,
+                    25,
+                    50,
+                    35
+                ]
+            }
+        });
+
+        map.addLayer({
+            id: 'cluster-count',
+            type: 'symbol',
+            source: 'hafh',
+            filter: ['has', 'point_count'],
+            layout: {
+                'text-field': '{point_count_abbreviated}',
+                'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+                'text-size': 15
+            }
+        });
+
+        map.addLayer({
+            id: 'unclustered-point',
+            type: 'symbol',
+            source: 'hafh',
+            filter: ['!', ['has', 'point_count']],
+            'layout': {
+            'icon-image': 'hafh',
+            'icon-size': 0.5,
+            'icon-anchor': 'bottom',
+            'icon-allow-overlap': true,
+            // get the title name from the source's "title" property
+            'text-field': ['get', 'title'],
+            'text-font': [
+            'Open Sans',
+            'Arial'
+            ],
+            'text-size': 12,
+            'text-anchor': 'top',
+            'text-allow-overlap': true,
+            }
+
+        });
+
+        // inspect a cluster on click
+        map.on('click', 'clusters', (e) => {
+            const features = map.queryRenderedFeatures(e.point, {
+                layers: ['clusters']
+            });
+            const clusterId = features[0].properties.cluster_id;
+            map.getSource('hafh').getClusterExpansionZoom(
+                clusterId,
+                (err, zoom) => {
+                    if (err) return;
+
+                    map.easeTo({
+                        center: features[0].geometry.coordinates,
+                        zoom: zoom
+                    });
+                }
+            );
+        });
+
+        // When a click event occurs on a feature in
+        // the unclustered-point layer, open a popup at
+        // the location of the feature, with
+        // description HTML from its properties.
+        map.on('click', 'unclustered-point', (e) => {
+            const coordinates = e.features[0].geometry.coordinates.slice();
+            const title = e.features[0].properties.title;
+            const image = '<img src="' + e.features[0].properties.image + '">';
+            const link = e.features[0].properties.link;
+            const baloon = '<a href="' + link + '">' + image + '</a>';
+
+
+            // Ensure that if the map is zoomed out such that
+            // multiple copies of the feature are visible, the
+            // popup appears over the copy being pointed to.
+            while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+            }
+
+            new mapboxgl.Popup()
+                .setLngLat(coordinates)
+                .setHTML(baloon)
+                .addTo(map);
+        });
+
+        map.on('mouseenter', 'clusters', () => {
+            map.getCanvas().style.cursor = 'pointer';
+        });
+        map.on('mouseleave', 'clusters', () => {
+            map.getCanvas().style.cursor = '';
+        });
+    });
+  });
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+</body>
+</html>
+
