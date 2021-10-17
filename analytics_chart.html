@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>EMIIA.AI</title>
+  
+<style>
+
+
+.map-canvas iframe {
+  pointer-events: none;
+}
+
+
+
+</style>
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<div class="map-canvas">
+<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQ8B3kDA_g-R32GOXHpzFNAiQpohZzclOk-YPZ4k3BSJnV3uOWAz4HWRtR_bkfZbHYTDP5rnzmPybOs/pubchart?oid=782590733&format=interactive" width="600" height="450" frameborder="0" style="border:0"></iframe>
+</div>
+<!-- partial -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+  
+  
+<script>
+
+
+
+$('.map-canvas').click(function () {
+   $('.map-canvas iframe').css("pointer-events", "auto");
+      }); 
+
+</script>
+
+</body>
+</html>
