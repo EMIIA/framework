@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title></title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.32.1/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.32.1/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        body { margin:0; padding:0; }
+        #map { position:absolute; top:0; bottom:0; width:100%; }
+        #trafficButton { 
+            position: absolute; 
+            top: 1em;
+            left: 1em;
+            background-color: #444;
+            color: #fff;
+            border: 2px solid #fff;
+            border-radius: 7px;
+            font-family: sans-serif;
+            padding: 0.8em;
+            cursor: pointer;
+            transition: 0.3s all;
+        }
+        #trafficButton:hover {
+            background-color: #777;
+        }
+    </style>
+</head>
+<body>
+
+<div id='map'></div>
+<div id='trafficButton'>Add traffic</div>
+<script src='https://bl.ocks.org/danswick/raw/f4aa01a046385eb69313499b7934f425/traffic-layers.js'></script>
+<script src='https://bl.ocks.org/danswick/raw/f4aa01a046385eb69313499b7934f425/scrpt.js'></script>
+
+</body>
+</html>
