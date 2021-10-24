@@ -152,51 +152,7 @@
     
     
     
-    <script>
-    
-    map.addLayer({
-	id: 'custom_layer',
-	type: 'custom',
-	renderingMode: '3d',
-	onAdd: function (map, gl) {
-
-		window.tb = new Threebox(
-			map,
-			gl,
-			{ 
-				defaultLights: true 
-              enableSelectingFeatures: true, //omit or change this to false to disable fill-extrusion features selection
-              enableSelectingObjects: true, //omit or change this to false to disable 3D objects selection
-              enableDraggingObjects: true, //omit or change this to false to disable 3D objects drag & move once selected
-              enableRotatingObjects: true, //omit or change this to false to disable 3D objects rotation once selected
-              enableTooltips: true, //omit or change this to false to disable default tooltips on fill-extrusion and 3D models
-			}
-		);
-
-		var options = {
-			obj: 'https://dl.dropboxusercontent.com/s/5csy8voj6xhb5mi/dom_new_v8.glb', //the model url, relative path to the page 
-			type: 'gltf', //type enum, glb format is
-			scale: 20, //20x the original size
-			units: 'meters', //everything will be converted to meters in setCoords method				
-			rotation: { x: 90, y: 0, z: 0 }, //default rotation
-			adjustment: { x: 0, y: 0, z: 0 }, // model center is displaced
-			feature: geoJsonFeature // a valid GeoJson feature
-		}
-
-		tb.loadObj(options, function (model) {
-			//this wil position the soldier at the GeoJson feature coordinates 
-			soldier = model.setCoords(feature.geometry.coordinates);
-			tb.add(soldier);
-		})
-
-	},
-	render: function (gl, matrix) {
-		tb.update();
-	}
-});
-    
-    
-</script>    
+   
     
     
     
