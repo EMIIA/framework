@@ -137,10 +137,11 @@ body {
 #marker {
 background-image: url('https://www.emiia.ai/emiia143.1.1.svg');
 background-size: cover;
-width: 40px;
-height: 50px;
+width: 72px;
+height: 87px;
 border-radius: 5%;
 cursor: pointer;
+z-index: 1;
 }
  
 .mapboxgl-popup {
@@ -195,6 +196,23 @@ var map = new mapboxgl.Map({
 
 
 
+    // create the popup
+const popup = new mapboxgl.Popup({ offset: 25 }).setText(
+'Construction on the Washington Monument began in 1848.'
+);
+ 
+// create DOM element for the marker
+const el = document.createElement('div');
+el.id = 'marker';
+ 
+// create the marker
+new mapboxgl.Marker(el)
+.setLngLat(monument)
+.setPopup(popup) // sets a popup on this marker
+.addTo(map);
+
+
+
 
 (new mapboxgl.NavigationControl());
 
@@ -234,26 +252,7 @@ map.addControl(geolocate, 'top-right');
  
  
     
-    <script>
-
-    
-    // create the popup
-const popup = new mapboxgl.Popup({ offset: 25 }).setText(
-'Construction on the Washington Monument began in 1848.'
-);
- 
-// create DOM element for the marker
-const el = document.createElement('div');
-el.id = 'marker';
- 
-// create the marker
-new mapboxgl.Marker(el)
-.setLngLat(monument)
-.setPopup(popup) // sets a popup on this marker
-.addTo(map);
-    
-    
- </script>   
+  
     
     
     
