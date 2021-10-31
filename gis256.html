@@ -1,0 +1,1126 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title>Attach a popup to a marker instance</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    
+    
+    
+    
+    
+    <style>
+@import url('https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap&subset=cyrillic');
+</style>
+
+	<style>
+@import url('https://www.emiia.ru/css.css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap&subset=cyrillic');
+</style>
+
+  <style>  
+@import url('/css.css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap&subset=cyrillic');
+</style>
+
+<link rel="stylesheet" href="https://www.emiia.ru/cssfamily=Montserrat.css">
+<link rel="stylesheet" href="/cssfamily=Montserrat.css">
+
+    
+    
+    
+
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.5.1/mapbox-gl.css" rel="stylesheet" />
+    
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.5.1/mapbox-gl.js"></script>
+    
+
+<script src="https://unpkg.com/threebox-plugin/dist/threebox.min.js" type="text/javascript"></script>
+
+
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/snap.svg/0.5.1/snap.svg-min.js'></script>
+
+
+
+
+
+
+<script src='https://mapbox.github.io/mapbox-gl-traffic/mapbox-gl-traffic.js'></script>
+    <link href='https://mapbox.github.io/mapbox-gl-traffic/mapbox-gl-traffic.css' rel='stylesheet' />
+
+
+
+
+
+
+
+<style>
+ 
+ body { margin: 0; padding: 0; }
+#map { position: absolute; top: 0; bottom: 0; width: 100%; background-color:#f8f9fa; }
+ 
+
+
+
+}
+
+.helpDiv {
+	width: auto;
+	left: 50%;
+	top: 0px;
+z-index: 2;
+	position: absolute;
+}
+
+.help {
+	background: rgba(0, 0, 0, 0.5);
+	color: #fff;
+	position: relative;
+	text-align: center;
+	top: 10px;
+	left: -50%;
+	padding: 5px 10px;
+	margin: 0;
+	font-size: 11px;
+	line-height: 18px;
+	border-radius: 3px;
+z-index: 2;
+	display: block;
+}
+
+/*these 3 clases will provide mapbox-like style for labels*/
+.toolTip {
+	border: 0.5px black solid;
+	display: inline-block;
+	background: white;
+	padding: 1px 6px;
+	font-family: "Montserrat", montserrat;
+	font-size: 11px !important;
+}
+
+.marker {
+	max-width: 240px;
+	display: flex;
+	margin-bottom: 5em;
+	text-align: center;
+	color: black;
+}
+
+.mapboxgl-popup-tip {
+	margin-top: -1px;
+}
+
+.top-right-tools {
+	display: flex;
+	right: 40px;
+	z-index: 40;
+}
+
+.tools-i.mapboxgl-ctrl {
+	margin: 10px 20px 0 0;
+	display: inline-flex;
+}
+
+#toolsControl {
+	margin: 10px 20px 0 0;
+	display: inline-flex;
+}
+
+#toolsControl.mapboxgl-ctrl-group button + button, #toolsControl.mapboxgl-ctrl-group div + div {
+	border-left: 1px solid #ddd;
+	border-top: 0px;
+}
+
+
+
+ </style>
+
+
+
+
+
+
+
+    
+    
+    
+    <style>
+        body { margin:0; padding:0; }
+        #map { position:absolute; top:0; bottom:0; width:100%; }
+    </style>
+</head>
+<body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id='map'></div>
+
+
+
+<style>
+body { margin: 0; padding: 0; }
+#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+<style>
+
+
+
+
+
+
+
+
+*{margin:0;padding:0}body{font-family:-apple-system,Montserrat, montserrat;font-size:14px;font-weight:280;line-height:1.5}.is-loading{position:fixed;right:0;bottom:0;height:100%;text-align:center;color:#536580;text-shadow:0 2px 2px hsla(0,0%,100%,.4);
+
+a { 
+    text-decoration: none; /* Отменяем подчеркивание у ссылки */
+   } 
+
+
+background:hsla(0,0%,100%,.6);font-size:1.5rem;z-index:99999}.app-info,.is-loading{top:0;left:0;width:100%}.app-info{display:block;position:absolute;margin:0;padding:.5rem .75rem;background-color:transparent;color:#2b3441;
+
+z-index:1!important;box-sizing:border-box}.app-info *{text-shadow:0 2px 3px hsla(0,0%,100%,.6),0 -2px 3px hsla(0,0%,100%,.6)}.app-info h1{font-size:1rem;margin:.2rem 0;font-weight:400}
+
+.app-info h1 .lang-en{display:block;font-size:.875rem}.app-info p{font-size:.75rem;color:#545d6a}.app-info a{color:#536580;text-decoration:none}.app-info a:focus,.app-info a:hover{color:#495971;text-decoration:underline}.language-toggle-button{position:absolute;right:.75rem;top:.5rem;-webkit-appearance:none;padding:.5rem .75rem;color:#536580;background:hsla(0,0%,100%,.8);border:0;border-radius:4px;text-shadow:none;font-size:.75rem}.language-toggle-button:focus,.language-toggle-button:hover{color:#495971;background-color:#fff}.wrapper[lang*=zh-] [lang=en],.wrapper[lang=en] [lang*=zh-]{display:none}.mapContainer{position:absolute;top:0;left:0;right:0;bottom:0;width:100vw;height:100vh}.marker{background-image:url(/images/pin.svg);background-size:auto 100%;width:32px;height:32px;cursor:pointer}
+
+
+.mapboxgl-popup-content:not(:empty){box-shadow:0 0 10px 2px rgba(0,0,0,.1)}
+
+
+.mapboxgl-popup-content{font-size:1rem;border-radius:7px;padding:1rem ;width:321px}[lang=en]
+
+.mapboxgl-popup-content{min-width:380px}.mapboxgl-popup .tag{font-size:.875rem;color:#545d6a;line-height:1.2}
+.mapboxgl-popup .tag[lang=en]{font-size:.75rem}.mapboxgl-popup h3{color:#2b3441;margin:.5rem 0;text-transform:capitalize;line-height:1.2}.mapboxgl-popup h3[lang=en]{font-size:.875rem}.mapboxgl-popup p{font-size:.875rem;color:#545d6a;margin-bottom:.25rem}.mapboxgl-popup p[lang=en]{font-size:.875rem}.mapboxgl-popup .divider{color:#efefef}
+
+.mapboxgl-popup a{color:#3D85C6;text-decoration:none}.mapboxgl-popup a:focus,.mapboxgl-popup a:hover{color:#3D85C6;text-decoration:none}.mapboxgl-popup-close-button{font-size:1.25rem;padding:0 .5rem}
+/*# sourceMappingURL=main.9498309c.chunk.css.map */
+
+
+
+
+
+
+
+  
+
+
+
+a.mapboxgl-ctrl-logo{
+    width: 0;
+    height: 0;
+    margin: 0 0 -4px-4px;
+    display: block;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    overflow: hidden;
+    background-image: url(data:image/svg+xml;charset=utf-8,%3Csvg width='88' height='23' viewBox='0 0 88 23' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' fill-rule='evenodd'%3E %3Cdefs%3E %3Cpath id='logo' d='M11.5 2.25c5.105 0 9.25 4.145 9.25 9.25s-4.145 9.25-9.25 9.25-9.25-4.145-9.25-9.25 4.145-9.25 9.25-9.25zM6.997 15.983c-.051-.338-.828-5.802 2.233-8.873a4.395 4.395 0 013.13-1.28c1.27 0 2.49.51 3.39 1.42.91.9 1.42 2.12 1.42 3.39 0 1.18-.449 2.301-1.28 3.13C12.72 16.93 7 16 7 16l-.003-.017zM15.3 10.5l-2 .8-.8 2-.8-2-2-.8 2-.8.8-2 .8 2 2 .8z'/%3E %3Cpath id='text' d='M50.63 8c.13 0 .23.1.23.23V9c.7-.76 1.7-1.18 2.73-1.18 2.17 0 3.95 1.85 3.95 4.17s-1.77 4.19-3.94 4.19c-1.04 0-2.03-.43-2.74-1.18v3.77c0 .13-.1.23-.23.23h-1.4c-.13 0-.23-.1-.23-.23V8.23c0-.12.1-.23.23-.23h1.4zm-3.86.01c.01 0 .01 0 .01-.01.13 0 .22.1.22.22v7.55c0 .12-.1.23-.23.23h-1.4c-.13 0-.23-.1-.23-.23V15c-.7.76-1.69 1.19-2.73 1.19-2.17 0-3.94-1.87-3.94-4.19 0-2.32 1.77-4.19 3.94-4.19 1.03 0 2.02.43 2.73 1.18v-.75c0-.12.1-.23.23-.23h1.4zm26.375-.19a4.24 4.24 0 00-4.16 3.29c-.13.59-.13 1.19 0 1.77a4.233 4.233 0 004.17 3.3c2.35 0 4.26-1.87 4.26-4.19 0-2.32-1.9-4.17-4.27-4.17zM60.63 5c.13 0 .23.1.23.23v3.76c.7-.76 1.7-1.18 2.73-1.18 1.88 0 3.45 1.4 3.84 3.28.13.59.13 1.2 0 1.8-.39 1.88-1.96 3.29-3.84 3.29-1.03 0-2.02-.43-2.73-1.18v.77c0 .12-.1.23-.23.23h-1.4c-.13 0-.23-.1-.23-.23V5.23c0-.12.1-.23.23-.23h1.4zm-34 11h-1.4c-.13 0-.23-.11-.23-.23V8.22c.01-.13.1-.22.23-.22h1.4c.13 0 .22.11.23.22v.68c.5-.68 1.3-1.09 2.16-1.1h.03c1.09 0 2.09.6 2.6 1.55.45-.95 1.4-1.55 2.44-1.56 1.62 0 2.93 1.25 2.9 2.78l.03 5.2c0 .13-.1.23-.23.23h-1.41c-.13 0-.23-.11-.23-.23v-4.59c0-.98-.74-1.71-1.62-1.71-.8 0-1.46.7-1.59 1.62l.01 4.68c0 .13-.11.23-.23.23h-1.41c-.13 0-.23-.11-.23-.23v-4.59c0-.98-.74-1.71-1.62-1.71-.85 0-1.54.79-1.6 1.8v4.5c0 .13-.1.23-.23.23zm53.615 0h-1.61c-.04 0-.08-.01-.12-.03-.09-.06-.13-.19-.06-.28l2.43-3.71-2.39-3.65a.213.213 0 01-.03-.12c0-.12.09-.21.21-.21h1.61c.13 0 .24.06.3.17l1.41 2.37 1.4-2.37a.34.34 0 01.3-.17h1.6c.04 0 .08.01.12.03.09.06.13.19.06.28l-2.37 3.65 2.43 3.7c0 .05.01.09.01.13 0 .12-.09.21-.21.21h-1.61c-.13 0-.24-.06-.3-.17l-1.44-2.42-1.44 2.42a.34.34 0 01-.3.17zm-7.12-1.49c-1.33 0-2.42-1.12-2.42-2.51 0-1.39 1.08-2.52 2.42-2.52 1.33 0 2.42 1.12 2.42 2.51 0 1.39-1.08 2.51-2.42 2.52zm-19.865 0c-1.32 0-2.39-1.11-2.42-2.48v-.07c.02-1.38 1.09-2.49 2.4-2.49 1.32 0 2.41 1.12 2.41 2.51 0 1.39-1.07 2.52-2.39 2.53zm-8.11-2.48c-.01 1.37-1.09 2.47-2.41 2.47s-2.42-1.12-2.42-2.51c0-1.39 1.08-2.52 2.4-2.52 1.33 0 2.39 1.11 2.41 2.48l.02.08zm18.12 2.47c-1.32 0-2.39-1.11-2.41-2.48v-.06c.02-1.38 1.09-2.48 2.41-2.48s2.42 1.12 2.42 2.51c0 1.39-1.09 2.51-2.42 2.51z'/%3E %3C/defs%3E %3Cmask id='clip'%3E %3Crect x='0' y='0' width='100%25' height='100%25' fill='white'/%3E %3Cuse xlink:href='%23logo'/%3E %3Cuse xlink:href='%23text'/%3E %3C/mask%3E %3Cg id='outline' opacity='0.3' stroke='%23000' stroke-width='3'%3E %3Ccircle mask='url(%23clip)' cx='11.5' cy='11.5' r='9.25'/%3E %3Cuse xlink:href='%23text' mask='url(%23clip)'/%3E %3C/g%3E %3Cg id='fill' opacity='0.9' fill='%23fff'%3E %3Cuse xlink:href='%23logo'/%3E %3Cuse xlink:href='%23text'/%3E %3C/g%3E %3C/svg%3E);
+}
+
+
+
+
+.mapboxgl-popup {
+    z-index: 1;
+
+}
+
+
+
+
+
+
+.marker svg {
+  width: 100%;
+  height: 100%;
+}
+.marker{
+  pointer-events:none;
+}
+
+
+
+.mapboxgl-popup-content {
+
+    width: max-content;
+}
+
+
+
+
+
+
+.mapboxgl-ctrl-bottom-left .mapboxgl-ctrl {
+    margin: 0 0 10px 20px;
+    float: left;
+}
+
+
+.mapboxgl-ctrl-scale {
+    background-color: hsla(0,0%,100%,.75);
+    font-size: 10px;
+    border: 2px solid white;
+    border-top: #333;
+    border-radius: 5px;
+    padding: 0 5px;
+    color: #333;
+    box-sizing: border-box;
+font-family: -apple-system,Montserrat, montserrat;
+    font-size: 11px;    
+      
+    max-width: 7em;
+}
+
+
+ </style> 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+
+
+
+/**********************************************************/
+/****                                                  ****/
+/****                                                  ****/
+/****              THINGS TO CHANGE                    ****/
+center = [37.17402239557072, 55.97723794736996];
+zoomLevelOnStart = 18;
+geoReferenceWidthInMeters = 150;
+geoReferenceHeightInMeters = 150;
+imageURL =
+  "https://upload.wikimedia.org/wikipedia/commons/3/30/Vector-based_example.svg";
+
+
+
+
+mapboxgl.accessToken = 'pk.eyJ1IjoiZW1paWFhaSIsImEiOiJja21icnU4bHkyNGRwMnFrbjVvNXdtdGJ0In0.TcfxV21Ov7zOgvWvgPxzlA';
+
+
+
+
+
+
+    const monument = [37.17402239557072, 55.97723794736996];
+
+var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/emiiaai/ckv9cvgm062s515nz08d6ceq0',
+   center: [37.17402239557072, 55.97723794736996],
+    zoom: 15,
+       pitch: 60,
+
+    attributionControl: false,
+    bearing: 45,
+    
+    
+
+    
+});
+
+
+
+
+ 
+ 
+ 
+// create the popup
+var popup = new mapboxgl.Popup({ offset: 25 })
+   .setHTML("<iframe width=320 height=200 src=https://open.ivideon.com/embed/v2/?server=100-T6RUkCS0tUNCf9Nnzaxlka&amp;camera=0&amp;width=&amp;height=&amp;lang=ru frameborder=0 allow=accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture allowfullscreen></iframe>")
+   
+
+// create DOM element for the marker
+var el = document.createElement('div');
+el.id = 'marker';
+
+// create the marker
+new mapboxgl.Marker(el)
+    .setLngLat(monument)
+    .setPopup(popup) // sets a popup on this marker
+    .addTo(map);
+   
+    
+ el.style = " background-image: url('https://www.emiia.ai/emiia143.1.2.svg'); background-size: cover;  width: 74px;  height: 90px;  border-radius: 0%;  cursor: pointer; z-index: 1;";
+ 
+ 
+    
+(new mapboxgl.NavigationControl());
+
+(new mapboxgl.GeolocateControl({
+    positionOptions: {
+        enableHighAccuracy: true
+    },
+    trackUserLocation: true
+}));
+
+
+
+
+
+const navigation = new mapboxgl.NavigationControl({
+    visualizePitch: false
+});
+map.addControl(navigation, 'top-right');
+
+
+
+const geolocate = new mapboxgl.GeolocateControl({
+    positionOptions: {
+        enableHighAccuracy: true
+    },
+    trackUserLocation: true
+});
+
+
+
+map.addControl(geolocate, 'top-right');
+    
+
+map.addControl(new MapboxTraffic());
+
+
+
+
+
+
+
+
+var scale = new mapboxgl.ScaleControl({
+    positionOptions: {
+        enableHighAccuracy: true
+    },
+    trackUserLocation: true
+});
+
+
+
+
+
+
+map.addControl(scale, 'bottom-left');
+
+
+    
+    
+var hoveredCountry;
+map.on('mousemove', 'country-fill', function (e) {
+    map.getCanvas().style.cursor = 'pointer';
+    if (e.features.length) {
+        if (hoveredCountry) {
+            map.setFeatureState({
+                source: 'countries',
+                id: hoveredCountry
+            }, {
+                hover: false
+            });
+        }
+        hoveredCountry = e.features[0].id;
+        map.setFeatureState({
+            source: 'countries',
+            id: hoveredCountry
+        }, {
+            hover: true
+        });
+    
+
+
+    }
+});
+
+
+
+
+map.on('load', function() {
+
+
+});
+
+
+
+
+
+
+
+
+
+
+    
+
+</script>
+
+
+
+
+
+
+
+
+
+
+<script>
+
+
+
+
+map.on('load', function () {
+
+
+    // サークル設定
+    map.addSource('point_sample', {
+        type: 'geojson',
+        data: {
+            "type": "FeatureCollection",
+            "name": "sample",
+            "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+            "features": [
+                { "type": "Feature", "properties": { "field01": "一", "field02": "abcd", "field03": 5 }, "geometry": { "type": "Point", "coordinates": [ 139.766778945922852, 35.68198003744061 ] } },
+                { "type": "Feature", "properties": { "field01": "二", "field02": null, "field03": 7 }, "geometry": { "type": "Point", "coordinates": [ 139.762916564941406, 35.674310750817348 ] } },
+                { "type": "Feature", "properties": { "field01": "三", "field02": "kojsha", "field03": 9 }, "geometry": { "type": "Point", "coordinates": [ 139.763603210449219, 35.691391336319306 ] } }
+            ]
+        }
+    });
+
+    // スタイル設定
+    map.addLayer({
+        "id": "point_sample",
+        "type": "circle",
+        "source": "point_sample",
+        "layout": {},
+        "paint": {
+            'circle-color': "#FF0000",
+            'circle-radius': 10
+        }
+    });
+
+    // レイヤのズームレベル範囲設定
+    map.setLayerZoomRange('point_sample', 0, 12);
+});
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+
+
+
+
+ 
+
+// parameters to ensure the model is georeferenced correctly on the map
+		const modelOrigin = [37.181623700235036, 55.97052494783168, 0];
+        
+        
+        
+        
+        
+
+		function createCustomLayer(layerName, origin) {
+			let model;
+			//create the layer
+			let customLayer3D = {
+				id: layerName,
+				type: 'custom',
+				renderingMode: '3d',
+				onAdd: function (map, gl) {
+
+					// instantiate threebox
+					window.tb = new Threebox(
+						map,
+						gl,
+
+                        
+                        
+						{ defaultLights: true, enableSelectingObjects: true, enableDraggingObjects: true, enableRotatingObjects: true, enableTooltips: true }
+					);
+  
+                    
+                    let options = { type: 'gltf', obj: 'https://dl.dropboxusercontent.com/s/1x60j6c32oh35rc/dom_new_v15_1.glb', units: 'meters', scale: 900, anchor: 'center', rotation: { x: 90, y: 0, z: 0 } }        
+                    type: 'gltf',           
+                    
+				tb.loadObj(options, function (model) {
+						model.setCoords(origin);
+						model.addTooltip("Moscow 1938 Renovation", true);
+						tb.add(model);
+                         model.setRotation({ x: 0, y: 0, z: 180.7 });
+                         
+                         
+     
+
+                    // create two three.js lights to illuminate the model
+                    var directionalLight = new THREE.DirectionalLight(0xffffff);
+                    directionalLight.position.set(90, -90, 90).normalize();
+                    tb.scene.add(directionalLight);
+                     
+                    var directionalLight2 = new THREE.DirectionalLight(0xffffff);
+                    directionalLight2.position.set(-90, 90, 90).normalize();
+                    tb.scene.add(directionalLight2);
+                 
+					});
+                    
+                    
+
+				},
+				render: function (gl, matrix) {
+					tb.update();
+                    
+       
+				}
+                
+                
+  
+                
+                
+			};
+			return customLayer3D;
+
+		};
+        
+        
+        
+     map.on('style.load', function () {
+			map.addLayer(createCustomLayer('3d-model', modelOrigin), '');
+               
+        		
+   
+		});
+        
+
+        
+     
+    </script> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+var svgContainer;
+var markerContainer = document.createElement("div");
+markerContainer.className = "marker";
+
+Snap.load(imageURL, function(f) {
+  Snap(markerContainer).append(f);
+  svgContainer = f.node;
+  new mapboxgl.Marker(markerContainer).setLngLat(center).addTo(map);
+});
+
+function getScale(n, m) {
+  var center = map.getCenter();
+  var zoom = map.getZoom();
+  var tmp =
+    156543.03392 * Math.cos(center.lat * Math.PI / 180) / Math.pow(2, zoom);
+  var meterSizeInPixelN = n / tmp;
+  var meterSizeInPixelM = m / tmp;
+  return [meterSizeInPixelN, meterSizeInPixelM];
+}
+
+function render() {
+  var pixelSizes = getScale(
+    geoReferenceWidthInMeters,
+    geoReferenceHeightInMeters
+  );
+  markerContainer.style.width = pixelSizes[0] + "px";
+  markerContainer.style.height = pixelSizes[1] + "px";
+  //svgContainer && (svgContainer.style.transform = "rotate(" + -map.getBearing() + "deg)");
+}
+
+// re-render our visualization whenever the view changes
+map.on("viewreset", render);
+map.on("zoom", render);
+map.on("drag", render);
+map.on("rotate", render);
+render();
+
+
+
+</script>
+
+
+
+
+
+
+    
+    
+    
+    
+
+  
+  
+  
+  
+  
+  
+  
+     <script> 
+    
+ map.on('load', () => {
+// Insert the layer beneath any symbol layer.
+const layers = map.getStyle().layers;
+const labelLayerId = layers.find(
+(layer) => layer.type === 'symbol' && layer.layout['text-field']
+).id;
+ 
+// The 'building' layer in the Mapbox Streets
+// vector tileset contains building height data
+// from OpenStreetMap.
+map.addLayer(
+{
+'id': 'add-3d-buildings',
+'source': 'composite',
+'source-layer': 'building',
+'filter': ['==', 'extrude', 'true'],
+'type': 'fill-extrusion',
+'minzoom': 15,
+'paint': {
+'fill-extrusion-color': '#aaa',
+ 
+// Use an 'interpolate' expression to
+// add a smooth transition effect to
+// the buildings as the user zooms in.
+'fill-extrusion-height': [
+'interpolate',
+['linear'],
+['zoom'],
+15,
+0,
+15.05,
+['get', 'height']
+],
+'fill-extrusion-base': [
+'interpolate',
+['linear'],
+['zoom'],
+15,
+0,
+15.05,
+['get', 'min_height']
+],
+'fill-extrusion-opacity': 0.5
+}
+},
+labelLayerId
+);
+});
+
+
+map.on('style.load', function () {
+			map.addLayer(createCustomLayer('3d-model', modelOrigin), '');
+            
+   
+		});
+    
+    
+  </script> 
+   
+
+
+
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/css/weather-icons.min.css'>
+
+
+  
+  
+  
+
+<style>
+  #demo {
+
+
+
+
+
+@import url('https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap&subset=cyrillic');
+
+
+
+@import url('https://www.emiia.ru/css.css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap&subset=cyrillic');
+
+
+  
+@import url('/css.css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap&subset=cyrillic');
+
+
+<link rel="stylesheet" href="https://www.emiia.ru/cssfamily=Montserrat.css">
+<link rel="stylesheet" href="/cssfamily=Montserrat.css">
+
+
+  color: #383838;
+
+  font-size: 12px;
+  cursor: pointer;
+font-weight:400;
+
+
+position: absolute;
+bottom: 1%;
+left: 0rem;
+
+
+   
+  left: 6.5rem;
+  -webkit-transform: translateY(-0%);
+  -ms-transform: translateY(-0%);
+  transform: translateY(-0%);float:left}
+
+
+
+
+
+position: absolute;
+bottom: 1%;
+left: 0rem;
+
+
+
+ 
+
+  }
+</style>
+
+
+
+
+
+  
+  <section id="demo" >
+
+        
+        
+        <div style="overflow: hidden;">
+    
+            <div style="float: left; width: 27px; height: 17px; font-size: 16px;" class="wi ow-ico ow-ico-current pull-left"></div>
+            <div style="float: left; width: 22.5px; height: 12px; " class="ow-temp-current pull-left"></div>
+            
+
+    
+                
+               <div style="float: left; width: 80px; height: 30px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-speedometer2" viewBox="0 0 16 16">
+  <path d="M8 4a.5.5 0 0 1 .5.5V6a.5.5 0 0 1-1 0V4.5A.5.5 0 0 1 8 4zM3.732 5.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707zM2 10a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 10zm9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5zm.754-4.246a.389.389 0 0 0-.527-.02L7.547 9.31a.91.91 0 1 0 1.302 1.258l3.434-4.297a.389.389 0 0 0-.029-.518z"/>
+  <path fill-rule="evenodd" d="M0 10a8 8 0 1 1 15.547 2.661c-.442 1.253-1.845 1.602-2.932 1.25C11.309 13.488 9.475 13 8 13c-1.474 0-3.31.488-4.615.911-1.087.352-2.49.003-2.932-1.25A7.988 7.988 0 0 1 0 10zm8-7a7 7 0 0 0-6.603 9.329c.203.575.923.876 1.68.63C4.397 12.533 6.358 12 8 12s3.604.532 4.923.96c.757.245 1.477-.056 1.68-.631A7 7 0 0 0 8 3z"/>
+</svg> <span class="ow-pressure"></span></div>
+
+
+                <div style="float: left; width: 50px; height: 10px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-droplet" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M7.21.8C7.69.295 8 0 8 0c.109.363.234.708.371 1.038.812 1.946 2.073 3.35 3.197 4.6C12.878 7.096 14 8.345 14 10a6 6 0 0 1-12 0C2 6.668 5.58 2.517 7.21.8zm.413 1.021A31.25 31.25 0 0 0 5.794 3.99c-.726.95-1.436 2.008-1.96 3.07C3.304 8.133 3 9.138 3 10a5 5 0 0 0 10 0c0-1.201-.796-2.157-2.181-3.7l-.03-.032C9.75 5.11 8.5 3.72 7.623 1.82z"/>
+  <path fill-rule="evenodd" d="M4.553 7.776c.82-1.641 1.717-2.753 2.093-3.13l.708.708c-.29.29-1.128 1.311-1.907 2.87l-.894-.448z"/>
+</svg> <span class="ow-humidity"></span></div>
+
+
+                <div style="float: left; width: 95px; height: 10px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-wind" viewBox="0 0 16 16">
+  <path d="M12.5 2A2.5 2.5 0 0 0 10 4.5a.5.5 0 0 1-1 0A3.5 3.5 0 1 1 12.5 8H.5a.5.5 0 0 1 0-1h12a2.5 2.5 0 0 0 0-5zm-7 1a1 1 0 0 0-1 1 .5.5 0 0 1-1 0 2 2 0 1 1 2 2h-5a.5.5 0 0 1 0-1h5a1 1 0 0 0 0-2zM0 9.5A.5.5 0 0 1 .5 9h10.042a3 3 0 1 1-3 3 .5.5 0 0 1 1 0 2 2 0 1 0 2-2H.5a.5.5 0 0 1-.5-.5z"/>
+</svg> <span class="ow-wind"></span></div>
+            </div>
+       
+
+</section>
+
+  
+  
+  
+  
+  <script>
+
+'use strict';
+
+let weatherWidget = {
+    settings: {
+        api_key: '6bd5b850178e2134497c4b965fbaf54e',
+        weather_url: 'https://api.openweathermap.org/data/2.5/weather',
+        forecast_url: 'https://api.openweathermap.org/data/2.5/forecast',
+        search_type: 'city_name',
+        city_name: '',
+        units: 'metric',
+        icon_mapping: {
+            '01d': 'wi-day-sunny',
+            '01n': 'wi-day-sunny',
+            '02d': 'wi-day-cloudy',
+            '02n': 'wi-day-cloudy',
+            '03d': 'wi-cloud',
+            '03n': 'wi-cloud',
+            '04d': 'wi-cloudy',
+            '04n': 'wi-cloudy',
+            '09d': 'wi-rain',
+            '09n': 'wi-rain',
+            '10d': 'wi-day-rain',
+            '10n': 'wi-day-rain',
+            '11d': 'wi-thunderstorm',
+            '11n': 'wi-thunderstorm',
+            '13d': 'wi-snow',
+            '13n': 'wi-snow',
+            '50d': 'wi-fog',
+            '50n': 'wi-fog'
+        }
+    },
+    constant: {
+        dow: ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
+    }
+};
+
+weatherWidget.init = function (settings) {
+    this.settings = Object.assign(this.settings, settings);
+    Promise.all([this.getWeather(), this.getForecast()]).then((resolve) => {
+        let weather = resolve[0];
+        let forecast = resolve[1].list;
+
+        //@TODO lokalizacja bez zwrotki, blad
+
+
+        document.getElementsByClassName('ow-temp-current')[0].innerHTML = Math.round(weather.main.temp) + '&deg';
+        document.getElementsByClassName('ow-pressure')[0].innerHTML = weather.main.pressure + ' hPa';
+        document.getElementsByClassName('ow-humidity')[0].innerHTML = weather.main.humidity + '%';
+        document.getElementsByClassName('ow-wind')[0].innerHTML = weather.wind.speed + ' km/h';
+        if (!!this.settings.icon_mapping[weather.weather[0].icon]) {
+            let icon = this.settings.icon_mapping[weather.weather[0].icon];
+            let ico_current =  document.getElementsByClassName('ow-ico-current')[0];
+            if (ico_current.classList) {
+                ico_current.classList.add(icon);
+            } else {
+                ico_current.className += ' ' + icon;
+            }
+
+        }
+
+        // split forecast data by day
+        // get max and min temperature for a day
+        //@TODO get average forecast by day
+
+        // remove todays weather from forecast
+        forecast = forecast.filter((x) => {
+            return x.dt_txt.substr(0, 10) !== new Date().toJSON().slice(0, 10);
+        });
+
+        // array to hold forecast items
+        let fs = [];for (let f of forecast) {
+            let date = f.dt_txt.substr(0, 10);
+            if (!!fs[date]) {
+                fs[date].temp_max = f.main.temp_max > fs[date].temp_max ? f.main.temp_max : fs[date].temp_max;
+                fs[date].temp_min = f.main.temp_min < fs[date].temp_min ? f.main.temp_min : fs[date].temp_min;
+                fs[date].icons.push(f.weather[0].icon);
+            } else {
+                fs[date] = {
+                    dow: this.constant.dow[new Date(date).getDay()],
+                    temp_max: f.main.temp_max,
+                    temp_min: f.main.temp_min,
+                    icons: [f.weather[0].icon]
+                }
+            }
+        }
+
+        let forecast_items = document.getElementsByClassName('ow-forecast-item');
+
+        // for each daily forecast, get weather icon with highest occurence
+        // show the foreacast
+        let counter = 0;
+        for (let day in fs) {
+            let icon = this.settings.icon_mapping[this.getIconWithHighestOccurence(fs[day].icons)];
+            let fi = forecast_items[counter];
+            fi.getElementsByClassName('max')[0].innerHTML = Math.round(fs[day].temp_max) + '&deg';
+            fi.getElementsByClassName('min')[0].innerHTML = Math.round(fs[day].temp_min) + '&deg';
+            fi.getElementsByClassName('ow-day')[0].innerHTML = fs[day].dow;
+            let ico_current =  fi.getElementsByClassName('ow-ico-forecast')[0];
+            if (ico_current.classList) {
+                ico_current.classList.add(icon);
+            } else {
+                ico_current.className += ' ' + icon;
+            }
+            counter++;
+        }
+
+    });
+};
+
+weatherWidget.getForecast = function () {
+    let params = {
+        'q': this.settings.city_name,
+        'APPID': this.settings.api_key,
+        'units': this.settings.units
+    };
+
+    let p = '?' + Object.keys(params)
+            .map((key) => {
+                return key + '=' + params[key]
+            })
+            .join('&');
+    return this.makeRequest(this.settings.forecast_url, p);
+};
+
+weatherWidget.getWeather = function () {
+    let params = {
+        'q': this.settings.city_name,
+        'APPID': this.settings.api_key,
+        'units': this.settings.units
+    };
+
+    let p = '?' + Object.keys(params)
+            .map((key) => {
+                return key + '=' + params[key]
+            })
+            .join('&');
+    return this.makeRequest(this.settings.weather_url, p);
+};
+
+weatherWidget.makeRequest = function (url, params) {
+    return new Promise(function (resolve, reject) {
+        let req = new XMLHttpRequest();
+        req.open('GET', url + params, true);
+        req.responseType = 'json';
+
+        req.onload = function () {
+            if (req.status >= 200 && req.status < 400) {
+                resolve(req.response);
+            } else {
+                reject(Error(req.status));
+            }
+        };
+
+        req.onerror = () => reject('Error occured while connecting to Weather API');
+        req.send(params);
+    });
+};
+
+weatherWidget.getIconWithHighestOccurence = function (a) {
+    let elems = Array.prototype.slice.call(a);
+    return elems.sort((a, b) =>
+        elems.filter(v => v === a).length - elems.filter(v => v === b).length
+    ).pop();
+}
+
+// run the widget
+let widget = Object.create(weatherWidget);
+widget.init({
+  city_name: 'Moscow'
+});
+  </script>
