@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+
+ <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, minimum-scale=1, maximum-scale=1, shrink-to-fit=no">
+  
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>WebGL Demo Viewer</title>
+<link rel="stylesheet" type="text/css" href="https://www.apstex.com/ifcwebglviewer_demo_20180301/css/styles2.css">
+<link rel="stylesheet" type="text/css" href="https://www.apstex.com/ifcwebglviewer_demo_20180301/css/checkboxtree.css">
+</head>
+<body>
+	<div id='toolbar' style="position: fixed;">
+		<button id="filechooserview_button" class="button files" name="files"
+			onClick="WebGLViewer.menuBar.showView('filechooserview');" title="Load File">
+			FILES</button>
+		<button id="typesview_button" class="button types" name="types"
+			onClick="WebGLViewer.menuBar.showView('typesview');" title="IFC Types View">
+			TYPES</button>
+		<button id="spatialview_button" class="button spatial" name="spatial"
+			onClick="WebGLViewer.menuBar.showView('spatialview');"
+			title="IFC Spatial Structure Tree View">SPATIAL</button>
+		<img class="icon-separator" src="icons/icon-separator.png" alt="" />
+		<button id="orbit_button" class="buttonActive orbit" name="orbit"
+			onClick="WebGLViewer.setCameraMode('ORBIT');"
+			title="Orbit Camera Mode">ORBIT</button>
+		<button id="walk_button" class="button walk" name="walk"
+			onClick="WebGLViewer.setCameraMode('WALK');"
+			title="Orbit Walk Mode">WALK</button>
+		<img class="icon-separator" src="icons/icon-separator.png" alt="" />
+		<button id="grid_button" class="buttonActive grid"
+			onclick="WebGLViewer.grid.setVisible( ! WebGLViewer.grid.isVisible);" title="info">
+			GRID</button>
+		<button id="origin_button" class="buttonActive origin"
+			onclick="WebGLViewer.origin.setVisible( ! WebGLViewer.origin.isVisible);" title="info">
+			ORIGIN</button>
+		<img class="icon-separator" src="icons/icon-separator.png" alt="" />
+		<button id="transparent_button" class="button transparent" name="transparent"
+			onClick="WebGLViewer.applicationController.toggleTransparentView();"
+			title="Transparent View">TRANSP.</button>
+		<button id="wireframed_button" class="button wireframed" name="wireframed"
+			onClick="WebGLViewer.applicationController.toggleWireFramedView();"
+			title="Wireframed View">WIREFR.</button>
+		<button id="edgeview_button" class="button wireframed"
+			onclick="WebGLViewer.applicationController.toggleEdgeView();" title="info">
+			EDGES</button>
+		<img class="icon-separator" src="icons/icon-separator.png" alt="" />
+		<button class="button clear"
+			onclick="WebGLViewer.applicationModelRoot.selectionModel.clearSelection();"
+			title="Clear Selection">CLEAR</button>
+		<button class="button invert"
+			onclick="WebGLViewer.applicationModelRoot.selectionModel.invertSelection();"
+			title="Invert Selection" name="invert">INVERT</button>
+		<button class="button show"
+			onclick="WebGLViewer.applicationController.setSelectedCadObjectsVisible(true);"
+			title="Show Selected">SHOW</button>
+		<button class="button hide"
+			onclick="WebGLViewer.applicationController.setSelectedCadObjectsVisible(false);"
+			title="Hide Selected">HIDE</button>
+		<button class="button reset" onClick="WebGLViewer.applicationController.resetView();"
+			title="Reset View">RESET</button>
+		<img class="icon-separator" src="icons/icon-separator.png" alt="" />
+		<button id="aboutview_button" class="button about"
+			onclick="WebGLViewer.menuBar.showView('aboutview');" title="info">
+			ABOUT</button>
+		<button id="cameraviewpanel_button" class="button view"
+			onclick="WebGLViewer.menuBar.showView('cameraviewpanel');" title="info">
+			VIEWS</button>
+		<div id="layoutbar" class='layoutbar'>
+			<a href="webglviewer1.html">LAYOUT 1</a> | <a href="webglviewer3.html">LAYOUT 3</a>
+		</div>
+	</div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+	<div id='3dviewdiv' class='canvas'>
+		<!-- POPUPS -->
+		<div id='typesview-popup' class="popup typesViewPopup"></div>
+		<div id='cameraviewpanel-popup' class="popup structureViewPopup"></div>
+		<div id='spatialview-popup' class="popup structureViewPopup"></div>
+		<div id='filechooserview-popup' class="popup structureViewPopup">
+			<div class='checkboxtree'>
+            
+            
+            
+            
+            
+					<input type='checkbox' onchange='if(this.checked)WebGLViewer.objectLoader.loadZipFileInThread("fileupload/1938A_ifc.ifc_geometry.jszip","1938A_ifc.zip");else WebGLViewer.objectLoader.closeFile("1938A_ifc.zip");'>&nbsp;EMIIA.AI&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                    
+                    
+                    
+                    
+                    
+					<input type='checkbox' onchange='if(this.checked)WebGLViewer.objectLoader.loadZipFileInThread("fileupload/1938A_ifc.ifc_geometry.jszip","buildingSMART-Anwenderhandbuch_AC11.ifc");else WebGLViewer.objectLoader.closeFile("buildingSMART-Anwenderhandbuch_AC11.ifc");'>&nbsp;buildingSMART-Anwenderhandbuch_AC11.ifc&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+					<input type='checkbox' onchange='if(this.checked)WebGLViewer.objectLoader.loadZipFileInThread("fileupload/FZK-Haus-AC11-IFC.ifc_geometry.jszip","FZK-Haus-AC11-IFC.ifc");else WebGLViewer.objectLoader.closeFile("FZK-Haus-AC11-IFC.ifc");'>&nbsp;FZK-Haus-AC11-IFC.ifc&nbsp;&nbsp;&nbsp;&nbsp;<br>
+					<input type='checkbox' onchange='if(this.checked)WebGLViewer.objectLoader.loadZipFileInThread("fileupload/Massaro_IFC_2X3_STEP.ifc_geometry.jszip","Massaro_IFC_2X3_STEP.ifc");else WebGLViewer.objectLoader.closeFile("Massaro_IFC_2X3_STEP.ifc");'>&nbsp;Massaro_IFC_2X3_STEP.ifc&nbsp;&nbsp;&nbsp;&nbsp;<br>
+			</div>
+		</div>
+		<div id='selectioninfoview-popup' class="popup selectionInfoPopup"></div>
+		<div id='aboutview-popup' class="popup aboutInfoPopup">
+			APSTEX - IFC WebGL Viewer<br>
+			Version 4.3.0 of 2018-02-12<br><br>
+			Contact:<br>
+			<a href="http://www.apstex.com">www.apstex.com</a><br>
+			<a href="mailto:info@apstex.com">info@apstex.com</a><br><br>
+			This program uses the following open source libraries:<br>
+			- three.js:  <a href="http://threejs.org/">http://threejs.org</a><br>
+			- JSZip:  <a href="https://stuk.github.io/jszip/">https://stuk.github.io/jszip</a><br>
+		</div>
+		<div id='loadinginfoview-popup' class="popup loadingInfoPopup"></div>
+	</div>
+	<!-- SCRIPTS -->
+	<script type='text/javascript' src='https://www.apstex.com/ifcwebglviewer_demo_20180301/js/three.js'></script>
+	<script type='text/javascript' src='https://www.apstex.com/ifcwebglviewer_demo_20180301/js/Detector.js'></script>
+	<script type='text/javascript' src='https://www.apstex.com/ifcwebglviewer_demo_20180301/js/jszip.min.js'></script>
+	<script type='text/javascript' src='https://www.apstex.com/ifcwebglviewer_demo_20180301/js/com.apstex.webglviewer.js'></script>
+	<script type='text/javascript'>
+		var onWindowResize = function() 
+		{
+			WebGLViewer.setSize(window.innerWidth, window.innerHeight);
+		};
+		window.addEventListener('resize', onWindowResize, false);
+		WebGLViewer.setSize(window.innerWidth, window.innerHeight);
+	</script>
+</body>
+</html>
