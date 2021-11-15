@@ -501,6 +501,11 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiZW1paWFhaSIsImEiOiJja21icnU4bHkyNGRwMnFrbjVvN
     
 const monument4 = [37.1816636649082, 55.9716578993187];
 
+const monument5 = [37.1807581725723, 55.97214054245342];
+
+
+
+
 var map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/emiiaai/ckv9cvgm062s515nz08d6ceq0',
@@ -521,6 +526,30 @@ center: [37.174116713683134, 55.97723794736996],
 
     
 });
+
+
+
+
+
+
+// create the popup
+var popup = new mapboxgl.Popup({ offset: 25 })
+   .setHTML("<iframe width=320 height=200 src=https://emiia.ai?token=2.GtErfHCeAAcABc_H50WdWnkWZhJog9K6RBpaBlvUD9zSiDCX&amp;camera=0&amp;width=&amp;height=&amp;lang=ru frameborder=0 allow=accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture allowfullscreen></iframe>")
+   
+
+// create DOM element for the marker
+var el = document.createElement('div');
+el.id = 'marker5';
+
+// create the marker
+new mapboxgl.Marker(el)
+    .setLngLat(monument5)
+    .setPopup(popup) // sets a popup on this marker
+    .addTo(map);
+   
+    
+ el.style = " background-image: url('https://analytics.emiia.ai/svg/pin12.svg'); background-size: cover;  width: 50px;  height: 50px;  border-radius: 0%;  cursor: pointer; z-index: 1; top: -3em;";
+
 
 
 
