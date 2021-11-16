@@ -41,7 +41,7 @@ body {
 }
 
 a {
-	color: #00a5d2;
+	color: #383838;
 }
 
 .maindiv {
@@ -56,19 +56,19 @@ a {
 	padding:2px 0px 0px 4px;
 	background: white;
 	height: 48px;
-	border-bottom: 1px solid #00a5d2; 
+	border-bottom: 0.5px solid #383838; 
 }
 
 .button, .buttonActive, .buttonActiveView {
 	background-color: white;
-	border:1px solid #00a5d2;
+	border:1px solid #383838;
 	display:inline-block;
 	color:#6abbdf;
 	font-family:arial;
 	font-size:8px;
 	font-weight:bold;
-	padding:30px 0px 5px 0px;
-	width:45px;
+	padding:25px 10px 0px 0px;
+	width:30px;
 	text-align:center;
 	text-decoration:none;
 	background-repeat: no-repeat;
@@ -124,7 +124,7 @@ a {
 	background-image: url(https://framework.emiia.ai/icon/Icons-07.svg);
 }
 .clear {
-	background-image: url(.https://framework.emiia.ai/icon/Icons-08.svg);
+	background-image: url(https://framework.emiia.ai/icon/Icons-08.svg);
 }
 .invert {
 	background-image: url(https://framework.emiia.ai/icon/Icons-09.svg);
@@ -133,10 +133,10 @@ a {
 	background-image: url(https://framework.emiia.ai/icon/Icons-10.svg);
 }
 .hide {
-	background-image: url(https://framework.emiia.ai/icon/Icons-11.svg);
+	background-image: url(https://framework.emiia.ai/icon/Icons-09.svg);
 }
 .reset {
-	background-image: url(../icons/initialView_small.png);
+	background-image: url(https://framework.emiia.ai/icon/Icons-11.svg);
 }
 .about {
 	background-image: url(https://framework.emiia.ai/icon/Icons-12.svg);
@@ -145,7 +145,7 @@ a {
 	background-image: url(https://framework.emiia.ai/icon/Icons-13.svg);
 }
 .origin {
-	background-image: url(.https://framework.emiia.ai/icon/Icons-14.svg);
+	background-image: url(https://framework.emiia.ai/icon/Icons-14.svg);
 }
 .view {
 	background-image: url(https://framework.emiia.ai/icon/Icons-15.svg);
@@ -157,7 +157,7 @@ a {
 	font-size: 13px;
 	padding: 5px;
 	background-color: #ffffff;
-	border: 1px solid #00a5d2;
+	border: 1px solid #383838;
 	z-index: 100000000000000000;
 	display: none;
 	opacity: 0.8;
@@ -233,7 +233,7 @@ a {
 
 .titelbartext{
 	font-family:arial;
-	color: #00a5d2;
+	color: #383838;
 	text-indent: 5px;
 	font-size: 18pt;
 
@@ -243,7 +243,7 @@ a {
 .menubar {
 	width: 960px;
 	color: #cccccc;
-	background-color: #BDBDBD; //
+	background-color: #383838; //
 	text-indent: 10px;
 	size: 20pt;
 }
@@ -256,11 +256,11 @@ a {
 }*/
 
 .canvas {
-	background: -moz-linear-gradient(top, #fff, #fff); /* Firefox */
-	background: -webkit-linear-gradient(top, #fff, #fff); /* Safari, Chrome */
-	background: -o-linear-gradient(top, #fff, #fff); /* Opera */
-	background: -ms-linear-gradient(top, #fff, #fff); /* IE */
-	background: linear-gradient(top, #fff, #fff); /* W3C Standard */
+	background: -moz-linear-gradient(top, #f8f9fa, #f8f9fa); /* Firefox */
+	background: -webkit-linear-gradient(top, #f8f9fa, #f8f9fa); /* Safari, Chrome */
+	background: -o-linear-gradient(top, #f8f9fa, #f8f9fa); /* Opera */
+	background: -ms-linear-gradient(top, #fff, #f8f9a); /* IE */
+	background: linear-gradient(top, #fff, #f8f9fa); /* W3C Standard */
 	position: static;
 }
 
@@ -270,10 +270,10 @@ a {
 	text-align: left;
 	width: 820px;
 	height: 20px;
-	color: #00a5d2;
+	color: #383838;
 	text-indent: 5px;
 	background: white;
-	border-top: 1px solid #00a5d2; 
+	border-top: 1px solid #383838; 
 }
 
 .layoutbar {
@@ -282,7 +282,7 @@ a {
 	text-align: left;
 	width: 140px;
 	height: 20px;
-	color: #00a5d2;
+	color: #383838;
 	text-indent: 5px;
 }
 
@@ -301,72 +301,67 @@ a {
 	<div id='toolbar' style="position: fixed;">
 		<button id="filechooserview_button" class="button files" name="files"
 			onClick="WebGLViewer.menuBar.showView('filechooserview');" title="Load File">
-			FILES</button>
+			</button>
 		<button id="typesview_button" class="button types" name="types"
 			onClick="WebGLViewer.menuBar.showView('typesview');" title="IFC Types View">
-			TYPES</button>
+			</button>
 		<button id="spatialview_button" class="button spatial" name="spatial"
 			onClick="WebGLViewer.menuBar.showView('spatialview');"
-			title="IFC Spatial Structure Tree View">SPATIAL</button>
+			title="IFC Spatial Structure Tree View"></button>
 		<img class="icon-separator" src="icons/icon-separator.png" alt="" />
 		<button id="orbit_button" class="buttonActive orbit" name="orbit"
 			onClick="WebGLViewer.setCameraMode('ORBIT');"
-			title="Orbit Camera Mode">ORBIT</button>
+			title="Orbit Camera Mode"></button>
 		<button id="walk_button" class="button walk" name="walk"
 			onClick="WebGLViewer.setCameraMode('WALK');"
-			title="Orbit Walk Mode">WALK</button>
+			title="Orbit Walk Mode"></button>
 		<img class="icon-separator" src="icons/icon-separator.png" alt="" />
 		<button id="grid_button" class="buttonActive grid"
 			onclick="WebGLViewer.grid.setVisible( ! WebGLViewer.grid.isVisible);" title="info">
-			GRID</button>
+			</button>
 		<button id="origin_button" class="buttonActive origin"
 			onclick="WebGLViewer.origin.setVisible( ! WebGLViewer.origin.isVisible);" title="info">
-			ORIGIN</button>
+			</button>
 		<img class="icon-separator" src="icons/icon-separator.png" alt="" />
 		<button id="transparent_button" class="button transparent" name="transparent"
 			onClick="WebGLViewer.applicationController.toggleTransparentView();"
-			title="Transparent View">TRANSP.</button>
+			title="Transparent View"></button>
 		<button id="wireframed_button" class="button wireframed" name="wireframed"
 			onClick="WebGLViewer.applicationController.toggleWireFramedView();"
-			title="Wireframed View">WIREFR.</button>
+			title="Wireframed View"></button>
 		<button id="edgeview_button" class="button wireframed"
 			onclick="WebGLViewer.applicationController.toggleEdgeView();" title="info">
-			EDGES</button>
+			</button>
 		<img class="icon-separator" src="icons/icon-separator.png" alt="" />
 		<button class="button clear"
 			onclick="WebGLViewer.applicationModelRoot.selectionModel.clearSelection();"
-			title="Clear Selection">CLEAR</button>
+			title="Clear Selection"></button>
 		<button class="button invert"
 			onclick="WebGLViewer.applicationModelRoot.selectionModel.invertSelection();"
-			title="Invert Selection" name="invert">INVERT</button>
+			title="Invert Selection" name="invert"></button>
 		<button class="button show"
 			onclick="WebGLViewer.applicationController.setSelectedCadObjectsVisible(true);"
-			title="Show Selected">SHOW</button>
+			title="Show Selected"></button>
 		<button class="button hide"
 			onclick="WebGLViewer.applicationController.setSelectedCadObjectsVisible(false);"
-			title="Hide Selected">HIDE</button>
+			title="Hide Selected"></button>
 		<button class="button reset" onClick="WebGLViewer.applicationController.resetView();"
-			title="Reset View">RESET</button>
+			title="Reset View"></button>
 		<img class="icon-separator" src="icons/icon-separator.png" alt="" />
 		<button id="aboutview_button" class="button about"
 			onclick="WebGLViewer.menuBar.showView('aboutview');" title="info">
-			ABOUT</button>
+			</button>
 		<button id="cameraviewpanel_button" class="button view"
 			onclick="WebGLViewer.menuBar.showView('cameraviewpanel');" title="info">
-			VIEWS</button>
-		<div id="layoutbar" class='layoutbar'>
-			<a href="webglviewer1.html">LAYOUT 1</a> | <a href="webglviewer3.html">LAYOUT 3</a>
+			</button>
+            
+
+
+
+		
 		</div>
-	</div>
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+
     
     
 	<div id='3dviewdiv' class='canvas'>
@@ -402,7 +397,7 @@ a {
 		<div id='selectioninfoview-popup' class="popup selectionInfoPopup"></div>
 		<div id='aboutview-popup' class="popup aboutInfoPopup">
 			EMIIA.AI - IFC WebGL Viewer<br>
-			Version 4.3.8 2021<br><br>
+			Version 0.0.8 Beta testing 11-2021<br><br>
 			Contact:<br>
 			<a href="http://www.emiia.ai">www.emiia.ai</a><br>
 			<a href="mailto:emiia@emiia.ai">emiia@emiia.ai</a><br>
@@ -425,3 +420,4 @@ a {
 	</script>
 </body>
 </html>
+
