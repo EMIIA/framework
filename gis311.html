@@ -1,4 +1,3 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -14,7 +13,20 @@
 
 
 
+<style>
+@import url('https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap&subset=cyrillic');
+</style>
 
+	<style>
+@import url('https://www.emiia.ru/css.css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap&subset=cyrillic');
+</style>
+
+  <style>  
+@import url('/css.css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap&subset=cyrillic');
+</style>
+
+<link rel="stylesheet" href="https://www.emiia.ru/cssfamily=Montserrat.css">
+<link rel="stylesheet" href="/cssfamily=Montserrat.css">
 
 
 
@@ -24,7 +36,7 @@
 @CHARSET "ISO-8859-1";
 
 * {
-	font-family: Verdana;
+	font-family: Montserrat;
 	font-size: 8pt;
 	text-decoration: none;
 	color: black;
@@ -61,6 +73,7 @@ a {
 
 .button, .buttonActive, .buttonActiveView {
 	background-color: white;
+    margin-left: 10px;
 	border:1px solid #383838;
 	display:inline-block;
 	color: white;
@@ -72,7 +85,7 @@ a {
 	text-align:center;
 	text-decoration:none;
 	background-repeat: no-repeat;
-	background-position: 50% 20%;
+	background-position: 50% 50%;
 	background-size: 20px;
     border-radius: 5px;
     box-shadow: 0 0 10px 2px rgba(0,0,0,.1);
@@ -153,10 +166,18 @@ a {
 	background-image: url(https://framework.emiia.ai/icon/Icons-15.svg);
 }
 
+.view1 {
+	background-image: url(https://analytics.emiia.ai/svg/strelka15.2.svg);
+}
+
+.view2 {
+	background-image: url(https://analytics.emiia.ai/svg/strelka15.1.svg);
+}
+
 
 .popup {
 	position: absolute;
-	font-size: 13px;
+	font-size: 16px;
 	padding: 5px;
 	background-color: #ffffff;
 	border: 1px solid #383838;
@@ -167,6 +188,7 @@ a {
 	max-height: 520px;
 	overflow-x: hidden;
 	overflow-y: auto;
+    border-radius: 5px;
 }
 
 
@@ -296,8 +318,47 @@ a {
 
 
 
+<style>
+.checkboxtree {
+	font-family: Montserrat, montserrat;
+   
+   
+	font-size: 11px;
+	color: #383838;
+	white-space: nowrap;
+	margin-left: 10px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+.checkboxtree img {
+	border: 0px;
+	vertical-align: middle;
+}
+.checkboxtree a {
 
-<link rel="stylesheet" type="text/css" href="https://www.apstex.com/ifcwebglviewer_demo_20180301/css/checkboxtree.css">
+	text-decoration: none;
+    border-radius: 5px;
+}
+.checkboxtree a.node, .checkboxtree a.nodeSel {
+	white-space: nowrap;
+	padding: 1px 2px 1px 2px;
+    border-radius: 5px;
+}
+.checkboxtree a.node:hover, .checkboxtree a.nodeSel:hover {
+	color: #000000;
+	background-color: #a8d3ec;
+}
+.checkboxtree a.nodeSel {
+	background-color: #a8d3ec;
+}
+.checkboxtree .clip {
+	overflow: hidden;
+}
+
+</style>
+
+
+
 </head>
 <body>
 	<div id='toolbar' style="position: fixed;">
@@ -355,6 +416,13 @@ a {
 			</button>
 		<button id="cameraviewpanel_button" class="button view"
 			onclick="WebGLViewer.menuBar.showView('cameraviewpanel');" title="info">
+            
+            <button id="cameraviewpanel_button" class="button view1"
+			onclick="WebGLViewer.menuBar.showView('cameraviewpanel');" title="info">
+            
+            <button id="cameraviewpanel_button" class="button view2"
+			onclick="WebGLViewer.menuBar.showView('cameraviewpanel');" title="info">
+            
 			</button>
             
 
@@ -430,8 +498,4 @@ a {
 	</script>
 </body>
 </html>
-
-
-
-
 
