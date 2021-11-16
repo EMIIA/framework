@@ -1,0 +1,427 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+
+ <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, minimum-scale=1, maximum-scale=1, shrink-to-fit=no">
+  
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>EMIIA.AI - IFC WebGL Viewer</title>
+
+
+
+
+
+
+
+
+
+
+<style>
+
+@CHARSET "ISO-8859-1";
+
+* {
+	font-family: Verdana;
+	font-size: 8pt;
+	text-decoration: none;
+	color: black;
+	padding: 0px;
+	margin: 0;
+	padding: 0;
+	border-collapse: collapse;
+	border-spacing: 0;
+	line-height: 1;
+}
+
+body {
+	background-color: #4E5869;
+}
+
+a {
+	color: #00a5d2;
+}
+
+.maindiv {
+	position: absolute;
+	width: 960px;
+	left: 50%;
+	margin-left: -480px;
+	margin-top: 10px;
+}
+
+.toolbar {
+	padding:2px 0px 0px 4px;
+	background: white;
+	height: 48px;
+	border-bottom: 1px solid #00a5d2; 
+}
+
+.button, .buttonActive, .buttonActiveView {
+	background-color: white;
+	border:1px solid #00a5d2;
+	display:inline-block;
+	color:#6abbdf;
+	font-family:arial;
+	font-size:8px;
+	font-weight:bold;
+	padding:30px 0px 5px 0px;
+	width:45px;
+	text-align:center;
+	text-decoration:none;
+	background-repeat: no-repeat;
+	background-position: 50% 20%;
+	background-size: 20px;
+    border-radius: 5px;
+}
+
+.buttonActive{
+	background-color: #efefef;
+}
+
+.buttonActiveView{
+	background-color: #d3e9f5;
+}
+
+.button:hover, .buttonActive:hover, .buttonActiveView:hover {
+	color: black;
+}
+
+.button:active, .buttonActive:active, .buttonActiveView:active {
+	position:relative;
+	top:1px;
+}
+
+.button:focus, .buttonActive:focus, .buttonActiveView:focus {
+	outline: 0;
+}
+
+.icon-separator {
+	height: 35px;
+	margin: 0 2px 0 2px;
+}
+.files {
+	background-image: url(https://framework.emiia.ai/icon/Icons-01.svg);
+}
+.types {
+	background-image: url(https://framework.emiia.ai/icon/Icons-02.svg);
+}
+.spatial {
+	background-image: url(https://framework.emiia.ai/icon/Icons-03.svg);
+}
+.orbit {
+	background-image: url(https://framework.emiia.ai/icon/Icons-04.svg);
+}
+.walk {
+	background-image: url(https://framework.emiia.ai/icon/Icons-05.svg);
+}
+.transparent {
+	background-image: url(https://framework.emiia.ai/icon/Icons-06.svg);
+}
+.wireframed {
+	background-image: url(https://framework.emiia.ai/icon/Icons-07.svg);
+}
+.clear {
+	background-image: url(.https://framework.emiia.ai/icon/Icons-08.svg);
+}
+.invert {
+	background-image: url(https://framework.emiia.ai/icon/Icons-09.svg);
+}
+.show {
+	background-image: url(https://framework.emiia.ai/icon/Icons-10.svg);
+}
+.hide {
+	background-image: url(https://framework.emiia.ai/icon/Icons-11.svg);
+}
+.reset {
+	background-image: url(../icons/initialView_small.png);
+}
+.about {
+	background-image: url(https://framework.emiia.ai/icon/Icons-12.svg);
+}
+.grid {
+	background-image: url(https://framework.emiia.ai/icon/Icons-13.svg);
+}
+.origin {
+	background-image: url(.https://framework.emiia.ai/icon/Icons-14.svg);
+}
+.view {
+	background-image: url(https://framework.emiia.ai/icon/Icons-15.svg);
+}
+
+
+.popup {
+	position: absolute;
+	font-size: 13px;
+	padding: 5px;
+	background-color: #ffffff;
+	border: 1px solid #00a5d2;
+	z-index: 100000000000000000;
+	display: none;
+	opacity: 0.8;
+	text-align: left;
+	max-height: 520px;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+
+.typesViewPopup {
+	top: 50px !important;
+	left: 5px !important;
+}
+
+.structureViewPopup {
+	top: 50px !important;
+	left: 5px !important;
+}
+
+.structureViewPopup a:hover {
+	background-color: #000000;
+	color: #ffffff;
+}
+
+.selectionInfoPopup {
+	bottom: 7px!important;
+	right:  7px!important;
+}
+
+.loadingInfoPopup {
+	top: 50%;
+    left: 50%;
+	width: 150px;
+    margin-left: -75px;
+	height: 20px;
+	margin-top: -10px;
+	text-align: center;
+    padding-top: 10px;
+}
+
+.aboutInfoPopup {
+	font-size:8pt;
+	opacity: 0.9;
+	text-align: center;
+	line-height: 1.5;
+	width: 600px;
+	height: 150px;
+	position: absolute;
+	top: 50%;
+    left: 50%;
+	margin-top: -75px;
+    margin-left: -300px;
+    padding-top: 10px;
+}
+
+.aboutInfoPopup b {
+	font-weight: bolder;
+}
+
+.titlebar {
+	display: table-cell;
+	vertical-align: middle;
+	text-align: left;
+	width: 960px;
+	height: 40px;
+	color: white;
+	text-indent: 5px;
+	font-size: 14pt;
+	background: white;
+  
+}
+
+.titelbartext{
+	font-family:arial;
+	color: #00a5d2;
+	text-indent: 5px;
+	font-size: 18pt;
+
+}
+
+
+.menubar {
+	width: 960px;
+	color: #cccccc;
+	background-color: #BDBDBD; //
+	text-indent: 10px;
+	size: 20pt;
+}
+
+/*).icons {
+	padding-left: 5px;
+	padding-right: 5px;
+	height: 20px;
+	vertical-align: middle;
+}*/
+
+.canvas {
+	background: -moz-linear-gradient(top, #fff, #fff); /* Firefox */
+	background: -webkit-linear-gradient(top, #fff, #fff); /* Safari, Chrome */
+	background: -o-linear-gradient(top, #fff, #fff); /* Opera */
+	background: -ms-linear-gradient(top, #fff, #fff); /* IE */
+	background: linear-gradient(top, #fff, #fff); /* W3C Standard */
+	position: static;
+}
+
+.statusbar {
+	display: table-cell;
+	vertical-align: middle;
+	text-align: left;
+	width: 820px;
+	height: 20px;
+	color: #00a5d2;
+	text-indent: 5px;
+	background: white;
+	border-top: 1px solid #00a5d2; 
+}
+
+.layoutbar {
+	display: table-cell;
+	vertical-align: middle;
+	text-align: left;
+	width: 140px;
+	height: 20px;
+	color: #00a5d2;
+	text-indent: 5px;
+}
+
+</style>
+
+
+
+
+
+
+
+
+<link rel="stylesheet" type="text/css" href="https://www.apstex.com/ifcwebglviewer_demo_20180301/css/checkboxtree.css">
+</head>
+<body>
+	<div id='toolbar' style="position: fixed;">
+		<button id="filechooserview_button" class="button files" name="files"
+			onClick="WebGLViewer.menuBar.showView('filechooserview');" title="Load File">
+			FILES</button>
+		<button id="typesview_button" class="button types" name="types"
+			onClick="WebGLViewer.menuBar.showView('typesview');" title="IFC Types View">
+			TYPES</button>
+		<button id="spatialview_button" class="button spatial" name="spatial"
+			onClick="WebGLViewer.menuBar.showView('spatialview');"
+			title="IFC Spatial Structure Tree View">SPATIAL</button>
+		<img class="icon-separator" src="icons/icon-separator.png" alt="" />
+		<button id="orbit_button" class="buttonActive orbit" name="orbit"
+			onClick="WebGLViewer.setCameraMode('ORBIT');"
+			title="Orbit Camera Mode">ORBIT</button>
+		<button id="walk_button" class="button walk" name="walk"
+			onClick="WebGLViewer.setCameraMode('WALK');"
+			title="Orbit Walk Mode">WALK</button>
+		<img class="icon-separator" src="icons/icon-separator.png" alt="" />
+		<button id="grid_button" class="buttonActive grid"
+			onclick="WebGLViewer.grid.setVisible( ! WebGLViewer.grid.isVisible);" title="info">
+			GRID</button>
+		<button id="origin_button" class="buttonActive origin"
+			onclick="WebGLViewer.origin.setVisible( ! WebGLViewer.origin.isVisible);" title="info">
+			ORIGIN</button>
+		<img class="icon-separator" src="icons/icon-separator.png" alt="" />
+		<button id="transparent_button" class="button transparent" name="transparent"
+			onClick="WebGLViewer.applicationController.toggleTransparentView();"
+			title="Transparent View">TRANSP.</button>
+		<button id="wireframed_button" class="button wireframed" name="wireframed"
+			onClick="WebGLViewer.applicationController.toggleWireFramedView();"
+			title="Wireframed View">WIREFR.</button>
+		<button id="edgeview_button" class="button wireframed"
+			onclick="WebGLViewer.applicationController.toggleEdgeView();" title="info">
+			EDGES</button>
+		<img class="icon-separator" src="icons/icon-separator.png" alt="" />
+		<button class="button clear"
+			onclick="WebGLViewer.applicationModelRoot.selectionModel.clearSelection();"
+			title="Clear Selection">CLEAR</button>
+		<button class="button invert"
+			onclick="WebGLViewer.applicationModelRoot.selectionModel.invertSelection();"
+			title="Invert Selection" name="invert">INVERT</button>
+		<button class="button show"
+			onclick="WebGLViewer.applicationController.setSelectedCadObjectsVisible(true);"
+			title="Show Selected">SHOW</button>
+		<button class="button hide"
+			onclick="WebGLViewer.applicationController.setSelectedCadObjectsVisible(false);"
+			title="Hide Selected">HIDE</button>
+		<button class="button reset" onClick="WebGLViewer.applicationController.resetView();"
+			title="Reset View">RESET</button>
+		<img class="icon-separator" src="icons/icon-separator.png" alt="" />
+		<button id="aboutview_button" class="button about"
+			onclick="WebGLViewer.menuBar.showView('aboutview');" title="info">
+			ABOUT</button>
+		<button id="cameraviewpanel_button" class="button view"
+			onclick="WebGLViewer.menuBar.showView('cameraviewpanel');" title="info">
+			VIEWS</button>
+		<div id="layoutbar" class='layoutbar'>
+			<a href="webglviewer1.html">LAYOUT 1</a> | <a href="webglviewer3.html">LAYOUT 3</a>
+		</div>
+	</div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+	<div id='3dviewdiv' class='canvas'>
+		<!-- POPUPS -->
+		<div id='typesview-popup' class="popup typesViewPopup"></div>
+		<div id='cameraviewpanel-popup' class="popup structureViewPopup"></div>
+		<div id='spatialview-popup' class="popup structureViewPopup"></div>
+		<div id='filechooserview-popup' class="popup structureViewPopup">
+			<div class='checkboxtree'>
+            
+            
+            
+            
+            
+					<input type='checkbox' onchange='if(this.checked)WebGLViewer.objectLoader.loadZipFileInThread("fileupload/1938A_ifc.ifc_geometry.jszip","1938A_ifc.zip");else WebGLViewer.objectLoader.closeFile("1938A_ifc.zip");'>&nbsp;EMIIA.AI&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                    
+                    
+                    
+                    
+                    
+					<input type='checkbox' onchange='if(this.checked)WebGLViewer.objectLoader.loadZipFileInThread("fileupload/1938A_ifc.ifc_geometry.jszip","buildingSMART-Anwenderhandbuch_AC11.ifc");else WebGLViewer.objectLoader.closeFile("buildingSMART-Anwenderhandbuch_AC11.ifc");'>&nbsp;buildingSMART-Anwenderhandbuch_AC11.ifc&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+					<input type='checkbox' onchange='if(this.checked)WebGLViewer.objectLoader.loadZipFileInThread("fileupload/FZK-Haus-AC11-IFC.ifc_geometry.jszip","FZK-Haus-AC11-IFC.ifc");else WebGLViewer.objectLoader.closeFile("FZK-Haus-AC11-IFC.ifc");'>&nbsp;FZK-Haus-AC11-IFC.ifc&nbsp;&nbsp;&nbsp;&nbsp;<br>
+					<input type='checkbox' onchange='if(this.checked)WebGLViewer.objectLoader.loadZipFileInThread("fileupload/Massaro_IFC_2X3_STEP.ifc_geometry.jszip","Massaro_IFC_2X3_STEP.ifc");else WebGLViewer.objectLoader.closeFile("Massaro_IFC_2X3_STEP.ifc");'>&nbsp;Massaro_IFC_2X3_STEP.ifc&nbsp;&nbsp;&nbsp;&nbsp;<br>
+			</div>
+		</div>
+		<div id='selectioninfoview-popup' class="popup selectionInfoPopup"></div>
+		<div id='aboutview-popup' class="popup aboutInfoPopup">
+			EMIIA.AI - IFC WebGL Viewer<br>
+			Version 4.3.8 2021<br><br>
+			Contact:<br>
+			<a href="http://www.emiia.ai">www.emiia.ai</a><br>
+			<a href="mailto:emiia@emiia.ai">emiia@emiia.ai</a><br>
+			
+		</div>
+		<div id='loadinginfoview-popup' class="popup loadingInfoPopup"></div>
+	</div>
+	<!-- SCRIPTS -->
+	<script type='text/javascript' src='https://www.apstex.com/ifcwebglviewer_demo_20180301/js/three.js'></script>
+	<script type='text/javascript' src='https://www.apstex.com/ifcwebglviewer_demo_20180301/js/Detector.js'></script>
+	<script type='text/javascript' src='https://www.apstex.com/ifcwebglviewer_demo_20180301/js/jszip.min.js'></script>
+	<script type='text/javascript' src='https://www.apstex.com/ifcwebglviewer_demo_20180301/js/com.apstex.webglviewer.js'></script>
+	<script type='text/javascript'>
+		var onWindowResize = function() 
+		{
+			WebGLViewer.setSize(window.innerWidth, window.innerHeight);
+		};
+		window.addEventListener('resize', onWindowResize, false);
+		WebGLViewer.setSize(window.innerWidth, window.innerHeight);
+	</script>
+</body>
+</html>
