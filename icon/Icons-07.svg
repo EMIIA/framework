@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+  <title>Icons</title>
+  <g id="_7_invertselection" data-name="7 invertselection">
+    <rect x="1.04" y="4.5" width="13.5" height="40.5" style="fill: none;stroke: #383838;stroke-linejoin: round"/>
+    <rect x="1.04" y="4.5" width="13.5" height="13.5" style="fill: #383838;stroke: #383838;stroke-linejoin: round"/>
+    <line x1="1.04" y1="31" x2="14.54" y2="31" style="fill: #383838;stroke: #383838;stroke-linejoin: round"/>
+    <rect x="33.42" y="4.5" width="13.5" height="40.5" style="fill: none;stroke: #383838;stroke-linejoin: round"/>
+    <rect x="33.42" y="18" width="13.5" height="13" style="fill: #383838"/>
+    <rect x="33.42" y="32" width="13.5" height="13" style="fill: #383838"/>
+    <polygon points="20.17 6.21 20.17 18 28.67 12.1 20.17 6.21" style="fill: none;stroke: #383838;stroke-linejoin: round"/>
+    <polygon points="20.17 6.21 20.17 18 28.67 12.1 20.17 6.21" style="fill: none;stroke: #383838;stroke-linejoin: round"/>
+    <polygon points="28.67 30.04 28.67 41.83 20.17 35.93 28.67 30.04" style="fill: none;stroke: #383838;stroke-linejoin: round"/>
+  </g>
+</svg>

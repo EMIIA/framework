@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+  <title>Icons</title>
+  <g id="_6_wiredframe" data-name="6 wiredframe">
+    <polygon points="6.08 40.8 6.08 16.14 17.42 5.8 41.92 5.8 41.92 31.3 31.92 41.3 6.08 40.8" style="fill: none;stroke: #383838;stroke-linecap: round;stroke-linejoin: round"/>
+    <polyline points="6.08 16.22 31.58 16.22 31.58 41.3" style="fill: none;stroke: #383838;stroke-linecap: round;stroke-linejoin: round"/>
+    <line x1="31.58" y1="16.22" x2="41.92" y2="5.81" style="fill: none;stroke: #383838;stroke-linecap: round;stroke-linejoin: round"/>
+  </g>
+</svg>

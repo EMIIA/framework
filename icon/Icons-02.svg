@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <title>Icons</title>
+  <g id="_2_Plus" data-name="2 Plus">
+    <rect x="2.67" y="1.83" width="7.09" height="4.87" style="fill: none;stroke: #383838;stroke-linecap: round;stroke-linejoin: round"/>
+    <rect x="12.35" y="9.45" width="7.09" height="4.87" style="fill: none;stroke: #383838;stroke-linecap: round;stroke-linejoin: round"/>
+    <rect x="21.43" y="17.68" width="7.09" height="4.87" style="fill: #383838;stroke: #383838;stroke-linecap: round;stroke-linejoin: round"/>
+    <rect x="21.43" y="25.32" width="7.09" height="4.87" style="fill: #383838;stroke: #383838;stroke-linecap: round;stroke-linejoin: round"/>
+    <polygon points="22.43 1.04 22.43 9.39 30.18 5.22 22.43 1.04" style="fill: #383838;stroke: #383838;stroke-linecap: round;stroke-linejoin: round"/>
+    <rect x="13.86" y="4.22" width="10.19" height="1.99" style="fill: #383838;stroke: #383838;stroke-linecap: round;stroke-linejoin: round"/>
+    <line x1="6.22" y1="6.69" x2="6.22" y2="13.16" style="fill: none;stroke: #383838;stroke-linecap: round;stroke-linejoin: round"/>
+    <line x1="6.22" y1="11.89" x2="12.35" y2="11.89" style="fill: none;stroke: #383838;stroke-linecap: round;stroke-linejoin: round"/>
+    <line x1="15.89" y1="14.33" x2="15.89" y2="30.96" style="fill: none;stroke: #383838;stroke-linecap: round;stroke-linejoin: round"/>
+    <line x1="15.89" y1="20.12" x2="21.43" y2="20.12" style="fill: none;stroke: #383838;stroke-linecap: round;stroke-linejoin: round"/>
+    <line x1="15.89" y1="27.76" x2="21.43" y2="27.76" style="fill: none;stroke: #383838;stroke-linecap: round;stroke-linejoin: round"/>
+  </g>
+</svg>

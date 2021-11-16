@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <title>Icons</title>
+  <g id="_4_Walk" data-name="4 Walk">
+    <path d="M17.92,30.18h5.88A6.84,6.84,0,0,0,23,26a6.42,6.42,0,0,0-1.58-1.75l-4.36,4.48Z" style="fill: #383838;stroke: #383838;stroke-linejoin: round"/>
+    <path d="M15.67,26.83l4-4.19-5.19-6s-1.93-1.88-4-.58-.76,5.81.7,7.26A41.79,41.79,0,0,0,15.67,26.83Z" style="fill: #383838;stroke: #383838;stroke-linejoin: round"/>
+    <path d="M17.92,12.56l4.21-4s-2.67-4.31-6.19-5.41c-2.55-.79-3.83-.19-4.66.66s-1.41,2.71.55,4.46A59.52,59.52,0,0,0,17.92,12.56Z" style="fill: #383838;stroke: #383838;stroke-linejoin: round"/>
+    <path d="M19.41,13.94l3.78-3.71s2.13,1.22,2.35,3.12a2.8,2.8,0,0,1-3.19,3.19A4.77,4.77,0,0,1,19.41,13.94Z" style="fill: #383838;stroke: #383838;stroke-linejoin: round"/>
+  </g>
+</svg>

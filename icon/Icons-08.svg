@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+  <title>Icons</title>
+  <g id="_8_unselect" data-name="8 unselect">
+    <rect x="17.25" y="3.2" width="13.5" height="40.5" style="fill: none;stroke: #383838;stroke-miterlimit: 10"/>
+    <rect x="17.25" y="3.2" width="13.5" height="13.5" style="fill: #383838;stroke: #383838;stroke-miterlimit: 10"/>
+    <rect x="6.56" y="27.65" width="34.89" height="3" transform="translate(-13.73 27.57) rotate(-48.14)" style="fill: #383838"/>
+    <line x1="17.25" y1="29.7" x2="30.75" y2="29.7" style="fill: #383838;stroke: #383838;stroke-miterlimit: 10"/>
+  </g>
+</svg>

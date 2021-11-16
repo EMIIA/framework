@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="49" viewBox="0 0 48 49">
+  <title>Icons</title>
+  <g id="_3_orbit" data-name="3 orbit">
+    <circle cx="24.07" cy="28.23" r="19.71" style="fill: none;stroke: #383838;stroke-miterlimit: 10;stroke-width: 1.5px"/>
+    <path d="M23.42,47.93c-8.36-.66-14-7.22-14-18.11A22.86,22.86,0,0,1,24.07,8.52" style="fill: none;stroke: #383838;stroke-miterlimit: 10;stroke-width: 1.5px"/>
+    <path d="M23.81,47.93c-3.35-.66-5.62-7.22-5.62-18.11s2.94-18.54,5.88-21.31" style="fill: none;stroke: #383838;stroke-miterlimit: 10;stroke-width: 1.5px"/>
+    <path d="M24.73,47.93C33.2,47.27,39,40.71,39,29.83A22.88,22.88,0,0,0,24.07,8.52" style="fill: none;stroke: #383838;stroke-miterlimit: 10;stroke-width: 1.5px"/>
+    <path d="M24.33,47.93c3.35-.66,5.62-7.22,5.62-18.11S27,11.28,24.07,8.52" style="fill: none;stroke: #383838;stroke-miterlimit: 10;stroke-width: 1.5px"/>
+    <path d="M43.78,28.74c0,7.17-8.82,13-19.71,13s-19.71-5.81-19.71-13" style="fill: none;stroke: #383838;stroke-miterlimit: 10;stroke-width: 1.5px"/>
+    <path d="M43.3,23.91c0,5.48-8.51,10-19.18,10S4.8,29.44,4.8,24" style="fill: none;stroke: #383838;stroke-miterlimit: 10;stroke-width: 1.5px"/>
+    <path d="M39.7,16.22c0,4.74-7.06,8.62-15.56,8.62S8.44,21,8.44,16.22" style="fill: none;stroke: #383838;stroke-miterlimit: 10;stroke-width: 1.5px"/>
+    <path d="M36,12.55c-.55,2.37-5.09,4.59-11.89,4.59s-11.45-2.67-11.59-4.89" style="fill: none;stroke: #383838;stroke-miterlimit: 10;stroke-width: 1.5px"/>
+    <line x1="41.41" y1="37.48" x2="47.23" y2="42.07" style="fill: none;stroke: #383838;stroke-linejoin: round"/>
+    <polygon points="47.23 42.07 43.18 40.51 44.87 38.51 47.23 42.07" style="fill: #383838;stroke: #383838;stroke-linejoin: round"/>
+    <line x1="24.29" y1="8.48" x2="24.29" y2="1.07" style="fill: none;stroke: #383838;stroke-miterlimit: 10"/>
+    <polygon points="24.29 1.07 22.93 5.08 25.62 5.13 24.29 1.07" style="fill: #383838;stroke: #383838;stroke-linejoin: round"/>
+    <line x1="6.59" y1="37.48" x2="0.77" y2="42.07" style="fill: none;stroke: #383838;stroke-linejoin: round"/>
+    <polygon points="0.77 42.07 4.82 40.51 3.13 38.51 0.77 42.07" style="fill: #383838;stroke: #383838;stroke-linejoin: round"/>
+  </g>
+</svg>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+  <title>Icons</title>
+  <g id="_5_solid_trans" data-name="5 solid_trans">
+    <rect x="5.99" y="16.51" width="25.5" height="25.33" style="fill: none;stroke: #383838;stroke-linecap: round;stroke-linejoin: round"/>
+    <polyline points="5.99 16.51 16.32 6.18 42.01 6.18 42.01 31.18 31.49 41.9" style="fill: none;stroke: #383838;stroke-linecap: round;stroke-linejoin: round"/>
+    <polyline points="5.99 41.85 16.39 30.99 42.01 30.99" style="fill: none;stroke: #383838;stroke-linecap: round;stroke-linejoin: round"/>
+    <line x1="16.42" y1="6.1" x2="16.42" y2="30.99" style="fill: none;stroke: #383838;stroke-linecap: round;stroke-linejoin: round"/>
+    <line x1="31.49" y1="16.51" x2="42.01" y2="6.18" style="fill: none;stroke: #383838;stroke-linecap: round;stroke-linejoin: round"/>
+  </g>
+</svg>
