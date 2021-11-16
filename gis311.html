@@ -371,21 +371,21 @@ a {
 		<button id="spatialview_button" class="button spatial" name="spatial"
 			onClick="WebGLViewer.menuBar.showView('spatialview');"
 			title="IFC Spatial Structure Tree View"></button>
-		<img class="icon-separator" src="icons/icon-separator.png" alt="" />
+		
 		<button id="orbit_button" class="buttonActive orbit" name="orbit"
 			onClick="WebGLViewer.setCameraMode('ORBIT');"
 			title="Orbit Camera Mode"></button>
 		<button id="walk_button" class="button walk" name="walk"
 			onClick="WebGLViewer.setCameraMode('WALK');"
 			title="Orbit Walk Mode"></button>
-		<img class="icon-separator" src="icons/icon-separator.png" alt="" />
+		
 		<button id="grid_button" class="buttonActive grid"
 			onclick="WebGLViewer.grid.setVisible( ! WebGLViewer.grid.isVisible);" title="info">
 			</button>
 		<button id="origin_button" class="buttonActive origin"
 			onclick="WebGLViewer.origin.setVisible( ! WebGLViewer.origin.isVisible);" title="info">
 			</button>
-		<img class="icon-separator" src="icons/icon-separator.png" alt="" />
+
 		<button id="transparent_button" class="button transparent" name="transparent"
 			onClick="WebGLViewer.applicationController.toggleTransparentView();"
 			title="Transparent View"></button>
@@ -410,10 +410,11 @@ a {
 			title="Hide Selected"></button>
 		<button class="button reset" onClick="WebGLViewer.applicationController.resetView();"
 			title="Reset View"></button>
-		<img class="icon-separator" src="icons/icon-separator.png" alt="" />
+		
 		<button id="aboutview_button" class="button about"
 			onclick="WebGLViewer.menuBar.showView('aboutview');" title="info">
 			</button>
+            
 		<button id="cameraviewpanel_button" class="button view"
 			onclick="WebGLViewer.menuBar.showView('cameraviewpanel');" title="info">
             
@@ -498,4 +499,3 @@ a {
 	</script>
 </body>
 </html>
-
