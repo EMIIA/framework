@@ -7,7 +7,7 @@
   "scope": "/Denisovskiy/kolmar.html",
   "display": "standalone",
   "background_color": "#fff",
-  "theme_color": "#f8f9fa",
+  "theme_color": "#fff",
   "icons": [
     {
       "src": "/Denisovskiy/icon.png"
