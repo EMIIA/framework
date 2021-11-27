@@ -1,0 +1,16 @@
+{
+  "description": "EMIIA.AI",
+  "name": "EMIIA.AI",
+  "short_name": "MRV",
+  "lang": "ru-RU",
+  "start_url": "/Denisovskiy/kolmar.html",
+  "scope": "/Denisovskiy/kolmar.html",
+  "display": "standalone",
+  "background_color": "#fff",
+  "theme_color": "#fff",
+  "icons": [
+    {
+      "src": "/Denisovskiy/icon.png"
+    }
+  ]
+}
