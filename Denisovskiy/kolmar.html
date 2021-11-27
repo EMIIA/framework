@@ -1,0 +1,433 @@
+
+       
+				}
+                
+                
+  
+                
+                
+			};
+			return customLayer3D7;
+
+		};
+        
+        
+        
+     map.on('style.load', function () {
+			map.addLayer(createCustomLayer7('3d-model7', modelOrigin7), '');
+               
+        		
+   
+		});
+        
+
+        
+     
+    </script> 
+
+
+
+
+
+
+
+        <script>
+
+
+
+
+ 
+
+// parameters to ensure the model is georeferenced correctly on the map
+		const modelOrigin5 = [37.18091904998829, 55.972141819190284, 0];
+        
+        
+        
+        
+        
+
+		function createCustomLayer5(layerName5, origin5) {
+			let model5;
+            
+			//create the layer
+			let customLayer3D5 = {
+				id: layerName5,
+				type: 'custom',
+				renderingMode: '3d',
+				onAdd: function (map5, gl5) {
+
+					// instantiate threebox
+					window.tb = new Threebox(
+						map5,
+						gl5,
+
+                        
+                   { defaultLights: false, enableSelectingObjects: false, enableDraggingObjects: true, enableRotatingObjects: true, enableTooltips: true }     
+						
+					);
+  
+                    
+                    let options5 = { type: 'gltf', obj: 'https://dl.dropboxusercontent.com/s/drftre3ux0kao3h/sport3.glb', units: 'meters', scale: 1, anchor: 'center', rotation: { x: 90, y: 0, z: 0 } }        
+                    type: 'gltf',           
+                    
+				tb.loadObj(options5, function (model5) {
+						model5.setCoords(origin5);
+						model5.addTooltip("Moscow 193888", true);
+						tb.add(model5);
+                        model5.setRotation({ x: 0, y: 0, z: 182.7 });
+                         
+                         
+     
+
+
+                  // create two three.js lights to illuminate the model
+                    var directionalLight = new THREE.DirectionalLight(0xffffff);
+                    directionalLight.position.set(90, -90, 90).normalize();
+                    tb1.scene.add(directionalLight);
+                     
+                    var directionalLight2 = new THREE.DirectionalLight(0xffffff);
+                    directionalLight2.position.set(-90, 90, 90).normalize();
+                    tb1.scene.add(directionalLight2);
+                 
+					});
+                    
+
+				},
+				render: function (gl5, matrix5) {
+					tb.update();
+                    
+       
+				}
+                
+                
+  
+                
+                
+			};
+			return customLayer3D5;
+
+		};
+        
+        
+        
+     map.on('style.load', function () {
+			map.addLayer(createCustomLayer5('3d-model5', modelOrigin5), '');
+               
+        		
+   
+		});
+        
+
+        
+     
+    </script> 
+ 
+ 
+ 
+  
+
+
+
+
+        <script>
+
+
+
+
+ 
+
+// parameters to ensure the model is georeferenced correctly on the map
+		const modelOrigin8 = [37.175138315371925, 55.97745521910511, 0];
+        
+        
+        
+        
+        
+
+		function createCustomLayer8(layerName8, origin8) {
+			let model8;
+            
+			//create the layer
+			let customLayer3D8 = {
+				id: layerName8,
+				type: 'custom',
+				renderingMode: '3d',
+				onAdd: function (map8, gl8) {
+
+					// instantiate threebox
+					window.tb = new Threebox(
+						map8,
+						gl8,
+
+                        
+                   { defaultLights: false, enableSelectingObjects: false, enableDraggingObjects: true, enableRotatingObjects: true, enableTooltips: true }     
+						
+					);
+  
+                    
+                    let options8 = { type: 'gltf', obj: 'https://dl.dropboxusercontent.com/s/tzxwdxc5fbaytow/kid.glb', units: 'meters', scale: 0.78, anchor: 'center', rotation: { x: 90, y: 0, z: 0 } }        
+                    type: 'gltf',           
+                    
+				tb.loadObj(options8, function (model8) {
+						model8.setCoords(origin8);
+						model8.addTooltip("Moscow 193888", true);
+						tb.add(model8);
+                        model8.setRotation({ x: 0, y: 0, z: 59.7 });
+                         
+                         
+     
+
+
+                  // create two three.js lights to illuminate the model
+                    var directionalLight = new THREE.DirectionalLight(0xffffff);
+                    directionalLight.position.set(90, -90, 90).normalize();
+                    tb1.scene.add(directionalLight);
+                     
+                    var directionalLight2 = new THREE.DirectionalLight(0xffffff);
+                    directionalLight2.position.set(-90, 90, 90).normalize();
+                    tb1.scene.add(directionalLight2);
+                 
+					});
+                    
+
+				},
+				render: function (gl8, matrix8) {
+					tb.update();
+                    
+       
+				}
+                
+                
+  
+                
+                
+			};
+			return customLayer3D8;
+
+		};
+        
+        
+        
+     map.on('style.load', function () {
+			map.addLayer(createCustomLayer8('3d-model8', modelOrigin8), '');
+               
+        		
+   
+		});
+        
+
+        
+     
+    </script> 
+
+
+
+
+
+
+
+
+<script>
+
+
+
+
+ 
+
+// parameters to ensure the model is georeferenced correctly on the map
+		const modelOrigin9 = [37.18028062218909, 55.97215719171217, 0];
+        
+        
+        
+        
+        
+
+		function createCustomLayer9(layerName9, origin9) {
+			let model9;
+            
+			//create the layer
+			let customLayer3D9 = {
+				id: layerName9,
+				type: 'custom',
+				renderingMode: '3d',
+				onAdd: function (map9, gl9) {
+
+					// instantiate threebox
+					window.tb = new Threebox(
+						map9,
+						gl9,
+
+                        
+                   { defaultLights: false, enableSelectingObjects: false, enableDraggingObjects: true, enableRotatingObjects: true, enableTooltips: true }     
+						
+					);
+  
+                    
+                    let options9 = { type: 'gltf', obj: 'https://dl.dropboxusercontent.com/s/tzxwdxc5fbaytow/kid.glb', units: 'meters', scale: 0.78, anchor: 'center', rotation: { x: 90, y: 0, z: 0 } }        
+                    type: 'gltf',           
+                    
+				tb.loadObj(options9, function (model9) {
+						model9.setCoords(origin9);
+						model9.addTooltip("Moscow 193888", true);
+						tb.add(model9);
+                        model9.setRotation({ x: 0, y: 0, z: 59.7 });
+                         
+                         
+     
+
+
+                  // create two three.js lights to illuminate the model
+                    var directionalLight = new THREE.DirectionalLight(0xffffff);
+                    directionalLight.position.set(90, -90, 90).normalize();
+                    tb1.scene.add(directionalLight);
+                     
+                    var directionalLight2 = new THREE.DirectionalLight(0xffffff);
+                    directionalLight2.position.set(-90, 90, 90).normalize();
+                    tb1.scene.add(directionalLight2);
+                 
+					});
+                    
+
+				},
+				render: function (gl9, matrix9) {
+					tb.update();
+                    
+       
+				}
+                
+                
+  
+                
+                
+			};
+			return customLayer3D9;
+
+		};
+        
+        
+        
+     map.on('style.load', function () {
+			map.addLayer(createCustomLayer9('3d-model9', modelOrigin9), '');
+               
+        		
+   
+		});
+        
+
+        
+     
+    </script> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+
+
+
+
+ 
+
+// parameters to ensure the model is georeferenced correctly on the map
+		const modelOrigin10 = [37.18095939664826, 55.97294000131305, 0];
+        
+        
+        
+        
+        
+
+		function createCustomLayer10(layerName10, origin10) {
+			let model10;
+            
+			//create the layer
+			let customLayer3D10 = {
+				id: layerName10,
+				type: 'custom',
+				renderingMode: '3d',
+				onAdd: function (map10, gl10) {
+
+					// instantiate threebox
+					window.tb = new Threebox(
+						map10,
+						gl10,
+
+                        
+                   { defaultLights: false, enableSelectingObjects: false, enableDraggingObjects: true, enableRotatingObjects: true, enableTooltips: true }     
+						
+					);
+  
+                    
+                    let options10 = { type: 'gltf', obj: 'https://dl.dropboxusercontent.com/s/l832akw63j4evzg/dog.glb', units: 'meters', scale: 90, anchor: 'center', rotation: { x: 90, y: 0, z: 0 } }        
+                    type: 'gltf',           
+                    
+				tb.loadObj(options10, function (model10) {
+						model10.setCoords(origin10);
+						model10.addTooltip("Moscow 193888", true);
+						tb.add(model10);
+                        model10.setRotation({ x: 0, y: 0, z: 59.7 });
+                         
+                         
+     
+
+
+                  // create two three.js lights to illuminate the model
+                    var directionalLight = new THREE.DirectionalLight(0xffffff);
+                    directionalLight.position.set(90, -90, 90).normalize();
+                    tb1.scene.add(directionalLight);
+                     
+                    var directionalLight2 = new THREE.DirectionalLight(0xffffff);
+                    directionalLight2.position.set(-90, 90, 90).normalize();
+                    tb1.scene.add(directionalLight2);
+                 
+					});
+                    
+
+				},
+				render: function (gl10, matrix10) {
+					tb.update();
+                    
+       
+				}
+                
+                
+  
+                
+                
+			};
+			return customLayer3D10;
+
+		};
+        
+        
+        
+     map.on('style.load', function () {
+			map.addLayer(createCustomLayer10('3d-model10', modelOrigin10), '');
+               
+        		
+   
+		});
+        
+
+        
+     
+    </script> 
+
+
+
+
+
+
+
+</body>
+</html>
