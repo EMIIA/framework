@@ -1,9 +1,12 @@
 {
+  "description": "EMIIA.AI",
   "name": "EMIIA.AI",
   "short_name": "MRV",
   "lang": "ru-RU",
   "start_url": "/Denisovskiy/denisovskiy.html",
+  "scope": "/Denisovskiy/denisovskiy.html",
   "display": "standalone",
+  "background_color": "#fff",
   "theme_color": "#f8f9fa",
   "icons": [
     {
