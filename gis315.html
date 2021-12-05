@@ -1,0 +1,659 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+
+ <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, minimum-scale=1, maximum-scale=1, shrink-to-fit=no">
+  
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>EMIIA.AI - IFC Viewer/Corrector/Comments</title>
+
+
+
+
+
+<style>
+@import url('https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap&subset=cyrillic');
+</style>
+
+	<style>
+@import url('https://www.emiia.ru/css.css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap&subset=cyrillic');
+</style>
+
+  <style>  
+@import url('/css.css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap&subset=cyrillic');
+</style>
+
+<link rel="stylesheet" href="https://www.emiia.ru/cssfamily=Montserrat.css">
+<link rel="stylesheet" href="/cssfamily=Montserrat.css">
+
+
+
+
+<style>
+
+@CHARSET "ISO-8859-1";
+
+* {
+	font-family: Montserrat;
+	font-size: 8pt;
+	text-decoration: none;
+	color: black;
+	padding: 0px;
+	margin: 0;
+	padding: 0;
+	border-collapse: collapse;
+	border-spacing: 0;
+	line-height: 1;
+}
+
+body {
+	background-color: #4E5869;
+}
+
+a {
+	color: #383838;
+}
+
+.maindiv {
+	position: absolute;
+	width: 960px;
+	left: 50%;
+	margin-left: -480px;
+	margin-top: 10px;
+}
+
+.toolbar {
+	padding:2px 0px 0px 4px;
+	background: white;
+	height: 48px;
+	border-bottom: 0.5px solid #383838; 
+}
+
+.button, .buttonActive, .buttonActiveView {
+	background-color: white;
+    margin-left: 10px;
+	border:0px solid #383838;
+	display:inline-block;
+	color: white;
+	font-family:arial;
+	font-size:8px;
+	font-weight:bold;
+	padding:25px 10px 0px 0px;
+	width:30px;
+	text-align:center;
+	text-decoration:none;
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+	background-size: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px 2px rgba(0,0,0,.1);
+    margin: 0.3rem;
+}
+
+.buttonActive{
+	background-color: #efefef;
+}
+
+.buttonActiveView{
+	background-color: #d3e9f5;
+}
+
+.button:hover, .buttonActive:hover, .buttonActiveView:hover {
+	color: black;
+}
+
+.button:active, .buttonActive:active, .buttonActiveView:active {
+	position:relative;
+	top:1px;
+}
+
+.button:focus, .buttonActive:focus, .buttonActiveView:focus {
+	outline: 0;
+}
+
+.icon-separator {
+	height: 35px;
+	margin: 0 2px 0 2px;
+}
+.files {
+	background-image: url(https://framework.emiia.ai/icon/Icons-01.svg);
+}
+.types {
+	background-image: url(https://framework.emiia.ai/icon/Icons-02.svg);
+}
+.spatial {
+	background-image: url(https://framework.emiia.ai/icon/Icons-03.svg);
+}
+.orbit {
+	background-image: url(https://framework.emiia.ai/icon/Icons-04.svg);
+}
+.walk {
+	background-image: url(https://framework.emiia.ai/icon/Icons-05.svg);
+}
+.transparent {
+	background-image: url(https://framework.emiia.ai/icon/Icons-06.svg);
+}
+.wireframed {
+	background-image: url(https://framework.emiia.ai/icon/Icons-07.svg);
+}
+.clear {
+	background-image: url(https://framework.emiia.ai/icon/Icons-08.svg);
+}
+.invert {
+	background-image: url(https://framework.emiia.ai/icon/Icons-09.svg);
+}
+.show {
+	background-image: url(https://framework.emiia.ai/icon/Icons-10.svg);
+}
+.hide {
+	background-image: url(https://framework.emiia.ai/icon/Icons-09.svg);
+}
+.reset {
+	background-image: url(https://framework.emiia.ai/icon/Icons-11.svg);
+}
+.about {
+	background-image: url(https://framework.emiia.ai/icon/Icons-12.svg);
+}
+.grid {
+	background-image: url(https://framework.emiia.ai/icon/Icons-13.svg);
+}
+.origin {
+	background-image: url(https://framework.emiia.ai/icon/Icons-14.svg);
+}
+.view {
+	background-image: url(https://framework.emiia.ai/icon/Icons-15.svg);
+}
+
+.view1 {
+	background-image: url(https://analytics.emiia.ai/svg/strelka15.2.svg);
+}
+
+.view2 {
+	background-image: url(https://analytics.emiia.ai/svg/strelka15.1.svg);
+}
+
+
+.popup {
+	position: absolute;
+	font-size: 16px;
+	padding: 5px;
+	background-color: #ffffff;
+	border: 1px solid #383838;
+	z-index: 100000000000000000;
+	display: none;
+	opacity: 0.8;
+	text-align: left;
+	max-height: 520px;
+	overflow-x: hidden;
+	overflow-y: auto;
+    border-radius: 5px;
+}
+
+
+.typesViewPopup {
+	top: 50px !important;
+	left: 5px !important;
+}
+
+.structureViewPopup {
+	top: 50px !important;
+	left: 5px !important;
+}
+
+.structureViewPopup a:hover {
+	background-color: #000000;
+	color: #ffffff;
+}
+
+.selectionInfoPopup {
+	bottom: 7px!important;
+	right:  7px!important;
+}
+
+.loadingInfoPopup {
+	top: 50%;
+    left: 50%;
+	width: 150px;
+    margin-left: -75px;
+	height: 20px;
+	margin-top: -10px;
+	text-align: center;
+    padding-top: 10px;
+}
+
+.aboutInfoPopup {
+	font-size:8pt;
+	opacity: 0.9;
+	text-align: center;
+	line-height: 1.5;
+	width: 600px;
+	height: 150px;
+	position: absolute;
+	top: 50%;
+    left: 50%;
+	margin-top: -75px;
+    margin-left: -300px;
+    padding-top: 10px;
+}
+
+.aboutInfoPopup b {
+	font-weight: bolder;
+}
+
+.titlebar {
+	display: table-cell;
+	vertical-align: middle;
+	text-align: left;
+	width: 960px;
+	height: 40px;
+	color: white;
+	text-indent: 5px;
+	font-size: 14pt;
+	background: white;
+  
+}
+
+.titelbartext{
+	font-family:arial;
+	color: #383838;
+	text-indent: 5px;
+	font-size: 18pt;
+
+}
+
+
+.menubar {
+	width: 960px;
+	color: #cccccc;
+	background-color: #383838; //
+	text-indent: 10px;
+	size: 20pt;
+}
+
+/*).icons {
+	padding-left: 5px;
+	padding-right: 5px;
+	height: 20px;
+	vertical-align: middle;
+}*/
+
+.canvas {
+	background: -moz-linear-gradient(top, #f8f9fa, #f8f9fa); /* Firefox */
+	background: -webkit-linear-gradient(top, #f8f9fa, #f8f9fa); /* Safari, Chrome */
+	background: -o-linear-gradient(top, #f8f9fa, #f8f9fa); /* Opera */
+	background: -ms-linear-gradient(top, #fff, #f8f9a); /* IE */
+	background: linear-gradient(top, #fff, #f8f9fa); /* W3C Standard */
+	position: static;
+}
+
+.statusbar {
+	display: table-cell;
+	vertical-align: middle;
+	text-align: left;
+	width: 820px;
+	height: 20px;
+	color: #383838;
+	text-indent: 5px;
+	background: white;
+	border-top: 1px solid #383838; 
+}
+
+.layoutbar {
+	display: table-cell;
+	vertical-align: middle;
+	text-align: left;
+	width: 140px;
+	height: 20px;
+	color: #383838;
+	text-indent: 5px;
+}
+
+</style>
+
+
+
+
+
+
+
+<style>
+.checkboxtree {
+	font-family: Montserrat, montserrat;
+   
+   
+	font-size: 11px;
+	color: #383838;
+	white-space: nowrap;
+	margin-left: 10px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+.checkboxtree img {
+	border: 0px;
+	vertical-align: middle;
+}
+.checkboxtree a {
+
+	text-decoration: none;
+    border-radius: 5px;
+}
+.checkboxtree a.node, .checkboxtree a.nodeSel {
+	white-space: nowrap;
+	padding: 1px 2px 1px 2px;
+    border-radius: 5px;
+}
+.checkboxtree a.node:hover, .checkboxtree a.nodeSel:hover {
+	color: #000000;
+	background-color: #a8d3ec;
+}
+.checkboxtree a.nodeSel {
+	background-color: #a8d3ec;
+}
+.checkboxtree .clip {
+	overflow: hidden;
+}
+
+</style>
+
+
+
+</head>
+<body>
+	<div id='toolbar' style="position: fixed;">
+		<button id="filechooserview_button" class="button files" name="files"
+			onClick="WebGLViewer.menuBar.showView('filechooserview');" title="Load File">
+			</button>
+		<button id="typesview_button" class="button types" name="types"
+			onClick="WebGLViewer.menuBar.showView('typesview');" title="IFC Types View">
+			</button>
+		<button id="spatialview_button" class="button spatial" name="spatial"
+			onClick="WebGLViewer.menuBar.showView('spatialview');"
+			title="IFC Spatial Structure Tree View"></button>
+		
+		<button id="orbit_button" class="buttonActive orbit" name="orbit"
+			onClick="WebGLViewer.setCameraMode('ORBIT');"
+			title="Orbit Camera Mode"></button>
+		<button id="walk_button" class="button walk" name="walk"
+			onClick="WebGLViewer.setCameraMode('WALK');"
+			title="Orbit Walk Mode"></button>
+		
+		<button id="grid_button" class="buttonActive grid"
+			onclick="WebGLViewer.grid.setVisible( ! WebGLViewer.grid.isVisible);" title="info">
+			</button>
+		<button id="origin_button" class="buttonActive origin"
+			onclick="WebGLViewer.origin.setVisible( ! WebGLViewer.origin.isVisible);" title="info">
+			</button>
+
+		<button id="transparent_button" class="button transparent" name="transparent"
+			onClick="WebGLViewer.applicationController.toggleTransparentView();"
+			title="Transparent View"></button>
+		<button id="wireframed_button" class="button wireframed" name="wireframed"
+			onClick="WebGLViewer.applicationController.toggleWireFramedView();"
+			title="Wireframed View"></button>
+		<button id="edgeview_button" class="button wireframed"
+			onclick="WebGLViewer.applicationController.toggleEdgeView();" title="info">
+			</button>
+		<button class="button clear"
+			onclick="WebGLViewer.applicationModelRoot.selectionModel.clearSelection();"
+			title="Clear Selection"></button>
+		<button class="button invert"
+			onclick="WebGLViewer.applicationModelRoot.selectionModel.invertSelection();"
+			title="Invert Selection" name="invert"></button>
+		<button class="button show"
+			onclick="WebGLViewer.applicationController.setSelectedCadObjectsVisible(true);"
+			title="Show Selected"></button>
+		<button class="button hide"
+			onclick="WebGLViewer.applicationController.setSelectedCadObjectsVisible(false);"
+			title="Hide Selected"></button>
+		<button class="button reset" onClick="WebGLViewer.applicationController.resetView();"
+			title="Reset View"></button>
+		
+		<button id="aboutview_button" class="button about"
+			onclick="WebGLViewer.menuBar.showView('aboutview');" title="info">
+			</button>
+            
+		<button id="cameraviewpanel_button" class="button view"
+			onclick="WebGLViewer.menuBar.showView('cameraviewpanel');" title="info">
+            
+            <button id="cameraviewpanel_button" class="button view1"
+			onclick="WebGLViewer.menuBar.showView('cameraviewpanel');" title="info">
+            
+            <button id="cameraviewpanel_button" class="button view2"
+			onclick="WebGLViewer.menuBar.showView('cameraviewpanel');" title="info">
+            
+			</button>
+            
+
+
+
+
+
+
+
+
+
+
+
+		
+		</div>
+
+
+    
+    
+	<div id='3dviewdiv' class='canvas'>
+		<!-- POPUPS -->
+		<div id='typesview-popup' class="popup typesViewPopup"></div>
+		<div id='cameraviewpanel-popup' class="popup structureViewPopup"></div>
+		<div id='spatialview-popup' class="popup structureViewPopup"></div>
+		<div id='filechooserview-popup' class="popup structureViewPopup">
+			<div class='checkboxtree'>
+            
+            
+            
+            
+            
+					<input type='checkbox' onchange='if(this.checked)WebGLViewer.objectLoader.loadZipFileInThread("fileupload/1938A_ifc.ifc_geometry.jszip","1938A_ifc.zip");else WebGLViewer.objectLoader.closeFile("1938A_ifc.zip");'>&nbsp;EMIIA.AI&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                    
+                    
+                    
+                    
+                    
+					<input type='checkbox' onchange='if(this.checked)WebGLViewer.objectLoader.loadZipFileInThread("fileupload/1938A_ifc.ifc_geometry.jszip","buildingSMART-Anwenderhandbuch_AC11.ifc");else WebGLViewer.objectLoader.closeFile("buildingSMART-Anwenderhandbuch_AC11.ifc");'>&nbsp;buildingSMART-Anwenderhandbuch_AC11.ifc&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+					<input type='checkbox' onchange='if(this.checked)WebGLViewer.objectLoader.loadZipFileInThread("fileupload/FZK-Haus-AC11-IFC.ifc_geometry.jszip","FZK-Haus-AC11-IFC.ifc");else WebGLViewer.objectLoader.closeFile("FZK-Haus-AC11-IFC.ifc");'>&nbsp;FZK-Haus-AC11-IFC.ifc&nbsp;&nbsp;&nbsp;&nbsp;<br>
+					<input type='checkbox' onchange='if(this.checked)WebGLViewer.objectLoader.loadZipFileInThread("fileupload/Massaro_IFC_2X3_STEP.ifc_geometry.jszip","Massaro_IFC_2X3_STEP.ifc");else WebGLViewer.objectLoader.closeFile("Massaro_IFC_2X3_STEP.ifc");'>&nbsp;Massaro_IFC_2X3_STEP.ifc&nbsp;&nbsp;&nbsp;&nbsp;<br>
+			</div>
+		</div>
+		<div id='selectioninfoview-popup' class="popup selectionInfoPopup"></div>
+		<div id='aboutview-popup' class="popup aboutInfoPopup">
+			EMIIA.AI - IFC Viewer/Corrector/Comments<br>
+			Version 0.0.8 Beta testing 11-2021<br><br>
+			Contact:<br>
+			<a href="http://www.emiia.ai">www.emiia.ai</a><br>
+			<a href="mailto:emiia@emiia.ai">emiia@emiia.ai</a><br>
+			
+		</div>
+		<div id='loadinginfoview-popup' class="popup loadingInfoPopup"></div>
+	</div>
+	<!-- SCRIPTS -->
+	<script type='text/javascript' src='https://www.apstex.com/ifcwebglviewer_demo_20180301/js/three.js'></script>
+	<script type='text/javascript' src='https://www.apstex.com/ifcwebglviewer_demo_20180301/js/Detector.js'></script>
+	<script type='text/javascript' src='https://www.apstex.com/ifcwebglviewer_demo_20180301/js/jszip.min.js'></script>
+	<script type='text/javascript' src='https://www.apstex.com/ifcwebglviewer_demo_20180301/js/com.apstex.webglviewer.js'></script>
+	<script type='text/javascript'>
+		var onWindowResize = function() 
+		{
+			WebGLViewer.setSize(window.innerWidth, window.innerHeight);
+		};
+		window.addEventListener('resize', onWindowResize, false);
+		WebGLViewer.setSize(window.innerWidth, window.innerHeight);
+	</script>
+    
+    
+    <script>
+    
+    
+    /**
+ * Creates an instance of SelectionModel.
+ * Model for selection handling to help holding registered views synchronous.
+ * @constructor
+ * @property {Object[]} listeners - List of listeners receiving selection events.
+ * @property {Boolean} autoUpdateView - flag indicating, whether 3D view should be updated automatically after a selection event or not.
+ * @property {Number} selectionColor - The color to be used for colorizing objects, when they will be selected (e.g. "0xffffff").
+ */
+SelectionModel = function()
+{
+	this.listeners = [];
+	this.autoUpdateView = true;
+	this.selectionColor = [0, 1, 1.0]; //0xff9900
+};
+
+SelectionModel.prototype =
+{
+	/**
+	 * Adds a selection listener to this model.
+	 * The listener must implement the following method(s):
+	 * - objectsSelected(CadObject[] selectedCadObjects, Boolean isSelected)
+	 * The method(s) will be invoked by this model, when a corresponding event occurs.
+	 * @param {Object} listener - the listener to be added.
+	 */
+	addListener: function(listener)
+	{
+		this.listeners[this.listeners.length] = listener;
+	},
+	
+	/**
+	 * Sets the selection color to the specified color.
+	 * @param {Number} newColor - The color to be used for colorizing objects, when they will be selected (e.g. "0xffffff").
+	 */
+	setSelectionColor: function(newColor)
+	{
+		this.selectionColor = newColor;
+		var selectedObjects = WebGLViewer.applicationModelRoot.selectionModel.getSelectedObjects();
+		WebGLViewer.applicationModelRoot.selectionModel.clearSelection();
+		WebGLViewer.applicationModelRoot.selectionModel.setObjectsSelected(selectedObjects, true);
+	},
+
+	/**
+	 * Selects/Deselects the specified cad object.
+	 * @param {CadObject} cadObject - the cad object to be set selected/deselected.
+	 * @param {Boolean} isSelected - whether cad object should be selected or deselected.
+	 */
+	setObjectSelected: function(cadObject, isSelected)
+	{
+		cadObject.setSelected(isSelected);
+		var objectNodes = [];
+		objectNodes[0] = cadObject;
+		this.fireObjectsSelected(objectNodes, isSelected);
+		this.updateView();
+	},
+	
+	/**
+	 * Selects/Deselects the specified cad objects.
+	 * @param {CadObject[]} cadObjects - the cad objects to be set selected/deselected.
+	 * @param {Boolean} isSelected - whether cad objects should be selected or deselected.
+	 */
+	setObjectsSelected: function(cadObjects, isSelected)
+	{
+		for (var i = 0; i < cadObjects.length; i++)
+		{
+			cadObjects[i].setSelected(isSelected);
+		}
+		this.fireObjectsSelected(cadObjects, isSelected);
+		this.updateView();
+	},
+	
+	/**
+	 * Clears the current selection.
+	 */
+	clearSelection: function()
+	{
+		this.setObjectsSelected(this.getSelectedObjects(), false);
+	},
+	
+	/**
+	 * Inverts the current selection (invisible objects included).
+	 */
+	invertSelection: function()
+	{
+		var selectedNodes = [];
+		var deselectedNodes = [];
+		var nodes = WebGLViewer.applicationModelRoot.getNodes();
+		for (var i = 0; i < nodes.length; i++)
+		{
+			var cadObjects = nodes[i].getCadObjects();
+			for (var j = 0; j < cadObjects.length; j++)
+			{
+				if(cadObjects[j].isSelected)
+					selectedNodes.push(cadObjects[j]);
+				else
+					deselectedNodes.push(cadObjects[j]);
+			}
+		}
+		this.autoUpdateView = false;
+		this.setObjectsSelected(selectedNodes, false);
+		this.setObjectsSelected(deselectedNodes, true);
+		this.autoUpdateView = true;
+		this.updateView();
+	},
+	
+	/**
+	 * Returns a collection with the currently selected cad objects.
+	 * @return {CadObject[]} the selected cad objects.
+	 */
+	getSelectedObjects: function()
+	{
+		var selectedObjects = [];
+		var nodes = WebGLViewer.applicationModelRoot.getNodes();
+		for(var i = 0; i < nodes.length; i++)
+		{
+			var cadObjects = nodes[i].getCadObjects();
+			for (var j = 0; j < cadObjects.length; j++)
+			{
+				if(cadObjects[j].isSelected)
+					selectedObjects.push(cadObjects[j]);
+			}
+		}
+		return selectedObjects;
+	},
+	
+	/**
+	 * Informs the scenegraph (3D view), that an selection event has been occurred.
+	 */
+	updateView: function()
+	{
+		if( ! this.autoUpdateView)
+			return;
+		WebGLViewer.applicationController.updateViewAfterColorChange();
+	},
+	
+	/**
+	 * Informs registered listeners that cad objects were selected/deselected.
+	 * @param {CadObject[]} objects - the objects that were selected/deselected.
+	 * @param {Boolean} isSelected - whether objects were selected or deselected.
+	 * @private
+	 */
+	fireObjectsSelected: function(objects, isSelected)
+	{
+		for (var i = 0; i < this.listeners.length; i++)
+		{
+			this.listeners[i].objectsSelected(objects, isSelected);
+		}
+	}
+};
+    
+    </script>
+    
+</body>
+</html>
+
+
