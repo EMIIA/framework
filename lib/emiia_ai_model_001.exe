@@ -1,0 +1,26 @@
+[EMIIA_LOG_2][2021-Dec-16 17:59:45.533150][info]EMIIA Logging initialised
+[EMIIA_LOG_3][2021-Dec-16 17:59:45.534149][info]Initialising the emiia pose tracking v0.0.1
+[EMIIA_LOG_4][2021-Dec-16 17:59:45.771166][info]The provided activation key has been accepted for creation of the emiia handle.
+[EMIIA_LOG_5][2021-Dec-16 17:59:45.813168][info]Loaded the emiia plugin
+[EMIIA_LOG_6][2021-Dec-16 17:59:49.244577][info]Provided model loaded to the emiia plugin.
+Pose keypoints for person number: 1
+Keypoint 0: [X, Y]: [1572.36, 1506.8]
+Keypoint 1: [X, Y]: [1639.27, 1841.64]
+Keypoint 2: [X, Y]: [1371.64, 1841.64]
+Keypoint 3: [X, Y]: [1304.73, 2310.42]
+Keypoint 4: [X, Y]: [1438.55, 2645.27]
+Keypoint 5: [X, Y]: [1840, 1841.64]
+Keypoint 6: [X, Y]: [1906.91, 2310.42]
+Keypoint 7: [X, Y]: [1706.18, 2578.3]
+Keypoint 8: [X, Y]: [1505.45, 2779.2]
+Keypoint 9: [X, Y]: [1572.36, 3381.92]
+Keypoint 10: [X, Y]: [1572.36, 3917.67]
+Keypoint 11: [X, Y]: [1773.09, 2712.23]
+Keypoint 12: [X, Y]: [1906.91, 3314.95]
+Keypoint 13: [X, Y]: [1973.82, 3917.67]
+Keypoint 14: [X, Y]: [1505.45, 1439.83]
+Keypoint 15: [X, Y]: [1639.27, 1506.8]
+Keypoint 16: [X, Y]: [1438.55, 1506.8]
+Keypoint 17: [X, Y]: [1706.18, 1506.8]
+[EMIIA_LOG_7][2021-Dec-16 17:59:51.342714][info]EMIIA.AI Pose: 000002872EE2CA60 destroyed succesfully
+Success. Press any key to exit..
